@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 14 · 綜合專案二：互動遊戲設計 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="第二座完整專案：互動遊戲。用按鈕/加速度/無線電做一款可玩、可計分的遊戲。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 14 · 綜合專案二：互動遊戲設計</h1>
+  <p class="subtitle">完整 PBL：遊戲設計、計分、多人對戰</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>14.1 第二座完整專案：互動遊戲</h2>
+<p>第二座 PBL 專案：<strong>設計一款可以玩的遊戲</strong>——需要「規則設計」（工程/邏輯）與「樂趣」（藝術/動機）。</p>
+<div class="callout"><strong>STEAM 連結：</strong>遊戲設計是「工程（規則與平衡）+ 藝術（呈現與樂趣）+ 數學（計分與機率）+ 科技（實作）」的完美綜合。</div>
+
+<h2>14.2 遊戲設計要素</h2>
+<table>
+<tr><th>要素</th><th>問題</th><th>Micro:bit 例子</th></tr>
+<tr><td>目標</td><td>玩家要達成什麼？</td><td>接到最多的「星星」</td></tr>
+<tr><td>規則</td><td>能做/不能做什麼？</td><td>只能用按鈕移動、不能搖</td></tr>
+<tr><td>挑戰</td><td>難度在哪？</td><td>星星越掉越快</td></tr>
+<tr><td>回饋</td><td>玩家怎麼知道結果？</td><td>LED + 音效 + 計分</td></tr>
+<tr><td>樂趣</td><td>為什麼好玩？</td><td>反應競速、多人對戰</td></tr>
+</table>
+
+<h2>14.3 一個簡單遊戲：接星星</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>狀態：playing / gameover
+on start: 分數=0, 顯示"GO"
+forever:
+  if playing:
+    星星從頂部落下（變數 star_y 遞增）
+    玩家位置（player_x）由 A/B 左右移動
+    碰撞（player_x == 星星 x 且 player_y == star_y）
+      → 分數+1，音效
+    落到底沒接 → gameover
+on gameover:
+  顯示分數 + "GAME OVER"
+</pre></div>
+
+<h2>14.4 計分、生命與難度</h2>
+<ul>
+<li><strong>計分</strong>：接到 +1，miss 扣生命。</li>
+<li><strong>生命</strong>：3 條命，沒了 → gameover。</li>
+<li><strong>難度</strong>：分數越高，星星掉越快（用變數控制 pause）。</li>
+</ul>
+<div class="demo-block"><div class="demo-label">範例</div><pre>難度公式：speed = 300 - score * 10   ← 分數越高越快
+（數學連結：線性關係！）
+</pre></div>
+
+<h2>14.5 多人對戰（無線電）</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>雙人對戰「誰先搖到 10 次」：
+  各自：on shake → 次數+1 → 廣播自己的次數
+  互相接收：顯示「我：X 對手：Y」
+  先到 10 → 廣播 "WIN"
+（整合單元 11 無線電 + 單元 6 狀態機）
+</pre></div>
+
+<h2>14.6 Worked Example：完整「接星星」規格</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>遊戲：STAR CATCHER
+目標：接住掉落的星星，分數越高越好
+規則：A/B 移動玩家；星星每 300ms 落一格；
+      接到 +1；漏接生命-1（3 條命）
+回饋：接到→音效+閃爍；漏接→警示音
+結束：生命=0 → 顯示總分 → 搖晃重來
+難度：速度 = 300 - 分數*8（下限 100ms）
+
+分組分工（工程思維）：
+  設計師：規則與關卡
+  程式員：移動/碰撞
+  測試員：找 bug（故意連按、猛搖）
+</pre></div>
+<p>動手：先畫一張你遊戲的「規則 + 狀態圖」（狀態機），再開始寫程式。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>設計一款可玩的互動遊戲。</li><li>用狀態機組織遊戲流程。</li><li>整合計分、生命與多人機制。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-13.html">單元 13 · 綜合專案一</a>。</li><li>下一篇：<a href="unit-15.html">單元 15 · PBL 設計</a>。</li><li><a href="../projects.html">專案速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-15.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 15 · 專案式學習設計：從主題到教案</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

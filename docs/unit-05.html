@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 5 · 輸入與感測器 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="讓 Micro:bit 感知世界：讀取各感測器並即時顯示，含實作專案。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 5 · 輸入與感測器</h1>
+  <p class="subtitle">按鈕/加速度/光線/溫度/麥克風讀取</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>5.1 感測器 = 把世界變成數字</h2>
+<p>感測器把<strong>物理量</strong>（光、溫度、運動、音量、磁場）轉成<strong>程式可讀的數值</strong>。這正是「科學量測」的核心——也是 STEAM 的 S。</p>
+<div class="pipe"><span class="step">物理量</span><span class="arr">→</span><span class="step">感測器</span><span class="arr">→</span><span class="step">數值</span><span class="arr">→</span><span class="step">程式顯示/判斷</span></div>
+
+<h2>5.2 各感測器讀取方式</h2>
+<table>
+<tr><th>感測器</th><th>積木/函式</th><th>數值範圍</th><th>單位/意義</th></tr>
+<tr><td>光線</td><td>light level</td><td>0–255</td><td>0 暗 → 255 亮</td></tr>
+<tr><td>溫度</td><td>temperature</td><td>約 -5 – 50</td><td>°C（晶片溫度）</td></tr>
+<tr><td>加速度</td><td>acceleration x/y/z</td><td>約 -2048 – 2048</td><td>mg（重力倍數）</td></tr>
+<tr><td>搖動/姿勢</td><td>on shake / is gesture</td><td>—</td><td>事件觸發</td></tr>
+<tr><td>羅盤</td><td>compass heading</td><td>0–359</td><td>度（需先校準）</td></tr>
+<tr><td>音量（v2）</td><td>sound level</td><td>0–255</td><td>環境音量</td></tr>
+</table>
+
+<h2>5.3 顯示數值的三種方式</h2>
+<ul>
+<li><strong>LED 顯示</strong>：show number（數字跑在矩陣上）。</li>
+<li><strong>點陣圖</strong>：用亮度高度表示大小（如「水銀柱」）。</li>
+<li><strong>序列埠</strong>：把數據送到電腦做分析（單元 8 詳談）。</li>
+</ul>
+<div class="demo-block"><div class="demo-label">範例</div><pre>on start: serial → 序列埠開啟
+forever:
+  show number temperature   ← 一直顯示溫度
+  pause 1000 ms
+</pre></div>
+
+<h2>5.4 常見課堂實驗</h2>
+<table>
+<tr><th>實驗</th><th>感測器</th><th>科學問題</th></tr>
+<tr><td>手電筒靠近/遠離</td><td>光</td><td>亮度與距離的關係</td></tr>
+<tr><td>手握板子</td><td>溫度</td><td>體溫會不會讓讀值上升？</td></tr>
+<tr><td>搖晃板子</td><td>加速度</td><td>搖晃強度 vs 加速度值</td></tr>
+<tr><td>大聲喊/安靜</td><td>麥克風</td><td>音量 vs 讀值變化</td></tr>
+</table>
+<div class="callout"><strong>教學法連結：</strong>讓學生先「預測讀值」再「實測」——這個「預測→驗證」循環就是科學方法。</div>
+
+<h2>5.5 Worked Example：光線/溫度「可視化儀表」</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>專案目標：把光線強度畫成一條 LED「水銀柱」
+on start: set brightness 255
+forever:
+  light = light level           ← 0-255
+  level = light / 51            ← 轉成 0-5 格（5 格滿）
+  clear screen
+  for row in 0..level-1:        ← 從底部往上點亮
+    plot x=2, y=4-row
+  pause 200 ms
+
+延伸：按 A 切換顯示「光線」，按 B 切換「音量」。
+</pre></div>
+<p>動手：做一個「感測器儀表板」，能切換顯示光線與音量，並畫成水銀柱。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>讀取並顯示各感測器的值。</li><li>說出每個感測器的量測範圍與用途。</li><li>完成一個感測器互動專案。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-04.html">單元 4 · LED 矩陣與輸出</a>。</li><li>下一篇：<a href="unit-06.html">單元 6 · 事件與狀態機</a>。</li><li><a href="../hardware.html">硬體速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-06.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 6 · 事件程式設計與狀態機</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>硬體速查 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="Micro:bit 硬體速查">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<div class="container">
+<header><h1>硬體速查</h1><p class="subtitle">感測器 / 擴充 / 接腳 / 周邊對照</p></header>
+<nav class="topnav">  <a href="index.html">首頁</a>
+  <a href="map.html">概念地圖</a>
+  <a href="learning-path.html">學習路線</a>
+  <a href="docs/index.html">單元教學</a>
+  <a href="glossary.html">術語表</a>
+  <a href="hardware.html">硬體速查</a>
+  <a href="projects.html">專案速查</a>
+  <a href="about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 回首頁</a></div>
+<div class="guide">
+  <div class="callout info"><strong>Micro:bit v2 內建硬體一覽</strong></div>
+<table>
+<tr><th>元件</th><th>功能</th><th>在程式中怎麼用</th><th>STEAM 對應</th></tr>
+<tr><td><strong>5×5 LED 矩陣</strong></td><td>顯示圖案/文字/亮度</td><td>show string / plot / LED 亮度</td><td>A、T</td></tr>
+<tr><td><strong>按鈕 A / B</strong></td><td>兩種按鍵輸入</td><td>on button pressed</td><td>T</td></tr>
+<tr><td><strong>加速度計</strong></td><td>三軸加速度、搖動/傾斜偵測</td><td>acceleration / on shake</td><td>S、E</td></tr>
+<tr><td><strong>磁力計</strong></td><td>羅盤方向、磁場強度</td><td>compass heading</td><td>S</td></tr>
+<tr><td><strong>光感測器</strong></td><td>環境亮度（LED 逆用）</td><td>light level</td><td>S</td></tr>
+<tr><td><strong>溫度感測器</strong></td><td>晶片/環境溫度</td><td>temperature</td><td>S</td></tr>
+<tr><td><strong>麥克風（v2）</strong></td><td>音量偵測、聲控</td><td>sound level / on loud</td><td>A、S</td></tr>
+<tr><td><strong>揚聲器（v2）</strong></td><td>播放音調與旋律</td><td>play tone / melody</td><td>A</td></tr>
+<tr><td><strong>觸控 Logo（v2）</strong></td><td>觸控感應輸入</td><td>on logo pressed</td><td>T、A</td></tr>
+<tr><td><strong>無線電</strong></td><td>多板無線通訊</td><td>radio send / on radio received</td><td>T</td></tr>
+<tr><td><strong>藍牙</strong></td><td>與手機/電腦連接</td><td>Bluetooth / pairing</td><td>T</td></tr>
+</table>
+<h2>接腳（Edge Connector）</h2>
+<table>
+<tr><th>接腳</th><th>功能</th><th>常見用途</th></tr>
+<tr><td><strong>P0 / P1 / P2</strong></td><td>類比/數位輸入輸出（大孔）</td><td>外接 LED、蜂鳴器、感測器</td></tr>
+<tr><td><strong>P3–P19</strong></td><td>數位/類比（小孔）</td><td>更多 I/O、擴充板使用</td></tr>
+<tr><td><strong>3V / GND</strong></td><td>電源</td><td>供電給外接元件</td></tr>
+<tr><td><strong>SPEAKER（P0 共用）</strong></td><td>喇叭輸出</td><td>音訊</td></tr>
+</table>
+<h2>擴充與周邊</h2>
+<table>
+<tr><th>周邊</th><th>功能</th><th>單元</th></tr>
+<tr><td><strong>擴充板（Shield）</strong></td><td>把接腳變成易接的排針/Grove</td><td>單元 9</td></tr>
+<tr><td><strong>Grove 感測器模組</strong></td><td>標準化連接的感測器群</td><td>單元 9</td></tr>
+<tr><td><strong>LED / 蜂鳴器</strong></td><td>輸出元件</td><td>單元 9</td></tr>
+<tr><td><strong>伺服馬達</strong></td><td>精準轉角輸出</td><td>單元 9</td></tr>
+<tr><td><strong>電池盒</strong></td><td>獨立供電（2×AAA）</td><td>單元 13</td></tr>
+<tr><td><strong>USB 線</strong></td><td>燒錄與供電</td><td>單元 3</td></tr>
+</table>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

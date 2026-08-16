@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 2 · Micro:bit 硬體認識 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="把 Micro:bit v2 拆開看：每個元件能偵測/輸出什麼，與 STEAM 領域的對應。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 2 · Micro:bit 硬體認識</h1>
+  <p class="subtitle">v2 版型、LED 矩陣、感測器群、接腳、擴充</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>2.1 Micro:bit 是什麼</h2>
+<p><strong>BBC Micro:bit</strong> 是英國 BBC 為教育推出的微型電腦（尺寸約 5×4 公分），上面集成了顯示、感測、通訊與輸出入能力。目前主流是 <strong>v2</strong>（多了麥克風、揚聲器與觸控 Logo）。</p>
+<div class="pipe"><span class="step">輸入</span><span class="arr">→</span><span class="step">處理（ARM 處理器）</span><span class="arr">→</span><span class="step">輸出</span></div>
+
+<h2>2.2 面板元件一覽</h2>
+<table>
+<tr><th>元件</th><th>位置</th><th>功能</th><th>STEAM 對應</th></tr>
+<tr><td><strong>LED 矩陣</strong></td><td>正面</td><td>5×5 顯示圖案/文字</td><td>T、A</td></tr>
+<tr><td><strong>按鈕 A / B</strong></td><td>正面左右</td><td>輸入</td><td>T</td></tr>
+<tr><td><strong>觸控 Logo</strong></td><td>正面頂部（v2）</td><td>觸控輸入</td><td>T、A</td></tr>
+<tr><td><strong>麥克風</strong></td><td>側邊小孔（v2）</td><td>音量偵測</td><td>S、A</td></tr>
+<tr><td><strong>揚聲器</strong></td><td>背面（v2）</td><td>播放音調</td><td>A</td></tr>
+<tr><td><strong>USB 接頭</strong></td><td>頂部</td><td>燒錄與供電</td><td>T</td></tr>
+<tr><td><strong>電池接頭</strong></td><td>底部</td><td>外接電池供電</td><td>E</td></tr>
+<tr><td><strong>接腳（金手指）</strong></td><td>底部</td><td>外接電路</td><td>E</td></tr>
+</table>
+
+<h2>2.3 內建感測器群（都是科學工具）</h2>
+<table>
+<tr><th>感測器</th><th>量測什麼</th><th>典型課堂用途</th></tr>
+<tr><td><strong>加速度計</strong></td><td>三軸加速度、傾斜、搖晃</td><td>水平儀、計步器、搖骰子</td></tr>
+<tr><td><strong>磁力計（羅盤）</strong></td><td>磁場方向</td><td>方向測量、磁場探測</td></tr>
+<tr><td><strong>光感測器</strong></td><td>環境亮度</td><td>光線實驗、自動夜燈</td></tr>
+<tr><td><strong>溫度感測器</strong></td><td>晶片/環境溫度</td><td>溫度監測、保溫實驗</td></tr>
+<tr><td><strong>麥克風（v2）</strong></td><td>音量</td><td>聲控、音量警報</td></tr>
+</table>
+<div class="callout"><strong>教學重點：</strong>每個感測器背後都有一個「科學原理」可以帶——光=能量、溫度=粒子運動、加速度=力與運動。STEAM 就是從感測器的「讀值」問出「為什麼」。</div>
+
+<h2>2.4 接腳與擴充：把世界接進來</h2>
+<ul>
+<li><strong>接腳 P0/P1/P2</strong>：可接外接 LED、蜂鳴器、感測器（見單元 9）。</li>
+<li><strong>擴充板（Shield）</strong>：把接腳變成好插的排針或 Grove 介面，連接更多元件。</li>
+<li><strong>伺服馬達</strong>：讓作品「動起來」的輸出元件。</li>
+</ul>
+<div class="callout warn"><strong>安全提醒：</strong>外接電路要由老師確認，避免短路或接錯極性。Micro:bit 本身電壓低，適合教學使用。</div>
+
+<h2>2.5 Worked Example：帶學生「讀懂」板子</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>五分鐘開箱活動（適合第一堂課）：
+  1. 找一找：LED 矩陣、按鈕 A/B、Logo、麥克風孔
+  2. 猜一猜：這個元件能「輸入」還是「輸出」？
+  3. 玩一玩：按下 A → 顯示笑臉（老師預燒範例）
+  4. 想一想：生活中有哪些東西也有感測器？
+     （手機、自動門、車道閘、溫控空調…）
+</pre></div>
+<p>動手：為你班上的 Micro:bit 開箱課設計 3 個「找一找」線索。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>指認 Micro:bit v2 的各個元件與功能。</li><li>說出每個感測器對應的 STEAM 領域。</li><li>說出接腳與擴充板的作用。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-01.html">單元 1 · 概論</a>。</li><li>下一篇：<a href="unit-03.html">單元 3 · 程式環境</a>。</li><li><a href="../hardware.html">硬體速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-03.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 3 · 程式環境：MakeCode 與 MicroPython</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

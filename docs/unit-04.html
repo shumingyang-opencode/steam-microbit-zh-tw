@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 4 · LED 矩陣與輸出 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="第一個動手專案：用 5×5 LED 矩陣做圖案、動畫與捲動文字。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 4 · LED 矩陣與輸出</h1>
+  <p class="subtitle">點亮/圖案/動畫/文字捲動、亮度與座標</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>4.1 LED 矩陣與座標</h2>
+<p>Micro:bit 正面有一塊 <strong>5×5 的 LED 矩陣</strong>（25 顆可程式 LED）。每個點用座標 <strong>(x, y)</strong> 表示，範圍 x=0..4、y=0..4：</p>
+<div class="demo-block"><div class="demo-label">座標</div><pre>(0,0) (1,0) (2,0) (3,0) (4,0)
+(0,1) (1,1) (2,1) (3,1) (4,1)
+...
+(0,4) (1,4) (2,4) (3,4) (4,4)
+</pre></div>
+<div class="callout"><strong>數學連結：</strong>座標系統就是數學課的直角坐標——這正是 STEAM 的 M 在生活中的應用。</div>
+
+<h2>4.2 顯示方式總覽</h2>
+<table>
+<tr><th>積木</th><th>功能</th><th>例子</th></tr>
+<tr><td>show icon</td><td>顯示預設圖示</td><td>笑臉、愛心、心碎</td></tr>
+<tr><td>show string</td><td>捲動顯示文字</td><td>"Hello"</td></tr>
+<tr><td>plot x y</td><td>點亮單一 LED</td><td>plot 2 2</td></tr>
+<tr><td>unplot x y</td><td>熄滅單一 LED</td><td>unplot 2 2</td></tr>
+<tr><td>toggle x y</td><td>切換亮滅</td><td>toggle 2 2</td></tr>
+<tr><td>亮度</td><td>調整整體亮度 0–255</td><td>set brightness 128</td></tr>
+</table>
+
+<h2>4.3 自訂圖案與動畫</h2>
+<div class="demo-block"><div class="demo-label">自訂圖案</div><pre>show LEDs
+  # # . . .      ← 用方塊在 5×5 格子上點亮
+  # # . . .
+  . . . . .
+  . . . . .
+  . . . . .
+（這就是一個「愛心」或自訂符號）
+</pre></div>
+<p>動畫 = <strong>多張圖案 + 時間切換</strong>。用「pause 毫秒」控制每幀停留時間：</p>
+<div class="demo-block"><div class="demo-label">範例</div><pre>on start:
+  forever:
+    show LEDs (笑臉)
+    pause 500 ms
+    show LEDs (哭臉)
+    pause 500 ms
+</pre></div>
+
+<h2>4.4 亮度與待機省電</h2>
+<ul>
+<li><strong>亮度</strong>：set brightness 調整，範圍 0–255；教室光線強時調高。</li>
+<li><strong>省電</strong>：不用的 LED 用 unplot 熄滅，或顯示後休息。</li>
+</ul>
+<div class="callout warn"><strong>實務提醒：</strong>LED 常亮會較耗電；電池供電的專案建議在閒置時降低亮度或顯示暫停。</div>
+
+<h2>4.5 Worked Example：會眨眼的動畫名片</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>專案目標：顯示「眨眼的貓」動畫
+on start:
+  show string "MEOW"      ← 開場捲動
+  forever:
+    show LEDs (貓咪張眼)
+    pause 400 ms
+    show LEDs (貓咪閉眼)
+    pause 150 ms
+延伸挑戰：
+  按 A 換成「開心貓」，按 B 換成「生氣貓」
+  （用變數 state 記錄目前是哪種貓 → 見單元 6）
+</pre></div>
+<p>動手：設計一個 3 幀以上的自訂動畫（可參考 emoji），並加上「按 A/B 切換圖案」。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>用 LED 矩陣顯示圖案、文字與動畫。</li><li>說明座標系統 (x, y) 的用法。</li><li>完成一個 LED 動畫專案。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-03.html">單元 3 · 程式環境</a>。</li><li>下一篇：<a href="unit-05.html">單元 5 · 輸入與感測器</a>。</li><li><a href="../projects.html">專案速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-05.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 5 · 輸入與感測器</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

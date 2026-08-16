@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 9 · 工程專案：外接硬體 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="從內建元件走向外部世界：接上 LED、蜂鳴器與伺服馬達，做出能動的裝置。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 9 · 工程專案：外接硬體</h1>
+  <p class="subtitle">LED/蜂鳴器/伺服馬達/擴充板、Grove/Octopus</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>9.1 從內建走向外接</h2>
+<p>內建感測器能「感知」，但要做出<strong>真正的工程作品</strong>（會動、會叫、會感測環境），需要外接元件。</p>
+<div class="pipe"><span class="step">P0/P1/P2</span><span class="arr">→</span><span class="step">LED/蜂鳴器/伺服馬達/外接感測器</span></div>
+
+<h2>9.2 基本外接元件</h2>
+<table>
+<tr><th>元件</th><th>接法</th><th>程式</th><th>用途</th></tr>
+<tr><td><strong>外接 LED</strong></td><td>腳位 → P0，另一腳 → GND</td><td>digital write P0 (1/0)</td><td>紅綠燈、指示燈</td></tr>
+<tr><td><strong>蜂鳴器</strong></td><td>腳位 → P0</td><td>play tone at P0</td><td>警報、音效</td></tr>
+<tr><td><strong>伺服馬達</strong></td><td>訊號線 → P0</td><td>servo write P0 角度</td><td>艙門、轉向</td></tr>
+<tr><td><strong>外接感測器</strong></td><td>訊號 → P0，VCC/GND</td><td>analog read P0</td><td>超音波、土壤濕度</td></tr>
+</table>
+<div class="callout warn"><strong>安全：</strong>外接電路請先由老師檢查；確認極性與電阻（LED 串電阻避免過電流）。</div>
+
+<h2>9.3 擴充板與模組化</h2>
+<ul>
+<li><strong>擴充板（Shield）</strong>：把 25 個接腳轉成排針或 Grove 介面，插拔方便。</li>
+<li><strong>Grove / Octopus 模組</strong>：標準化的感測器模組（LED、超音波、濕度…），一條線接好。</li>
+<li><strong>優點</strong>：學生不易接錯、節省時間、專注在「設計」而非「接線」。</li>
+</ul>
+<div class="callout"><strong>工程思維：</strong>模組化 = 標準介面 + 可替換元件。讓學生觀察「為什麼擴充板讓工作變快」。</div>
+
+<h2>9.4 工程設計流程（EDP）</h2>
+<ol>
+<li><strong>問</strong>：要解決什麼問題？</li>
+<li><strong>想像</strong>：有哪些方案？</li>
+<li><strong>計畫</strong>：畫出設計圖。</li>
+<li><strong>建立</strong>：組裝與接線。</li>
+<li><strong>測試</strong>：跑起來、除錯。</li>
+<li><strong>改進</strong>：修正後重測。</li>
+</ol>
+<div class="callout info"><strong>與 PBL 的關係：</strong>EDP 是 PBL 中「做出作品」那段的核心方法論。</div>
+
+<h2>9.5 Worked Example：聲控警報器</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>問題：安靜的教室裡，有人尖叫怎麼辦？（防霸凌情境）
+
+設計：
+  輸入：麥克風（音量）
+  判斷：音量 > 150 持續 1 秒
+  輸出：LED 閃紅燈 + 蜂鳴器響 + 顯示 "HELP"
+
+程式骨架：
+on start: pin P0 = 蜂鳴器
+forever:
+  if sound level > 150:
+    for 5 次: digital write P0 1 → 亮/響 200ms → 0 → 200ms
+    show string "HELP"
+    pause 5000 ms      ← 冷卻避免重複觸發
+
+測試與改進：誤觸發太多？→ 提高門檻；太安靜？→ 降低。
+</pre></div>
+<p>動手：用外接 LED + 蜂鳴器做一個「光暗警報器」，並走完 EDP 六步驟寫下記錄。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>用接腳外接 LED 與蜂鳴器。</li><li>說明擴充板與 Grove 的作用。</li><li>完成一個外接硬體工程專案。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-08.html">單元 8 · 科學專案</a>。</li><li>下一篇：<a href="unit-10.html">單元 10 · 數學應用</a>。</li><li><a href="../hardware.html">硬體速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-10.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 10 · 數學應用</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>

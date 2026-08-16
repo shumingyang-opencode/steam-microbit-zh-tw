@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 11 · 科技整合：無線電與群組通訊 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="無線電模組：多台 Micro:bit 互相溝通，做出群組投票、遙控車等專案。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 11 · 科技整合：無線電與群組通訊</h1>
+  <p class="subtitle">無線電廣播、群組、雙向通訊、遙控</p>
+</header>
+<nav class="topnav">  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="../docs/index.html">單元教學</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+  <a href="../about.html">關於</a>
+  </nav><div class="back-link"><a href="index.html">← 單元教學</a></div>
+<div class="guide">
+<h2>11.1 無線電：讓板子彼此對話</h2>
+<p>Micro:bit 內建<strong>無線電（Radio）</strong>，可在同群組的板子間傳送文字/數字，是「多板協作與對戰」的關鍵。</p>
+<div class="pipe"><span class="step">板子 A</span><span class="arr">radio send</span><span class="step">↔</span><span class="arr">radio received</span><span class="step">板子 B</span></div>
+
+<h2>11.2 基本積木</h2>
+<table>
+<tr><th>積木</th><th>功能</th></tr>
+<tr><td>radio set group 1</td><td>設定群組（同群組才互通，0–255）</td></tr>
+<tr><td>radio send string "hello"</td><td>廣播文字</td></tr>
+<tr><td>radio send number 42</td><td>廣播數字</td></tr>
+<tr><td>on radio received receivedString</td><td>收到文字時觸發</td></tr>
+<tr><td>on radio received receivedNumber</td><td>收到數字時觸發</td></tr>
+</table>
+<div class="callout"><strong>分組管理：</strong>不同小組用不同 group，避免互相干擾——這本身就是「網路分組」概念。</div>
+
+<h2>11.3 三種典型應用</h2>
+<ul>
+<li><strong>投票/選擇</strong>：每台板子送自己的選擇，主控板統計。</li>
+<li><strong>遙控</strong>：一台板子發方向，另一台（接伺服馬達）執行。</li>
+<li><strong>對戰</strong>：多台板子互送攻擊訊息，計分顯示。</li>
+</ul>
+
+<h2>11.4 Worked Example：班級投票器</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>學生板（每人一台）：
+  on button A pressed: radio send "A"
+  on button B pressed: radio send "B"
+  on shake:            radio send "C"
+
+老師板（主控）：
+  radio set group 7
+  變數 countA=0, countB=0, countC=0
+  on radio received string:
+    if 收到 "A": countA += 1
+    if 收到 "B": countB += 1
+    if 收到 "C": countC += 1
+    顯示 A=... B=... C=...
+</pre></div>
+<div class="callout info"><strong>教學連結：</strong>即時投票立刻建立「資料視覺化」與「統計」的課堂情境。</div>
+
+<h2>11.5 無線電的限制</h2>
+<ul>
+<li>距離有限（約 10–20 公尺，室內更短）。</li>
+<li>同時廣播可能碰撞（訊息遺失）。</li>
+<li>電源會耗較快。</li>
+</ul>
+<div class="callout warn"><strong>實務：</strong>對戰/投票專案最好先「小範圍」測試；重要的訊息可多送一次或用確認回覆。</div>
+
+<h2>11.6 Worked Example：無線遙控車</h2>
+<div class="demo-block"><div class="demo-label">範例</div><pre>遙控器板：
+  on button A: radio send "L"（左轉）
+  on button B: radio send "R"（右轉）
+  on shake:    radio send "GO"（前進）
+
+車子板（接伺服馬達 + LED）：
+  radio set group 5
+  on radio received string:
+    if "L": servo P0 轉 45°
+    if "R": servo P0 轉 135°
+    if "GO": 前進動畫 + 亮燈
+</pre></div>
+<p>動手：做一個雙人「剪刀石頭布」——搖晃選拳，互送結果，主控板判勝負。</p>
+
+  <div class="outcome">
+    <strong>看完這單元你應該能說出：</strong>
+    <ul><li>設定無線電群組並發送/接收訊息。</li><li>設計一個多板協作專案。</li><li>說明無線電的應用與限制。</li></ul>
+  </div>
+
+  <h2>延伸閱讀</h2>
+  <ul>
+<li>上一篇：<a href="unit-10.html">單元 10 · 數學應用</a>。</li><li>下一篇：<a href="unit-12.html">單元 12 · 數位藝術</a>。</li><li><a href="../hardware.html">硬體速查</a></li>
+  </ul>
+
+<div class="next-prev">
+    <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
+    <a class="np-next" href="unit-12.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 12 · 數位藝術：音樂與 LED 動畫</div></a>
+</div>
+</div>
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div></body></html>
