@@ -96,6 +96,68 @@
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-17.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 17 · 班級經營與差異化教學</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「逆向設計教案」— 從評量開始往回推
+主題：「聲控月亮燈」教案逆向設計
+
+Step 1：先定「最終評量」
+  學生能獨立完成一個「光暗時自動亮燈」的裝置
+  評量標準：10 次測試中 8 次正確觸發
+
+Step 2：問「學生需要什麼能力才能做到？」
+  能力 1：讀取 light level（S）
+  能力 2：用 if 判斷亮度門檻（T）
+  能力 3：設計 LED 圖案（A）
+  能力 4：設定合適的門檻值（M）
+  能力 5：測試與除錯（E）
+
+Step 3：問「怎麼教這些能力？」
+  → 能力 1-2：Explore 階段實測 + Explain 階段討論
+  → 能力 3：Elaborate 階段實作
+  → 能力 4：用數據引導（先量再決定門檻）
+  → 能力 5：互測 + 除錯卡
+
+Step 4：問「學生怎麼知道自己學會了？」
+  → 即時回饋：模擬器看結果
+  → 同伴回饋：互測卡
+  → 教師回饋：Rubric 總評
+
+為什麼選逆向設計？
+  → 傳統「順向設計」容易「活動很多但沒對到目標」
+  → 逆向設計確保「每個活動都指向評量」
+  → 這是 Understanding by Design (UbD) 的核心方法
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>逆向設計（Backward Design）：</strong>由 Grant Wiggins 和 Jay McTighe 提出的 Understanding by Design (UbD) 框架，核心思維是<strong>「先決定學生要展示什麼能力，再設計教學活動」</strong>。</p>
+<table>
+<tr><th>步驟</th><th>傳統設計</th><th>逆向設計</th></tr>
+<tr><td>1</td><td>選主題/活動</td><td>決定預期結果（學生能做到什麼）</td></tr>
+<tr><td>2</td><td>設計活動</td><td>決定評量證據（怎麼知道學生學會了）</td></tr>
+<tr><td>3</td><td>設計評量</td><td>設計學習體驗（活動如何支持評量）</td></tr>
+</table>
+<div class="callout info"><strong>與 5E 的關係：</strong>5E 是「微觀」的教學流程；逆向設計是「宏觀」的教案架構。兩者可以結合：先用逆向設計確定「學生要能做什麼」，再用 5E 安排每堂課的活動流程。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>教學目標太抽象（如「了解感測器」）</td><td>沒用行為動詞</td><td>改為「能使用 MakeCode 讀取光感測器數值」</td></tr>
+<tr><td>活動與目標對不上</td><td>順向設計的通病</td><td>用逆向設計：先定評量標準，再問「什麼活動能幫助學生通過？」</td></tr>
+<tr><td>學生說「做完但不知道在學什麼」</td><td>缺少 Explain 階段</td><td>在活動後加入「概念整理」（3 分鐘 Pair-Share）</td></tr>
+<tr><td>評量無法反映真實能力</td><td>Rubric 描述太籠統</td><td>用「可觀察行為」重寫 Rubric 等級描述</td></tr>
+<tr><td>差異化不足，快的等慢的</td><td>活動只有一個版本</td><td>設計「基礎→進階→挑戰」三層任務</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>逆向設計實作</strong>：選一個你即將要教的主題，用逆向設計法寫一份完整教案。包含：(1) 預期結果 (2) 評量證據 (3) 學習體驗。與你的「順向設計」版本比較，哪個更清晰？</li>
+<li><strong>教案同行審查</strong>：將你的教案交給另一位老師（或同伴），請他用「逆向設計」的三個步驟審查：目標是否明確？評量是否對應？活動是否支持評量？</li>
+<li><strong>差異化教案改造</strong>：為你的教案加入「三層差異化」：基礎版（所有學生）、進階版（完成基礎後）、挑戰版（完成進階後）。確保每層都有明確的「通過標準」。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

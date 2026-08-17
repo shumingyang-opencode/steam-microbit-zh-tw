@@ -110,6 +110,66 @@ forever:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-09.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 9 · 工程專案：外接硬體</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「光 vs 距離的平方反比定律驗證」
+目標：驗證「距離加倍，光強度約變 1/4」的物理定律
+
+完整實驗設計：
+  操縱變因：手電筒距板子的距離（10/20/40/80 cm）
+  應變變因：light level（每次讀 10 筆取平均）
+  控制變因：手電筒亮度固定、環境光關閉（窗簾+關燈）
+  重複次數：每個距離 5 次（取平均降低隨機誤差）
+
+資料收集（Micro:bit 端）：
+  變數 readings = []
+  on button A pressed:
+    讀 light level → 加入 readings
+  on button B pressed:
+    計算 readings 的平均值
+    顯示平均值
+
+資料分析（電腦端）：
+  距離(cm)  平均亮度  理論值(反比)  實測/理論比
+  10        200       200          1.00
+  20        52        50           1.04
+  40        14        12.5         1.12
+  80        4         3.1          1.29
+
+結論：基本符合平方反比，但長距離偏差增大——原因？
+  → 環境散射光、感測器方向性、非點光源
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>Micro:bit 作為科學量測工具的限制：</strong></p>
+<table>
+<tr><th>限制</th><th>原因</th><th>影響</th><th>解決方案</th></tr>
+<tr><td>光感測器方向性</td><td>感測器在板子正面，有角度依賴</td><td>不同角度量到不同值</td><td>固定板子角度；或使用外接光敏電阻</td></tr>
+<tr><td>ADC 量化誤差</td><td>10-bit ADC 映射到 8-bit</td><td>約 0.4% 的精度損失</td><td>用外接接腳的完整 10-bit 解析度</td></tr>
+<tr><td>溫度感測器位置</td><td>內建於 SoC，受晶片發熱影響</td><td>偏高 2-5°C</td><td>外接 DS18B20；或量測前冷卻</td></tr>
+<tr><td>取樣率限制</td><td>MakeCode 的 pause 最小 1ms</td><td>無法捕捉快速變化的物理量</td><td>用 MicroPython 的 time.ticks_ms() 取得更高精度</td></tr>
+</table>
+<div class="callout info"><strong>科學方法的教導：</strong>誤差不是「實驗失敗」，而是「量測的本質」。教學生理解<strong>系統誤差</strong>（固定偏差，如晶片發熱）與<strong>隨機誤差</strong>（每次不同，如環境光波動），以及如何透過重複量測與控制變因來降低誤差。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>同一條件下讀值差異大</td><td>環境光波動、感測器方向不固定</td><td>控制環境光（關窗簾）、固定板子位置與角度</td></tr>
+<tr><td>數據不符合預期理論</td><td>控制變因不足、儀器誤差</td><td>列出所有可能干擾源、增加重複次數</td></tr>
+<tr><td>序列埠資料格式亂掉</td><td>序列速率不匹配、字串拼接錯誤</td><td>確認雙方都用 115200 baud；檢查 serial.write_line 格式</td></tr>
+<tr><td>平均值計算結果不合理</td><td>整數除法截斷（MakeCode 不支援浮點）</td><td>用「sum * 10 / count」放大後再除，避免截斷為 0</td></tr>
+<tr><td>實驗做不完（時間不夠）</td><td>量測次數太多、每步太複雜</td><td>先做 3 個距離 × 3 次的簡化版，再決定是否擴充</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>誤差來源分析</strong>：重複你的光線實驗，但這次刻意「不控制變因」（例如：開窗簾、手電筒角度不固定）。比較「有控制」與「沒控制」的數據品質差異，寫出 3 個你發現的誤差來源。</li>
+<li><strong>數據視覺化</strong>：用電腦（Excel 或 Python）將你的實驗數據畫成「距離 vs 光強度」的散點圖，加上「理論曲線」（y = k/x²）。你的數據點落在曲線的哪一側？為什麼？</li>
+<li><strong>跨感測器實驗</strong>：用 Micro:bit 的溫度感測器做一個「人體體溫傳導」實驗：量測手握板子前/中/後的溫度變化。畫出「時間 vs 溫度」折線圖，並用物理原理解釋你看到的曲線形狀。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

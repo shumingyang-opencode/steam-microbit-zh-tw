@@ -104,6 +104,67 @@
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-18.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 18 · 評量設計：Rubric 與學習歷程</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「30 人、12 台板子、5 種程度」的混齡課堂
+目標：讓每個人都有「恰當挑戰」，且課堂零中斷
+
+分組策略：「3-2-1 梯隊制」
+  - 3 人一組（共 10 組），每組 1 台板子
+  - 角色：程式員(P)、設計師(D)、測試員(T)
+  - 每 8 分鐘輪替角色（P→D→T→P...）
+
+程度分流：「任務卡系統」
+  🟢 基礎卡：完成基本功能（如：顯示笑臉）
+  🔵 進階卡：加入互動（如：按 A 切換圖案）
+  🔴 挑戰卡：加入複雜邏輯（如：狀態機 + 動畫）
+
+  流程：
+    1. 全班一起完成🟢基礎任務（15 分鐘）
+    2. 各組依進度拿🔵或🔴任務卡（15 分鐘）
+    3. 完成🔴的組可以當「小老師」協助其他組（10 分鐘）
+
+器材管理：「色彩標籤系統」
+  - 每台板子貼彩色貼紙（紅/藍/綠），對應不同組別
+  - 電池盒、USB 線用同色籃子分裝
+  - 收尾時：組長按顏色回收，5 秒內全數到齊
+
+風險備案：
+  - 板子故障 → 組員共用鄰組板子 + 用模擬器同步
+  - 學生卡住 → 「除錯求助卡」（3 個步驟才找老師）
+  - 時間不夠 → 「最小完成版」標準（至少要能顯示結果）
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>動手課堂的管理科學：</strong>研究顯示，動手學習的課堂中，<strong>「器材管理」和「角色設計」</strong>直接影響學習成效。以下是關鍵研究發現：</p>
+<table>
+<tr><th>因素</th><th>影響</th><th>最佳實踐</th></tr>
+<tr><td>等待時間</td><td>學生等器材的時間 > 2 分鐘 → 流失動機</td><td>2 人 1 台 + 角色輪替，確保每人每 5 分鐘都能操作</td></tr>
+<tr><td>角色明確度</td><td>角色不清 → 某些人全程旁觀</td><td>給每個角色「具體任務卡」（例如：程式員=操作 MakeCode）</td></tr>
+<tr><td>卡住處理</td><td>卡住 > 3 分鐘 → 放棄或搗蛋</td><td>「除錯求助卡」：先自己查 → 問同伴 → 找老師</td></tr>
+<tr><td>收尾效率</td><td>收器材 > 5 分鐘 → 影響下堂課</td><td>建立 SOP 並演練，目標 3 分鐘內收完</td></tr>
+</table>
+<div class="callout info"><strong>差異化的本質：</strong>差異化不是「給多的人更多、給少的人更少」，而是<strong>「每個人都在自己的挑戰區」</strong>。Vygotsky 的「最近發展區」（ZPD）理論告訴我們：最佳學習發生在「稍微超出目前能力」的任務上。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>有些學生全程旁觀</td><td>角色不清或板子不足</td><td>給每人明確角色任務；2 人 1 台 + 輪替</td></tr>
+<tr><td>程度好的學生等不及</td><td>任務太簡單或缺少挑戰卡</td><td>準備🔴挑戰卡；完成基礎後立即給予</td></tr>
+<tr><td>收器材花 10 分鐘</td><td>沒有 SOP 或沒練習過</td><td>建立色彩標籤系統；每堂課練習收尾 SOP</td></tr>
+<tr><td>板子故障導致課程中斷</td><td>缺少備案</td><td>準備 2-3 台備用板子；教會學生用模擬器替代</td></tr>
+<tr><td>小組內有人不參與</td><td>角色輪替沒有落實</td><td>計時器 + 明確的角色交接儀式</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>動線設計</strong>：為你的教室畫一張「Micro:bit 課堂動線圖」：標記板子存放處、充電站、分組座位、老師巡視路線。目標：確保老師能在 30 秒內到達任何一組。</li>
+<li><strong>混齡教學設計</strong>：設計一堂「大帶小」的混齡課（小學 3 年級 + 6 年級），異質分組。6 年級的角色是「小老師」而非「幫忙做」。討論：如何確保小老師也學到東西？</li>
+<li><strong>除錯文化營造</strong>：設計一張「除錯求助卡」，包含 3 個步驟（自己查 → 問同伴 → 找老師）。為每個步驟設計具體的「查什麼」（例如：檢查接線、檢查積木、檢查電池）。測試這張卡是否能減少 50% 的「直接找老師」。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

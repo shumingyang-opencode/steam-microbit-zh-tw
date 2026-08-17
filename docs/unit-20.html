@@ -87,6 +87,74 @@
 <div class="next-prev">
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「AI 輔助 Micro:bit 教學」的完整工作流
+目標：用 AI 工具輔助「從教案設計到學生學習」的全流程
+
+教師端 AI 工作流：
+  1. 教案生成：
+     向 AI 描述：「我有 25 個小五學生、12 台 Micro:bit、40 分鐘，
+     主題是光線感測。請用 5E 框架寫一份教案。」
+     → AI 生成初稿 → 教師審核調整
+
+  2. 差異化任務生成：
+     向 AI 描述：「為光線專案設計三層任務卡（基礎/進階/挑戰），
+     每張卡有具體步驟與預期時間。」
+     → AI 生成 → 教師根據班級狀況微調
+
+  3. Rubric 生成：
+     向 AI 描述：「為光線感測站專案設計 Rubric，4 維度×4 等級，
+     用可觀察行為描述。」
+     → AI 生成初版 → 教師與同伴審查
+
+學生端 AI 工作流：
+  1. 除錯助手：
+     學生遇到錯誤 → 先自己查（除錯卡）→ 問同伴 →
+     若仍卡住：向 AI 描述問題（不貼程式碼）
+     → AI 提供「可能原因」列表 → 學生自己排查
+
+  2. 靈感產生：
+     「我想做一個跟溫度有關的專案，有什麼創意想法？」
+     → AI 提供 5 個方向 → 學生選擇一個深入
+
+倫理規則：
+  ✓ AI 是「助手」不是「代做者」
+  ✓ 學生要能解釋每一行（無論是否 AI 協助）
+  ✓ 教師要審核 AI 生成的所有內容
+  ✗ 不准直接抄 AI 產出的完整程式碼
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>AI 輔助教學的深層挑戰：</strong>AI 工具（如 ChatGPT、Claude、Copilot）正在改變教育，但它們帶來的不只是「便利」，還有「新的教學問題」。</p>
+<table>
+<tr><th>AI 用途</th><th>好處</th><th>風險</th><th>對策</th></tr>
+<tr><td>教案生成</td><td>節省 50% 準備時間</td><td>AI 可能不了解班級狀況</td><td>教師必須審核與調整</td></tr>
+<tr><td>程式輔助</td><td>降低挫敗感</td><td>學生可能「抄而不學」</td><td>要求學生解釋每一行</td></tr>
+<tr><td>除錯助手</td><td>24/7 可用</td><td>AI 可能給出錯誤答案</td><td>先自己找 → 再問 AI → 驗證結果</td></tr>
+<tr><td>創意靈感</td><td>突破思維限制</td><td>AI 可能給出不適合的建議</td><td>教師設定「可行範圍」</td></tr>
+</table>
+<div class="callout warn"><strong>核心倫理：</strong>AI 是「工具」不是「答案」。教學生<strong>「會問、會審、會改」</strong>比「會抄」重要。這本身就是 STEAM 教育的核心能力——批判思維。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>學生直接抄 AI 程式碼</td><td>缺少「倫理規則」的明確規範</td><td>第一堂課就建立「AI 使用公約」；要求解釋每一行</td></tr>
+<tr><td>AI 給出的答案不適合 Micro:bit</td><td>AI 對 Micro:bit 有限制不了解</td><td>教學生在提問時加入「Micro:bit MakeCode」的上下文</td></tr>
+<tr><td>教師花更多時間在調整 AI 產出</td><td>AI 生成的教案不夠貼合實際</td><td>建立「教案模板」讓 AI 格式化；減少調整時間</td></tr>
+<tr><td>學生的「問題解決能力」下降</td><td>過度依賴 AI</td><td>設計「無 AI 時段」（某些活動禁止使用 AI）</td></tr>
+<tr><td>家長擔心「AI 作弊」</td><td>缺乏與家長的溝通</td><td>舉辦說明會；展示學生的「AI 使用歷程」（不只是結果）</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>AI 倫理辯論</strong>：舉辦一場班級辯論：「AI 應該被允許用在 Micro:bit 課堂嗎？」正方/反方各準備 3 個論點。最後全班投票並寫下「我們班的 AI 使用規則」。</li>
+<li><strong>AI vs 人工比較</strong>：用 AI 生成一份「光線感測站」教案，再用人工（你自己）寫一份。比較兩份教案在以下方面的差異：活動設計、差異化、評量方式、與班級的適配度。哪個更好？為什麼？</li>
+<li><strong>未來展望</strong>：想像 5 年後的 Micro:bit 課堂：AI 能自動批改 Rubric、自動調整難度、自動產生個別化學習路徑。這聽起來很棒，但有什麼「風險」？寫一篇 300 字的短文，討論 AI 在教育中的「應該」與「不應該」。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

@@ -84,6 +84,59 @@
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-03.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 3 · 程式環境：MakeCode 與 MicroPython</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「多感測器環境數據儀表板」
+目標：同時量測光線 + 溫度 + 音量，用 LED 矩陣做「三合一儀表」
+
+工作流：
+  1. 設定 forever 迴圈，每 500ms 輪流顯示三種數據
+  2. light level → 顯示在第 1 行（高度 0-4 對應 0-255）
+  3. temperature → 顯示在第 3 行（高度 0-4 對應 -5~50°C）
+  4. sound level → 顯示在第 5 行（高度 0-4 對應 0-255）
+  5. 按 A 手動切換「鎖定」某一欄（暫停輪流）
+
+跨裝置通訊進階：
+  - 板子 A（感測板）每 2 秒廣播 {light, temp, sound} 的 JSON 封包
+  - 板子 B（顯示板）接收後，用 5×5 LED 的「三條水平條」同時呈現
+  - 當任一數值超標，顯示板閃爍警示
+
+為什麼選這條路徑？
+  → 輪流顯示避免 LED 矩陣塞滿（25 顆 LED 無法同時顯示三種數據）
+  → 鎖定功能讓使用者能深入觀察單一指標
+  → 分工（感測板 + 顯示板）是 IoT 架構的基礎思維
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>nRF52833 架構深入：</strong>Micro:bit v2 的核心 SoC 是 Nordic nRF52833，搭載 ARM Cortex-M4F（含浮點運算單元）。它支援 Bluetooth 5.1、IEEE 802.15.4（Thread/Zigbee），以及 2.4GHz 私有協定——這就是 Micro:bit 無線電的底層技術。</p>
+<table>
+<tr><th>規格</th><th>數值</th><th>意義</th></tr>
+<tr><td>Flash</td><td>512 KB</td><td>儲存程式碼（MakeCode 編譯後約 100-200KB）</td></tr>
+<tr><td>RAM</td><td>128 KB</td><td>執行時記憶體（變數、堆疊）</td></tr>
+<tr><td>ADC 精度</td><td>10-bit（0–1023）</td><td>analog read 回傳值範圍，光/溫/音量都經過 ADC 轉換</td></tr>
+<tr><td>GPIO</td><td>25 個</td><td>接腳 P0-P20 + 3V/GND，可做數位/類比輸出入</td></tr>
+</table>
+<div class="callout warn"><strong>陷阱案例：</strong>很多人以為 Micro:bit 的溫度感測器是「獨立元件」，其實它是 nRF52833 晶片內建的溫度感測器——量的是<strong>晶片溫度</strong>，不是環境溫度。當板子長時間運作，晶片自身發熱會讓讀值偏高 2-5°C。解決方案：不要把溫度感測器放在密封盒中、量測前先讓板子「冷卻」30 秒、或使用外接溫度感測器（如 DS18B20）取得更精確的環境溫度。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>溫度讀值比實際高 3-5°C</td><td>晶片自身發熱（正常現象）</td><td>外接 DS18B20 溫度感測器；或記錄前先暫停板子 30 秒</td></tr>
+<tr><td>光線讀值在室內一直跳動</td><td>LED 矩陣亮滅會影響光感測器讀值</td><td>讀光線時先 clear screen；或使用外接光敏電阻</td></tr>
+<tr><td>analog read 回傳值不穩定</td><td>類比訊號受接線長度與接觸品質影響</td><td>使用短接線、確保接線牢固、加裝 0.1μF 去耦電容</td></tr>
+<tr><td>觸控 Logo 不靈敏</td><td>手指潮濕或接觸面積太小</td><td>用手指腹部按壓；確認 firmware 是最新版</td></tr>
+<tr><td>麥克風音量讀值全為 0</td><td>麥克風被遮蔽或 firmware 未更新</td><td>確認 Micro:bit v2 的麥克風孔未被膠帶遮住；重新燒錄最新 MakeCode runtime</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>晶片溫度校正</strong>：設計一個實驗，量化 Micro:bit 晶片溫度與實際室溫的差異。在不同條件下（開機 1 分鐘 vs 10 分鐘、LED 全亮 vs 全暗）各量 10 次，畫出「偏差 vs 時間」圖表，並提出一個「校正公式」。</li>
+<li><strong>ADC 精度探索</strong>：用 analog read 讀取 P0 接腳，把一顆 LED 接在 P0 與 GND 之間。在 LED 串聯不同電阻（100Ω、470Ω、1kΩ、10kΩ）時，各讀 20 次，計算標準差。哪個電阻的讀值最穩定？為什麼？</li>
+<li><strong>硬體逆向工程</strong>：查閱 nRF52833 datasheet，找出它的 ADC 採樣率上限是多少？這對 Micro:bit 的感測器專案有什麼限制？（提示：想想「每秒能量測多少次」。）</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

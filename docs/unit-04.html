@@ -115,6 +115,57 @@ on start:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-05.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 5 · 輸入與感測器</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「呼吸燈 + 資料視覺化」— 用 LED 矩陣顯示即時環境數據
+目標：把光線強度畫成「漸層柱狀圖」，同時用呼吸燈效果表示溫度
+
+技術：
+  - light level (0-255) → 5 格 LED 高度（每格代表 51 單位）
+  - temperature (-5~50°C) → LED 亮度呼吸效果（低溫=暗、高溫=亮）
+  - 按 A 切換「光線模式」/「溫度模式」/「雙模式」
+
+呼吸燈效果（PWM 模擬）：
+  for brightness in 0..10..20..30...10..0:
+    set brightness brightness
+    show icon (目前圖案)
+    pause 50 ms
+
+視覺化設計決策：
+  → 選「柱狀圖」而非「數字」：因為 5×5 LED 數字太小看不清
+  → 選「漸層」而非「全亮」：因為人類對「高度差異」比「亮滅」更敏感
+  → 用呼吸燈而非閃爍：因為閃爍會造成視覺疲勞，呼吸效果更「有機」
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>PWM 與 LED 矩陣驅動：</strong>Micro:bit 的 5×5 LED 矩陣不是「每顆獨立控制」，而是用<strong>多工掃描（multiplexing）</strong>驅動。nRF52833 的 GPIO 在高速切換（數 kHz）下，逐行掃描 5 列，每列的亮度由 PWM（脈衝寬度調變）控制。由於掃描速度快於人眼感知（>50Hz），你看到的是「每顆 LED 同時亮」的假象。</p>
+<table>
+<tr><th>參數</th><th>範圍</th><th>意義</th></tr>
+<tr><td>亮度值</td><td>0–255</td><td>0=全暗，255=全亮（8-bit PWM）</td></tr>
+<tr><td>掃描頻率</td><td>約 100-200 Hz</td><td>每秒更新每列 100-200 次</td></tr>
+<tr><td>最大同時亮燈</td><td>25 顆</td><td>全部點亮時電流約 80-120mA</td></tr>
+</table>
+<div class="callout warn"><strong>陷阱案例：</strong>很多人以為「set brightness 255」就是每顆 LED 全亮——但實際上當 25 顆 LED 全亮時，由於電源限制（USB 供電最大 500mA、電池盒約 300mA），每顆 LED 的實際亮度會被「分配」降低。這就是為什麼「全亮時看起來比只亮幾顆暗」。解決方案：在專案中避免 25 顆同時全亮；使用外接電源供應器；或在程式中限制同時亮燈數量。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>LED 閃爍不穩定</td><td>pause 時間太短（< 20ms），掃描跟不上</td><td>至少 pause 50ms；用 plot/unplot 時加入短暫延遲</td></tr>
+<tr><td>全亮時比預期暗</td><td>電源不足導致電流限制</td><td>降低 brightness 設定；改用 USB 供電而非電池</td></tr>
+<tr><td>動畫播放時其他 LED 殘留亮點</td><td>切換圖案前未 clear screen</td><td>每次新圖案前加 clear screen</td></tr>
+<tr><td>亮度值設為 0 但 LED 還是微亮</td><td>掃描電路的殘餘電流</td><td>正常現象；如需完全關閉，用 unplot 個別熄滅</td></tr>
+<tr><td>動畫速度不均勻</td><td>不同幀的積木數量差異大</td><td>每幀後加入固定 pause 時間，確保節奏一致</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>PWM 精度實驗</strong>：用 set brightness 從 0 到 255，以 16 為間距逐步調整，拍照記錄每個亮度等級。觀察：人眼能分辨出幾個等級？這跟 8-bit（256 級）的理論值有差異嗎？</li>
+<li><strong>貪食蛇遊戲</strong>：用 LED 矩陣做一款「貪食蛇」：蛇身用多個 LED 表示，食物隨機出現，按 A/B 控制方向。思考：如何用有限的 5×5 畫面表達「蛇身長度增長」？</li>
+<li><strong>省電優化</strong>：設計一個「低功耗顯示模式」：每 2 秒更新一次 LED，其餘時間進入 sleep 狀態。用電池供電測試，比較「永久顯示」與「間歇顯示」的電池壽命差異。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

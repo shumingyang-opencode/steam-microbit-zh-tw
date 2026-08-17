@@ -90,6 +90,59 @@ forever:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-06.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 6 · 事件程式設計與狀態機</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「教室環境全感測儀表板」— 同時監測 4 種環境指標
+目標：用一台 Micro:bit 做到「光+溫+音+加速度」四合一量測
+
+工作流：
+  1. forever 迴圈中，每 200ms 輪流讀取四種感測器
+  2. 用變數 array 存最近 10 筆讀值（滑動視窗）
+  3. LED 矩陣顯示目前量測項目的「迷你柱狀圖」（5 格）
+  4. 按 A/B 切換顯示項目；長按 A+B 顯示「平均值」
+
+資料視覺化設計：
+  - 光線：用「太陽圖案」+ 柱狀圖（越高越亮）
+  - 溫度：用「溫度計」動畫（汞柱上升）
+  - 音量：用「音波」動畫（點的左右跳動）
+  - 加速度：用「水平儀」（點在 5×5 中心偏移）
+
+選這條路徑的原因：
+  → 輪流顯示避免資訊 overload（一次只看一個指標）
+  → 滑動視窗平均值過濾雜訊（比單次讀值更穩定）
+  → 切換功能讓使用者能自主探索不同數據
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>ADC（類比-數位轉換器）精度：</strong>Micro:bit 的 analog read 使用 10-bit ADC，回傳值範圍 0–1023。但實際上，這個值是經過 MakeCode runtime 處理後的映射——MakeCode 將 0–1023 映射到 0–255（8-bit），以簡化使用。這意味著 Micro:bit 的光/溫/音量讀值的有效解析度只有 <strong>256 級</strong>，而非 1024 級。</p>
+<table>
+<tr><th>感測器</th><th>原始 ADC 範圍</th><th>MakeCode 映射</th><th>有效精度</th></tr>
+<tr><td>光線</td><td>0–1023 (10-bit)</td><td>0–255</td><td>約 1% 步進</td></tr>
+<tr><td>溫度</td><td>晶片內部感測</td><td>-5~50°C（約）</td><td>約 1°C 步進</td></tr>
+<tr><td>音量</td><td>0–1023 (10-bit)</td><td>0–255</td><td>約 1% 步進</td></tr>
+<tr><td>外接（P0-P2）</td><td>0–1023 (10-bit)</td><td>0–1023（完整）</td><td>約 0.1% 步進</td></tr>
+</table>
+<div class="callout warn"><strong>陷阱案例：</strong>「light level 讀值不穩定（一直在跳動）」——很多人以為是感測器壞了，其實是因為 Micro:bit 的光感測器就在 LED 矩陣旁邊。<strong>LED 亮滅時發出的光會直接干擾光感測器</strong>。解決方案：讀光線前先 clear screen（關掉所有 LED）；或在外殼上開一個獨立的「感測窗」，讓光感測器只接收環境光。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>光線讀值隨 LED 亮滅跳動</td><td>LED 光線干擾光感測器</td><td>讀值前 clear screen；或加裝遮光罩</td></tr>
+<tr><td>溫度讀值偏高 3-5°C</td><td>晶片自身發熱</td><td>外接 DS18B20；或讀值前暫停板子 30 秒</td></tr>
+<tr><td>analog read 為 0 或 1023 不動</td><td>接線斷路或短路</td><td>重新接線；確認 VCC/GND/Signal 三線正確</td></tr>
+<tr><td>音量讀值全為 0</td><td>麥克風被遮蔽（v2）</td><td>確認麥克風孔未被膠帶或手遮住</td></tr>
+<tr><td>加速度讀值在靜止時不為 0</td><td>板子未水平放置（正常）</td><td>這是重力加速度；需先校準「水平基準」再量測</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>感測器校準實驗</strong>：選一個感測器（光/溫/音），設計校準流程：在已知條件下（如：完全黑暗、已知溫度的水杯旁、安靜房間）量測 20 次，建立「讀值 vs 真實值」的對照表。你的校正公式是什麼？</li>
+<li><strong>多感測器融合</strong>：設計一個「跌倒偵測器」，同時使用加速度計（偵測衝擊）+ 麥克風（偵測尖叫聲）。當兩個感測器同時偵測到異常才觸發警報。解釋：為什麼「多感測器融合」比單一感測器更準確？</li>
+<li><strong>數據品質分析</strong>：收集光線讀值 100 筆（每秒 1 筆），計算平均值、標準差、最大最小值。用這組數據判斷：你教室的光線穩定嗎？哪個時段波動最大？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

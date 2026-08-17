@@ -101,6 +101,62 @@ forever:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-14.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 14 · 綜合專案二：互動遊戲設計</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「IoT 環境感測站」— 加入 WiFi 擴充板
+目標：感測站不只本地顯示，還能將數據上傳到雲端平台
+
+硬體升級：
+  Micro:bit v2 + WiFi 擴充板（如 Pico:bit 或 ESP8266 模組）
+
+工作流：
+  1. 量測：光線 + 溫度 + 音量（每 30 秒一次）
+  2. 本地顯示：LED 矩陣顯示「目前狀態」（正常/異常）
+  3. 雲端上傳：透過 WiFi 將 JSON 格式資料送到 ThingsBoard
+     格式：{"light": 180, "temp": 25, "sound": 95, "ts": 1690000000}
+  4. 網頁儀表板：在 ThingsBoard 上建立即時圖表
+
+跨裝置通訊設計：
+  - 板子 A（感測）→ WiFi → 雲端 → 網頁
+  - 板子 B（接收端）← 無線電 ← 板子 A
+  - 雙路徑：有 WiFi 時上雲；沒 WiFi 時用無線電送到粼近板子
+
+為什麼選這條路徑？
+  → 雲端讓家長/校長也能看到即時數據
+  → 本地 LED 顯示確保「斷網也能用」
+  → 雙路徑是 IoT 韌性設計的基礎
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>從 Micro:bit 到 IoT：</strong>Micro:bit 本身沒有 WiFi，需要外接模組才能連上網路。常見的 IoT 架構：</p>
+<table>
+<tr><th>架構</th><th>元件</th><th>適合</th><th>複雜度</th></tr>
+<tr><td>本地顯示</td><td>Micro:bit 內建</td><td>教室展示</td><td>低</td></tr>
+<tr><td>無線電 → 主控板 → 電腦</td><td>2+ 台 Micro:bit</td><td>校園監測</td><td>中</td></tr>
+<tr><td>WiFi → 雲端</td><td>Micro:bit + WiFi 模組</td><td>遠端監控</td><td>高</td></tr>
+<tr><td>藍牙 → 手機 APP</td><td>Micro:bit v2 BLE</td><td>個人裝置</td><td>中</td></tr>
+</table>
+<div class="callout info"><strong>數據格式：</strong>JSON 是 IoT 的通用語言。教學生理解 {key: value} 的結構，這會在未來的 API 使用中反复出現。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>WiFi 擴充板連不上</td><td>WiFi 名稱/密碼錯誤</td><td>確認 SSID 和密碼正確；注意大小寫</td></tr>
+<tr><td>雲端收不到資料</td><td>JSON 格式錯誤或 API Key 過期</td><td>用序列埠先確認資料格式正確</td></tr>
+<tr><td>感測值不穩定</td><td>WiFi 通訊時電流波動影響 ADC</td><td>加入電容穩壓；或在 WiFi 傳輸時暫停感測</td></tr>
+<tr><td>無線電距離不夠</td><td>2.4GHz 與 WiFi 頻段衝突</td><td>使用不同群組號；或拉開 WiFi 路由器距離</td></tr>
+<tr><td>電池消耗太快</td><td>WiFi 模組持續搜尋網路</td><td>設定固定的上傳間隔（如 60 秒），其餘時間關閉 WiFi</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>資料壓縮</strong>：你的感測站每 30 秒上傳一次資料，每次 3 個數值。如果要連續運行一學期（18 週 × 5 天 × 6 小時），總共產生多少筆資料？設計一個「壓縮策略」（例如：只上傳「變化時」的資料），計算能節省多少頻寬。</li>
+<li><strong>斷網韌性</strong>：設計一個「本地快取」機制：當 WiFi 斷線時，資料先存在 Micro:bit 的陣列中；連線恢復後再批量上傳。最多能存多少筆資料？</li>
+<li><strong>隱私與安全</strong>：如果感測站收集的是教室音量數據，有哪些「隱私考量」？設計一個「去識別化」策略（例如：只記錄「音量等級」而非原始音訊）。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

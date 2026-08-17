@@ -100,6 +100,68 @@
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-12.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 12 · 數位藝術：音樂與 LED 動畫</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「教室即時問答競賽」— 20 台板子同時回答
+目標：老師出題，20 個學生同時按 A/B/C 選擇，主控板統計並即時顯示
+
+技術挑戰：
+  - 20 台同時廣播 → 無線電碰撞（collision）機率極高
+  - 需要「防碰撞機制」避免資料遺失
+
+解決方案：「時槽分配」（Time Slot）
+  主控板（老師）：
+    radio set group 1
+    變數 question = 0
+    on button A pressed:
+      question += 1
+      radio send question    ← 廣播題號
+
+  學生板：
+    radio set group 1
+    變數 my_slot = 0         ← 每台板子用不同時槽
+    變數 my_answer = 0
+
+    on radio received receivedNumber:
+      if receivedNumber == my_slot:
+        按下按鈕時：radio send answer
+
+  為什麼選時槽？
+    → 簡單：每台板子分配 1-20 的時槽，輪流回答
+    → 碰撞率低：同一時槽只有一台板子
+    → 缺點：20 人要等 20 個時槽，較慢
+    → 替代方案：隨機等候 + 碰撞重傳（更複雜但更快）
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>無線電碰撞問題：</strong>Micro:bit 的無線電使用 2.4GHz 頻段，基於 IEEE 802.15.4 協定。當多台板子同時廣播時，訊號會互相干擾（collision），導致接收端收到雜訊或丟失訊息。這與「網路塞車」原理相同。</p>
+<table>
+<tr><th>碰撞處理策略</th><th>原理</th><th>適合場景</th></tr>
+<tr><td>時槽（Time Slot）</td><td>每台板子分配專屬時段</td><td>人數固定、可預先分配</td></tr>
+<tr><td>CSMA（載波偵聽）</td><td>先聽有沒有人在講，有就等</td><td>人數不定、需要即時性</td></tr>
+<tr><td>重傳 + ACK</td><td>發送後等待確認，沒收到就重傳</td><td>需要可靠傳輸</td></tr>
+</table>
+<div class="callout info"><strong>連結真實世界：</strong>這就是 Wi-Fi 和行動網路的核心問題。你的手機能同時上網，就是因為它用了比 Micro:bit 複雜得多的碰撞處理協定。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>多人同時廣播時資料遺失</td><td>無線電碰撞（最常見問題）</td><td>加入時槽機制；或用「按順序回答」的規則</td></tr>
+<tr><td>板子收不到訊息</td><td>群組號碼不同</td><td>確認所有板子用 radio set group 同一數字</td></tr>
+<tr><td>訊息延遲 1-2 秒</td><td>無線電模組初始化需要時間</td><td>在 on start 設定群組；避免在 forever 中重複設定</td></tr>
+<tr><td>只收到部分板子的訊息</td><td>距離太遠或有障礙物</td><td>縮短板子間距離；移除金屬障礙物</td></tr>
+<tr><td>電池消耗很快</td><td>無線電模組持續運作</td><td>在不需通訊時關閉 radio；或用更短的廣播間隔</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>可靠投票系統</strong>：改進班級投票器，加入「確認機制」：主控板收到投票後回傳「收到」，學生板沒收到確認就重傳。比較：有確認 vs 沒確認的投票完成率差異。</li>
+<li><strong>無線電距離實驗</strong>：在不同環境（教室、操場、走廊）測量無線電的有效距離。記錄：在什麼距離下開始丟訊息？什麼障礙物影響最大？畫出「距離 vs 成功率」圖表。</li>
+<li><strong>網狀網路入門</strong>：用 3 台 Micro:bit 做「中繼站」：板子 A 傳訊到板子 B，板子 B 再轉傳到板子 C。討論：這種「跳躍式傳輸」有什麼好處？有什麼風險（例如：延遲、單點故障）？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

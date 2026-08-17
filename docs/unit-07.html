@@ -94,6 +94,62 @@ Evaluate(10') ：同桌互測：用手電筒照→燈滅？（Rubric 1 張）
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-08.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 8 · 科學專案：資料收集與記錄</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「校園噪音地圖」— 跨 3 週的 PBL 專案
+驅動問題：「我們學校的哪些地方最吵？為什麼？」
+
+Week 1 (Engage + Explore)：
+  - Engage：播放一段「噪音與健康」影片，提問「你知道學校哪裡最吵嗎？」
+  - Explore：每組帶一台 Micro:bit，在校園 5 個定點各量測 2 分鐘音量
+  - 用序列埠收集數據，存成 CSV
+
+Week 2 (Explain + Elaborate)：
+  - Explain：合併各組數據，畫出「噪音地圖」（用座標標記各點音量）
+  - 討論：為什麼操場比圖書館吵？走廊呢？
+  - Elaborate：設計一個「噪音提醒器」（音量 >150 時 LED 閃紅燈）
+
+Week 3 (Evaluate + 發表)：
+  - 發表「噪音地圖 + 改善建議」給校長
+  - 評量：研究過程 40% + 作品 30% + 發表 30%
+
+為什麼選這條路徑？
+  → 真實情境（噪音）學生有感
+  → 跨領域：S（聲學）+ M（統計）+ T（程式）+ E（裝置）+ A（地圖設計）
+  → 有公開成果（給校長），符合 PBL 的「公開作品」要素
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>PBL 的深層實踐：</strong>真正的 PBL 不是「做完一個專案」，而是讓學生經歷<strong>「定義問題→研究→設計→實作→測試→迭代→發表」</strong>的完整循環。5E 教學模式是 PBL 的「微觀工具」——每個 5E 階段可以對應 PBL 的一個里程碑。</p>
+<table>
+<tr><th>5E 階段</th><th>PBL 對應</th><th>常見錯誤</th></tr>
+<tr><td>Engage</td><td>引起動機 + 提出驅動問題</td><td>問題太窄（有唯一答案）或太廣（無從下手）</td></tr>
+<tr><td>Explore</td><td>探索材料 + 收集初步數據</td><td>直接教做法，沒給學生探索空間</td></tr>
+<tr><td>Explain</td><td>整理概念 + 建立模型</td><td>跳過這步，直接進入實作</td></tr>
+<tr><td>Elaborate</td><td>應用到新情境 + 迭代</td><td>只做一次就收工，缺少迭代</td></tr>
+<tr><td>Evaluate</td><td>評量 + 公開發表</td><td>只有老師評分，沒有同伴互評</td></tr>
+</table>
+<div class="callout warn"><strong>陷阱案例：</strong>「5E = 一節 40 分鐘課」是最常見的誤解。5E 是一個<strong>彈性框架</strong>，不是固定流程。一節 40 分鐘的課可以走完一次 5E（小探究），一個跨週專案可以把每個 E 拉長到一整個星期。教師要根據專案規模調整每個 E 的深度，而不是「每堂課都要走完 5E」。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>學生在 Explore 階段不知道做什麼</td><td>引導問題太抽象、材料不足</td><td>給具體的「探索任務卡」（例如：量三個位置的光線）</td></tr>
+<tr><td>Explain 階段學生說不出原理</td><td>Explore 時沒有收集足夠數據</td><td>確保 Explore 階段有明確的量測任務與紀錄表</td></tr>
+<tr><td>Elaborate 太難，學生放棄</td><td>新挑戰超出當前能力太多</td><td>提供「階梯式」挑戰：基礎版→進階版→挑戰版</td></tr>
+<tr><td>Evaluate 只有分數沒有回饋</td><td>Rubric 太簡略、缺少具體描述</td><td>每個等級用「可觀察行為」描述，並加入同伴互評</td></tr>
+<tr><td>驅動問題學生沒興趣</td><td>問題與學生生活無關</td><td>從學生的真實需求出發（例如：校園噪音、手機成癮）</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>5E 教案改造</strong>：選一個你熟悉的學科主題（數學/自然/社會），用 5E 框架設計一份 40 分鐘的 Micro:bit 教案。確保每個 E 都有「學生做」與「老師做」的具體活動，且活動之間有邏輯銜接。</li>
+<li><strong>驅動問題批判</strong>：以下三個驅動問題，哪一個最適合 PBL？為什麼？(A)「用 Micro:bit 做一個計時器」(B)「如何用科技幫助學校節省能源？」(C)「學習 Python 語法」</li>
+<li><strong>PBL 評量設計</strong>：為「校園噪音地圖」專案設計一份完整的評量包，包含：Rubric（4 維度×4 等級）、同伴互評卡、省思引導問題。解釋你的評量如何同時評量「過程」與「成果」。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

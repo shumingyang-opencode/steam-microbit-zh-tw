@@ -115,6 +115,65 @@ on button B pressed:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-11.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 11 · 科技整合：無線電與群組通訊</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「班級公平抽籤器 + 統計驗證」
+目標：做一個「公平抽籤器」，並用統計方法驗證它是否真的公平
+
+Step 1：基本抽籤器
+  on button A pressed:
+    name = pick random 1 to 30    ← 代表 30 個學生
+    show number name
+
+Step 2：統計驗證
+  變數 counts = [0,0,0,...,0]     ← 30 個位置全為 0
+  on button A pressed:
+    name = pick random 1 to 30
+    counts[name-1] += 1
+    show number name
+  on button B pressed:
+    顯示被抽到最多次的人的編號
+
+Step 3：視覺化分佈
+  用 LED 矩陣畫「次數分佈圖」
+  - x 軸 = 學生編號（0-4 代表 5 人一組）
+  - y 軸 = 被抽到的次數（0-4）
+
+Step 4：統計分析
+  按 A+B 顯示：平均次數、標準差、最大值-最小值
+  討論：如果某人被抽到 5 次、某人 0 次，這公平嗎？
+
+設計路徑：
+  → 不只做「抽籤」，還要「驗證公平性」
+  → 數學從「算平均」延伸到「分佈」與「標準差」
+  → 連結真實問題：抽籤公平嗎？樣本夠大嗎？
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>電腦隨機數的本質：</strong>電腦產生的「隨機數」實際上是<strong>偽隨機數</strong>（Pseudo-Random Number Generator, PRNG）。MakeCode 的 pick random 使用<strong>線性同餘法</strong>（Linear Congruential Generator），公式為：</p>
+<p><code>next = (a × current + c) mod m</code></p>
+<p>其中 a、c、m 是固定常數。只要起始種子（seed）相同，產生的「隨機」序列就完全相同。這就是為什麼 Micro:bit 每次開機後的「隨機」序列可能很相似——因為種子通常基於系統時鐘，而開機時間很接近。</p>
+<div class="callout info"><strong>教學連結：</strong>這是教「偽隨機 vs 真隨機」的絕佳機會。可以問學生：「如果老師知道你的起始條件，能預測你的隨機結果嗎？」這連結到資訊安全（加密）的概念。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>每次開機的「隨機」序列都一樣</td><td>PRNG 種子固定（系統時鐘相近）</td><td>用加速度計讀值作為種子（每次不同）</td></tr>
+<tr><td>骰子 6 個面出現次數差很多</td><td>小樣本的正常波動</td><td>增加測試次數（100+ 次）；用全班數據合併</td></tr>
+<tr><td>pick random 範圍搞錯</td><td>從 0 开始還是從 1 開始</td><td>注意：MakeCode 的 pick random 1 to 6 包含 1 和 6</td></tr>
+<tr><td>平均值計算結果偏差大</td><td>整數除法截斷</td><td>用 sum * 10 / count 放大後計算，或改用 MicroPython</td></tr>
+<tr><td>統計量超出 LED 顯示範圍</td><td>數字太大 5×5 LED 看不清</td><td>用 show string 捲動顯示；或顯示近似值</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>蒙地卡羅模擬</strong>：用 Micro:bit 的隨機數估計 π 值：在 5×5 的「正方形」中隨機撒點，統計落在「四分之一圓」內的比例。比例 × 4 ≈ π。你的估計值離 3.14 多遠？需要多少次才能穩定？</li>
+<li><strong>偏差實驗</strong>：設計一個「有偏差的骰子」（某些數字出現機率更高）。用 100 次測試驗證你的偏差，並計算每個面的「觀測機率 vs 理論機率（1/6）」的差距。</li>
+<li><strong>加密入門</strong>：用隨機數做一個簡單的「凱撒密碼」加密器：按 A 輸入字母（用 LED 顯示目前字母），按 B 確認，最後顯示加密後的結果。討論：如果加密鑰匙是隨機的，接收者怎麼知道鑰匙？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

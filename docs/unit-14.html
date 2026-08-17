@@ -100,6 +100,65 @@ on gameover:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-15.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 15 · 專案式學習設計：從主題到教案</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「雙人對戰遊戲」— 用無線電做即時對戰
+遊戲：「太空射擊戰」
+
+玩家 A（太空船）：
+  - A/B 控制上下移動
+  - 搖晃發射「飛彈」（radio send "SHOOT"）
+  - LED 顯示太空船位置
+
+玩家 B（衛星）：
+  - A/B 控制左右移動
+  - 被射中 → radio send "HIT" → 分數 -1
+  - LED 顯示衛星位置
+
+計分系統：
+  - A 射中 B：A 得 1 分
+  - B 躲過（飛彈到達邊界沒中）：B 得 1 分
+  - 先得 5 分者勝
+
+遊戲平衡：
+  - 飛彈速度：400ms/格（太慢 B 容易躲、太快 A 容易中）
+  - 移動速度：200ms/格（與飛彈速度的比例決定遊戲節奏）
+  - 飛彈位置：從 A 的位置直線飛向 B 的 Y 座標
+
+數學平衡公式：
+  hit_rate = f(飛彈速度, 移動速度, 畫面大小)
+  → 目標：hit_rate ≈ 30-40%（不會太難也不會太簡單）
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>遊戲平衡的數學：</strong>一個好的遊戲需要「挑戰性」與「可達成性」的平衡。這可以用數學模型來分析：</p>
+<table>
+<tr><th>參數</th><th>公式</th><th>影響</th></tr>
+<tr><td>命中率</td><td>飛彈速度 / 移動速度 × 畫面寬度</td><td>太高→太容易、太低→太難</td></tr>
+<tr><td>遊戲節奏</td><td>1 / (飛彈間隔 + 移動間隔)</td><td>太快→反應不及、太慢→無聊</td></tr>
+<tr><td>難度遞增</td><td>speed = base - score × k</td><td>k 太大→後期太難、k 太小→無挑戰</td></tr>
+</table>
+<div class="callout info"><strong>連結真實世界：</strong>遊戲平衡就是「系統思維」——每個參數改變都會連動其他參數。這和工程設計、經濟學的「均衡」概念相通。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>遊戲太難（一直輸）</td><td>對手移動太快或飛彈太慢</td><td>調整速度參數；加入「起始優勢」（如：落後者飛彈加速）</td></tr>
+<tr><td>遊戲太簡單（一直贏）</td><td>飛彈太快或對手太慢</td><td>反向調整；或加入障礙物增加複雜度</td></tr>
+<tr><td>多人遊戲不同步</td><td>無線電延遲導致位置不同步</td><td>用「最終位置」而非「每步同步」；加入延遲補償</td></tr>
+<tr><td>計分系統有 bug</td><td>分數變數未初始化或範圍錯誤</td><td>確保 on start 初始化分數；用 max(0, score) 防止負分</td></tr>
+<tr><td>遊戲結束判斷失敗</td><td>結束條件未覆蓋所有情況</td><td>列出所有結束條件（先到 N 分、時間到等）並逐一檢查</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>難度曲線設計</strong>：在你的遊戲中加入「三關」：第一關速度 400ms、第二關 300ms、第三關 200ms。每關之間過渡時顯示「LEVEL UP」。畫出「關卡 vs 遊戲速度」的折線圖，討論：這條曲線「公平」嗎？</li>
+<li><strong>遊戲經濟學</strong>：設計一個「商店系統」：玩家在遊戲中收集金幣（接住星星），可以在「暫停」時購買升級（如：飛彈加速、 shield）。設計升級的價格，讓玩家不能在第一關就買到最強裝備。</li>
+<li><strong>玩家體驗研究</strong>：邀請 5 個同學測試你的遊戲，記錄每個人的「第一次遊玩分數」和「第五次遊玩分數」。學習曲線是什麼形狀？你需要調整什麼參數讓新手更容易上手？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

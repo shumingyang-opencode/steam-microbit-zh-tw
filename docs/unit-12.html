@@ -97,6 +97,76 @@ forever:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-13.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 13 · 綜合專案一：環境感測站</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「互動音樂裝置」— 用加速度計控制音調
+目標：像演奏「特雷門琴」一樣，傾斜板子改變音調
+
+技術：
+  - 加速度 X 軸 (-1024~1024) 映射到音階頻率 (262~523 Hz)
+  - 按 A 切換音階（大調/小調/五聲音階）
+  - LED 矩陣顯示目前音階名稱
+
+MicroPython 程式：
+  from microbit import *
+  import music
+
+  scale_C = [262, 294, 330, 349, 392, 440, 494, 523]
+  scale_minor = [262, 294, 311, 349, 392, 415, 466, 523]
+
+  current_scale = scale_C
+
+  while True:
+      x = accelerometer.get_x()         ← -1024 to 1024
+      index = int((x + 1024) / 256)     ← 映射到 0-7
+      index = max(0, min(7, index))
+      freq = current_scale[index]
+      music.pitch(freq, 100)            ← 播放 100ms
+
+      if button_a.was_pressed():
+          current_scale = scale_minor if current_scale == scale_C else scale_C
+
+設計路徑：
+  → 為什麼用加速度計而非按鈕？
+  → 因為加速度提供「連續控制」（類比），按鈕只有「離散切換」（數位）
+  → 連續控制更接近真實樂器的操作方式
+  → 連結 STEAM 的 A（音樂創作）+ S（聲學）+ M（頻率映射）
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>音階的數學：</strong>音樂中的音階遵循<strong>等比數列</strong>——每個半音的頻率是前一個的 2^(1/12) ≈ 1.0595 倍。一個八度（12 個半音）正好是頻率 ×2。這就是為什麼「高八度的 Do」頻率是「低八度 Do」的兩倍。</p>
+<table>
+<tr><th>音名</th><th>頻率 (Hz)</th><th>與 Do 的比值</th><th>MakeCode 頻率</th></tr>
+<tr><td>Do (C4)</td><td>262</td><td>1.000</td><td>262</td></tr>
+<tr><td>Re (D4)</td><td>294</td><td>1.122</td><td>294</td></tr>
+<tr><td>Mi (E4)</td><td>330</td><td>1.260</td><td>330</td></tr>
+<tr><td>Fa (F4)</td><td>349</td><td>1.335</td><td>349</td></tr>
+<tr><td>Sol (G4)</td><td>392</td><td>1.498</td><td>392</td></tr>
+<tr><td>La (A4)</td><td>440</td><td>1.682</td><td>440</td></tr>
+<tr><td>Si (B4)</td><td>494</td><td>1.888</td><td>494</td></tr>
+<tr><td>Do (C5)</td><td>523</td><td>2.000</td><td>523</td></tr>
+</table>
+<div class="callout info"><strong>數學連結：</strong>音階的頻率比值可以用「對數」來理解：人耳對音高的感知是對數的（同樣的「距離感」對應倍數而非加法）。這就是為什麼音樂理論和數學這麼密切相關。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>音樂播放時 LED 不動</td><td>play tone 會阻塞執行</td><td>改用 start melody（非阻塞）；或用 music.pitch 搭配 pause 控制</td></tr>
+<tr><td>音調聽起來「走音」</td><td>頻率值不精確</td><td>使用精確的頻率值（參考音階表）；避免整數截斷</td></tr>
+<tr><td>揚聲器沒聲音</td><td>v1 沒有內建揚聲器</td><td>確認使用 Micro:bit v2；或外接蜂鳴器到 P0</td></tr>
+<tr><td>音階切換時有雜音</td><td>頻率突變造成「爆音」</td><td>在切換前加 music.stop()；或使用频率渐变</td></tr>
+<tr><td>LED 動畫與音樂不同步</td><td>音樂播放阻塞了動畫迴圈</td><td>將音樂與動畫分開處理（用事件觸發音樂）</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>音程計算器</strong>：在 MakeCode 中實作一個「音程計算器」：按 A 減少半音、按 B 增加半音，LED 顯示目前頻率。從 262Hz（Do）開始，每次加 2^(1/12) 倍。驗證：加 12 次後是否回到 262×2 = 524Hz？</li>
+<li><strong>節奏遊戲</strong>：設計一款「節奏遊戲」：LED 顯示「下落的音符」（從頂部落到底部），玩家要在音符到達底部時按下對應按鈕。加入計分系統與難度遞增。</li>
+<li><strong>頻譜分析入門</strong>：用 Micro:bit 的麥克風量測環境音量，每 50ms 取樣一次，收集 100 個點。在電腦上畫出「時間 vs 音量」的波形圖。你的教室的「聲音特徵」是什麼？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

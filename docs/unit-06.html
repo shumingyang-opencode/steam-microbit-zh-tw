@@ -110,6 +110,67 @@ on button B pressed:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-07.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 7 · STEAM 教學法一：PBL 與 5E</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「智慧教室控制系統」— 多狀態 + 多事件 + 多輸出
+目標：教室的光、溫、音量同時影響 LED 顯示與蜂鳴器
+
+狀態機設計：
+  狀態：MONITOR（監測中）/ ALERT（警報）/ MUTE（靜音）/ SLEEP（休眠）
+  事件：光暗、溫高、音量大、按A、按B、按A+B
+
+程式骨架（MakeCode）：
+  變數 mode = "MONITOR"
+  forever:
+    if mode == "MONITOR":
+      light = light level
+      temp = temperature
+      if light &lt; 40: mode = "ALERT"; 顯示 "暗"
+      if temp > 32:  mode = "ALERT"; 顯示 "熱"
+      顯示水銀柱
+    if mode == "ALERT":
+      閃爍 + 蜂鳴器
+    if mode == "MUTE":
+      不警報但持續量測
+    if mode == "SLEEP":
+      clear screen; pause 10s
+
+  on button A pressed:
+    if mode == "ALERT": mode = "MUTE"
+    elif mode == "MUTE": mode = "MONITOR"
+  on button B pressed:
+    if mode != "SLEEP": mode = "SLEEP"
+    else: mode = "MONITOR"
+
+關鍵決策：
+  → 為什麼狀態轉換放在事件而非 forever？
+  → 因為 forever 每輪都會檢查，放在 forever 裡容易「重複觸發」
+  → 事件只在按下的瞬間觸發一次，天然防抖（debounce）
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>MakeCode 事件模型的內部運作：</strong>MakeCode 的事件積木（on button A pressed 等）底層使用 JavaScript 的事件循環（Event Loop）。當硬體中斷觸發時，MakeCode runtime 將回呼函式（callback）放入事件佇列（queue），等主迴圈空閒時才執行。這解釋了為什麼<strong>事件積木裡不能放太久的操作</strong>——如果你在事件中放了 pause 5000ms，整個事件佇列會被阻塞，其他事件（如 button B）會被延遲。</p>
+<div class="callout warn"><strong>陷阱案例：</strong>很多人以為「on button A pressed 裡的程式碼會立即執行」——事實上它會等到「下一個事件循環週期」才執行。如果你在 forever 迴圈中有一個很長的 pause（例如 5 秒），按鈕事件會被延遲最多 5 秒才響應。解決方案：在 forever 迴圈中使用<strong>短暫 pause</strong>（50-100ms），確保事件循環能及時處理使用者輸入。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>按鈕反應延遲 1-2 秒</td><td>forever 迴圈中的 pause 太長</td><td>將 pause 縮短為 50-100ms；長任務拆成多段</td></tr>
+<tr><td>同時按 A+B 只觸發一個事件</td><td>MakeCode 的 A+B 事件需要同時按住</td><td>改用 waspressed 檢測；或設計為「先按A再按B」的序列</td></tr>
+<tr><td>狀態機跳過某個狀態</td><td>事件與 forever 同時改變 mode</td><td>統一在一個地方管理狀態轉換（建議在 forever 中判斷）</td></tr>
+<tr><td>shake 事件太靈敏/不靈敏</td><td>加速度閾值不適合當前使用情境</td><td>用 acceleration (g) 的數值判斷，而非 on shake 事件</td></tr>
+<tr><td>事件中斷 forever 迴圈後不會回來</td><td>事件中的迴圈沒有退出條件</td><td>事件中避免無限迴圈；改用變數旗標讓 forever 迴圈處理</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>非阻塞狀態機</strong>：用 MicroPython 實作同一個智慧教室控制系統。注意：MicroPython 沒有 MakeCode 的事件積木，你需要用 while True 輪詢 button_a.was_pressed()。比較兩種實作方式的「回應速度」與「程式碼複雜度」。</li>
+<li><strong>狀態機視覺化</strong>：為你的狀態機畫一張完整的「狀態轉換圖」（每個狀態是一個圓圈、每條箭頭標注「事件→動作」）。然後邀請同伴根據這張圖「走讀」你的程式碼，找出一個你沒注意到的邊界情況（edge case）。</li>
+<li><strong>防抖實作</strong>：設計一個「精確計數器」：按 A 加 1，但要避免「按一次加兩次」的問題。實作兩種方案：(1) 用 pause 延遲防抖 (2) 用變數旗標防抖。比較哪種更可靠。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

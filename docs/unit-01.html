@@ -92,6 +92,52 @@
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-02.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 2 · Micro:bit 硬體認識</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「校園節能監測網路」— 3 台 Micro:bit 組成感測網
+需求：
+  - 每台板子分別量測教室光線、溫度、CO₂（外接感測器）
+  - 透過無線電每 30 秒將數據送到「主控板」
+  - 主控板收到後用 LED 矩陣畫出「溫度折線圖」（5 格 = 5 個時間點）
+  - 當任一板子偵測到異常（溫度 >30°C），主控板發警報音效
+
+設計路徑：
+  為什麼選「去中心化量測 + 集中化顯示」？
+  → 原因 1：分散量測減少環境干擾（不同位置差異大）
+  → 原因 2：集中顯示讓老師一次看到全班數據
+  → 原因 3：訓練學生「系統思維」——感測、通訊、顯示是三個子系統
+
+工作流：
+  S：了解光/溫感測器的物理原理與量測範圍
+  T：用 MakeCode 設定無線電群組 + 數據封包格式
+  E：設計板子的擺放位置（控制變因）
+  A：LED 折線圖的視覺設計（y 軸比例、色碼）
+  M：計算各教室平均溫差，畫出全校溫度分布圖
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p>Micro:bit 使用 <strong>nRF52833</strong>（Nordic Semiconductor），這是一顆 ARM Cortex-M4 處理器，主頻 64 MHz，內建 512KB Flash / 128KB RAM。它的低功耗特性（待機 < 2μA）讓 Micro:bit 可以用電池連續運行數週。</p>
+<div class="callout warn"><strong>大家以為沒問題的陷阱：</strong>「STEAM = 五個領域都要均衡」是最常見的迷思。真實的 STEAM 專案必然有領域偏重——例如環境感測站偏 S+T+M，藝術裝置偏 A+T。教師不該為了「湊滿五個領域」而硬加與主題無關的活動，這反而會稀釋核心學習。正確做法是：<strong>讓五個領域自然浮現</strong>，而非人為均衡。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>學生說「STEAM 就是程式課」</td><td>只強調 T（科技），忽略其他領域的活動設計</td><td>每堂課至少包含一個非 T 的任務（如畫設計圖=A、量測=M）</td></tr>
+<tr><td>專案做不完</td><td>驅動問題太廣、里程碑沒拆細</td><td>縮小範圍：先做 MVP（最小可行產品），再迭代</td></tr>
+<tr><td>低年級學生無法理解 STEAM 概念</td><td>抽象名詞太多</td><td>用「做→說→想」順序：先動手做、再用語言描述、最後連結概念</td></tr>
+<tr><td>家長問「這跟考試有什麼關係」</td><td>缺乏與課綱的對照說明</td><td>準備一張「STEAM 對照表」：列出每活動對應的課綱學習表現</td></tr>
+<tr><td>學生只關注「做出来」不思考原理</td><td>缺少 Explain 階段的引導</td><td>在實作後加入「為什麼這樣設計」的同伴討論（3 分鐘 Pair-Share）</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>跨校協作</strong>：與另一所學校的 Micro:bit 課程合作，設計一個需要「兩校板子互相通訊」的專案（例如：兩校同時量測溫度，比較都市 vs 鄉下的差異）。你會如何設計通訊協定與數據格式？</li>
+<li><strong>STEAM 評量設計</strong>：為一座「環境感測站」專案設計一份 Rubric，必須包含至少 5 個維度（含 S/T/E/A/M 各一），每個維度有 4 個等級，且等級描述是「可觀察的行為」而非抽象評語。</li>
+<li><strong>反思論文</strong>：如果你只能從 STEAM 五個領域中保留三個（因為時間限制），你會選哪三個？為什麼？請用你在本單元學到的框架寫 300 字論證。</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>

@@ -91,6 +91,67 @@ forever:
     <a href="index.html"><div class="np-label">← 上一層</div><div class="np-name">單元教學目錄</div></a>
     <a class="np-next" href="unit-10.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 10 · 數學應用</div></a>
 </div>
+
+<hr style="margin:2em 0;border:none;border-top:2px solid #ccc;">
+
+<h2 style="margin-top:1.5em;">進階真實情境 Worked Example</h2>
+<p>以下是一個與上方不同的<strong>真實場景</strong>，展示多感測器 + 資料視覺化 + 跨裝置通訊的完整工作流。</p>
+<div class="demo-block"><div class="demo-label">進階 Worked Example</div><pre>場景：「光追蹤太陽能板」— 用兩顆光感測器 + 伺服馬達
+目標：太陽能板（用伺服馬達帶動）自動朝向光線最強的方向
+
+硬體：
+  - 2 顆外接光敏電阻，分別接在 P0（左）和 P1（右）
+  - 伺服馬達接在 P2，帶動一個小平台（模擬太陽能板）
+  - Micro:bit 做控制核心
+
+工作流：
+  forever:
+    left = analog read P0      ← 左側光線
+    right = analog read P1     ← 右側光線
+    diff = left - right
+
+    if abs(diff) > 20:         ← 差異夠大才轉（避免震盪）
+      if diff > 0:             ← 左邊較亮
+        angle += 5             ← 向左轉 5 度
+      else:
+        angle -= 5             ← 向右轉 5 度
+      angle = max(0, min(180, angle))  ← 限制範圍
+      servo write P2 angle
+    pause 500 ms
+
+工程設計決策：
+  → 為什麼加「死區」（abs(diff) > 20）？
+  → 因為伺服馬達在微小差異下會不斷反覆轉動（震盪）
+  → 死區讓系統在「差異不大時」保持穩定
+</pre></div>
+
+<h2>深入原理擴充</h2>
+<p><strong>PWM 與伺服馬達：</strong>伺服馬達（Servo）接收 50Hz 的 PWM 訊號，脈衝寬度決定角度：</p>
+<table>
+<tr><th>脈衝寬度</th><th>馬達角度</th><th>用途</th></tr>
+<tr><td>0.5 ms</td><td>0°</td><td>左極限</td></tr>
+<tr><td>1.5 ms</td><td>90°</td><td>中間位置</td></tr>
+<tr><td>2.5 ms</td><td>180°</td><td>右極限</td></tr>
+</table>
+<p>MakeCode 的 <code>servo write P0 to 90</code> 積木底層就是設定對應的脈衝寬度。Micro:bit 的 GPIO 可以產生約 50-100Hz 的 PWM，足以驅動小型伺服馬達。</p>
+<div class="callout warn"><strong>陷阱案例：</strong>「伺服馬達抖動不停」——很多人以為是馬達壞了，其實是<strong>你的程式在不斷改變角度</strong>。如果 forever 迴圈中沒有「死區」或「穩定判斷」，馬達會在微小差異之間來回震盪。解決方案：加入死區（如 abs(diff) > 20 才動作）、加入 pause（讓馬達有時間穩定）、以及使用「目標角度」而非「每步都轉」的控制策略。</div>
+
+<table>
+<tr><th>症狀</th><th>可能原因</th><th>解決方案</th></tr>
+<tr><td>伺服馬達抖動不停</td><td>程式不斷改變角度（無死區）</td><td>加入 abs(diff) > threshold 的穩定判斷</td></tr>
+<tr><td>馬達轉到極限卡住</td><td>角度超出 0-180 範圍</td><td>用 max(0, min(180, angle)) 限制範圍</td></tr>
+<tr><td>外接 LED 不亮</td><td>未接電阻或極性接反</td><td>LED 串 220Ω 電阻；確認長腳接 3V、短腳接 GND</td></tr>
+<tr><td>analog read 值全為 0</td><td>感測器未正確連接</td><td>確認 VCC→3V、GND→GND、Signal→P0/P1</td></tr>
+<tr><td>馬達只轉不回</td><td>程式中角度只加不減</td><td>檢查控制邏輯，確保雙向都能轉動</td></tr>
+</table>
+
+<h2>進階挑戰題</h2>
+<ol>
+<li><strong>PID 控制入門</strong>：在你的光追蹤系統中加入「積分」（I）項：不只看「目前差異」，還累積「過去所有差異」。當差異持續存在時，加速轉動。比較：有 I 項 vs 沒 I 項的追蹤效果有何不同？</li>
+<li><strong>雙軸追蹤</strong>：擴充你的系統到「雙軸」：用兩顆伺服馬達分別控制水平（左右）與垂直（上下）旋轉。你需要幾顆光感測器？如何決定旋轉方向？</li>
+<li><strong>功耗分析</strong>：測量伺服馬達在不同負載下的電流消耗（如果有電流表）。當馬達「hold position」vs「actively turning」時，電流差多少？這對電池供電的專案有什麼影響？</li>
+</ol>
+
 </div>
 <footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
   <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
