@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 P1 · Python 編程入門 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="MicroPython 入門：從 MakeCode 積木切換到文字程式，掌握 micro:bit Python API。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 P1 · Python 編程入門</h1>
+  <p class="subtitle">MicroPython、變數與迴圈、LED 矩陣控制、積木 vs Python 對照</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="index.html">單元教學</a>
+  <a href="shopping-guide.html">採購指南</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+</nav>
+<div class="back-link"><a href="index.html">← 單元教學</a></div>
+
+<div class="guide">
+
+<h2>P1.1 什麼是 MicroPython</h2>
+<p><strong>MicroPython</strong> 是為微控制器優化的 Python 3。micro:bit 跑的版本由 <a href="https://microbit-micropython.readthedocs.io/">MicroPython on micro:bit</a> 提供，常簡稱 <code>microbit</code> 套件。語法幾乎等同一般 Python，你具備的程式基礎可直接套用。</p>
+<p>撰寫與執行：<a href="https://python.microbit.org/">micro:bit Python 編輯器</a>（線上），或 MakeCode 的「Python」分頁（可與積木對照）。</p>
+
+<div class="callout info">
+  <strong>MakeCode vs Python 編輯器</strong>MakeCode 的 Python 分頁可以直接看到積木對應的 Python 程式碼，適合學習轉換。Python 線上編輯器則提供完整的 MicroPython 環境與序列埠功能。
+</div>
+
+<h2>P1.2 標準匯入</h2>
+<pre><code>from microbit import *</code></pre>
+<p>這行匯入所有常用模組（display、button_a、accelerometer、compass、radio、music…）。相當於 MakeCode 中「自動可用」的所有積木。</p>
+
+<h2>P1.3 核心 API 快速對照</h2>
+<table>
+  <tr><th>功能</th><th>Python 函式</th><th>MakeCode 積木對應</th></tr>
+  <tr><td>顯示文字</td><td><code>display.scroll("hi")</code></td><td>顯示字串</td></tr>
+  <tr><td>顯示圖案</td><td><code>display.show(Image.HEART)</code></td><td>顯示圖示</td></tr>
+  <tr><td>按鍵狀態</td><td><code>button_a.was_pressed()</code></td><td>當按鍵 A 按下</td></tr>
+  <tr><td>延遲</td><td><code>sleep(500)</code></td><td>暫停(毫秒)</td></tr>
+  <tr><td>溫度</td><td><code>temperature()</code></td><td>溫度</td></tr>
+  <tr><td>光度</td><td><code>display.read_light_level()</code></td><td>光線強度</td></tr>
+</table>
+
+<h2>P1.4 主迴圈模式</h2>
+<p>與積木「事件」不同，Python 常用<strong>無限迴圈 + 條件</strong>做主控流程：</p>
+<pre><code>from microbit import *
+
+while True:
+    if button_a.was_pressed():
+        display.scroll("A")
+    sleep(100)</code></pre>
+
+<div class="callout warn">
+  <strong>💡 為什麼要 sleep()？</strong>micro:bit 是單執行緒，無限迴圈會獨占處理器。加 <code>sleep(100)</code> 給系統喘息空間，避免影響無線電等其他功能，也防止 LED 閃爍過快。
+</div>
+
+<h2>P1.5 Image 與自訂圖案</h2>
+<pre><code>display.show(Image("90909:09990:09990:00900:00000"))   # 自訂 5x5 愛心
+# 9 = 全亮，0 = 滅，1-8 = 漸暗</code></pre>
+<p>內建圖案包括 <code>Image.HEART</code>、<code>Image.SMILE</code>、<code>Image.ARROW_N</code> 等，可在<a href="https://microbit-micropython.readthedocs.io/en/latest/image.html">官方文件</a>查到完整清單。</p>
+
+<h2>P1.6 變數與資料型別</h2>
+<pre><code>from microbit import *
+
+count = 0              # 整數
+name = "micro:bit"     # 字串
+pi = 3.14              # 浮點數
+is_on = True           # 布林值
+
+while True:
+    if button_a.was_pressed():
+        count += 1
+        display.show(str(count))
+    sleep(100)</code></pre>
+
+<h2>🧠 回顧測驗</h2>
+<div class="quiz" id="quiz-p1">
+  <div class="quiz-item" data-answer="0">
+    <div class="q">MicroPython 程式開頭為什麼常寫 <code>from microbit import *</code>？</div>
+    <div class="quiz-options">
+      <label class="quiz-option" data-i="0"><input type="radio" name="qp1a"> 匯入 micro:bit 的硬體控制模組</label>
+      <label class="quiz-option" data-i="1"><input type="radio" name="qp1a"> 讓程式跑更快</label>
+      <label class="quiz-option" data-i="2"><input type="radio" name="qp1a"> 這是 Python 的固定語法</label>
+    </div>
+    <button class="quiz-submit" data-q="qp1a">檢查答案</button>
+    <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item" data-answer="1">
+    <div class="q">Python 的 <code>while True</code> 迴圈中為什麼要加 <code>sleep(100)</code>？</div>
+    <div class="quiz-options">
+      <label class="quiz-option" data-i="0"><input type="radio" name="qp1b"> 讓 LED 顯示較慢比較省電</label>
+      <label class="quiz-option" data-i="1"><input type="radio" name="qp1b"> 給系統喘息空間，避免獨占處理器</label>
+      <label class="quiz-option" data-i="2"><input type="radio" name="qp1b"> Python 語法規定必須加</label>
+    </div>
+    <button class="quiz-submit" data-q="qp1b">檢查答案</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<h2>🛒 採購建議</h2>
+<div class="callout">
+  <strong>✅ 無需新購</strong>Python 編輯器與模擬器即可學習。建議先完成本單元再決定是否購入硬體。
+</div>
+
+</div>
+
+<div class="next-prev">
+  <a href="unit-06.html"><div class="np-label">← 上一篇</div><div class="np-name">單元 6 · 事件與狀態</div></a>
+  <a class="np-next" href="unit-P2.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 P2 · Python + 感測器</div></a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div>
+
+<script>
+document.querySelectorAll('.quiz-submit').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var item=btn.closest('.quiz-item');
+    var checked=item.querySelector('input:checked');
+    if(!checked)return;
+    var chosen=parseInt(item.dataset.answer);
+    var options=item.querySelectorAll('.quiz-option');
+    var feedback=item.querySelector('.quiz-feedback');
+    var idx=Array.prototype.indexOf.call(options,checked.closest('.quiz-option'));
+    options[idx].classList.add(idx===chosen?'correct':'wrong');
+    options[chosen].classList.add('correct');
+    feedback.textContent=idx===chosen?'✓ 正確！這是 MicroPython 的硬體 API 入口。':'✗ 提示：想想 import 的用途。';
+    feedback.className='quiz-feedback '+(idx===chosen?'correct':'wrong');
+    btn.disabled=true;
+  });
+});
+</script>
+<link rel="stylesheet" href="../assets/speech.css">
+<script src="../assets/speech.js" defer></script>
+</body></html>

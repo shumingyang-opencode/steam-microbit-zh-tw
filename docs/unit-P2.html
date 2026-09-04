@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 P2 · Python + 感測器實戰 · STEAM × Micro:bit 繁中教學站</title>
+<meta name="description" content="用 Python 讀取感測器、條件判斷、資料記錄：計步器與羅盤儀表板實戰。">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 P2 · Python + 感測器實戰</h1>
+  <p class="subtitle">讀取感測器值、條件判斷、資料記錄、計步器與羅盤實作</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">首頁</a>
+  <a href="../map.html">概念地圖</a>
+  <a href="../learning-path.html">學習路線</a>
+  <a href="index.html">單元教學</a>
+  <a href="shopping-guide.html">採購指南</a>
+  <a href="../glossary.html">術語表</a>
+  <a href="../hardware.html">硬體速查</a>
+  <a href="../projects.html">專案速查</a>
+</nav>
+<div class="back-link"><a href="unit-P1.html">← 單元 P1 · Python 編程入門</a></div>
+
+<div class="guide">
+
+<h2>P2.1 感測器 API 速查</h2>
+<pre><code>accelerometer.get_x() / get_y() / get_z()   # 三軸力 (mg)
+accelerometer.was_gesture("shake")          # 姿勢事件
+compass.heading()                            # 方位角 0-360
+temperature()                                # 處理器溫度
+display.read_light_level()                   # 光度 0-255</code></pre>
+
+<h2>P2.2 實作：搖晃計步器</h2>
+<pre><code>from microbit import *
+
+steps = 0
+display.show(str(steps))
+
+while True:
+    if accelerometer.was_gesture("shake"):
+        steps += 1
+        display.show(str(steps))
+        sleep(300)          # 防抖動，避免一次搖晃算多步</code></pre>
+
+<div class="callout">
+  <strong>💡 防抖動（debounce）</strong>實務上會短暫延遲避免重複觸發。這是硬體與程式互動的常見考量——感測器在一次搖晃中可能連續觸發多次。
+</div>
+
+<h2>P2.3 實作：羅盤方向儀表板</h2>
+<pre><code>from microbit import *
+
+compass.calibrate()
+
+def direction(h):
+    if h &lt; 45 or h &gt;= 315: return "N"
+    if h &lt; 135: return "E"
+    if h &lt; 225: return "S"
+    return "W"
+
+while True:
+    display.show(direction(compass.heading()))
+    sleep(300)</code></pre>
+
+<h2>P2.4 條件判斷與巢狀</h2>
+<pre><code>from microbit import *
+
+while True:
+    temp = temperature()
+    if temp &gt; 30:
+        display.show("H")        # Hot
+    elif temp &lt; 15:
+        display.show("C")        # Cold
+    else:
+        display.show(Image.SMILE)
+    sleep(1000)</code></pre>
+
+<h2>P2.5 資料記錄到序列埠</h2>
+<pre><code>from microbit import *
+
+while True:
+    t = temperature()
+    l = display.read_light_level()
+    print("temp=" + str(t) + " light=" + str(l))
+    sleep(2000)</code></pre>
+<p>在 Python 編輯器的「序列埠」面板可以看到輸出，方便分析與繪圖。</p>
+
+<h2>P2.6 除錯技巧</h2>
+<ul>
+  <li><strong>序列輸出</strong>：用 <code>print()</code> 輸出數值觀察，Python 編輯器有 REPL／序列埠</li>
+  <li><strong>縮排</strong>：Python 靠縮排界定區塊，務必用 4 空格（勿用 Tab 混排）</li>
+  <li><strong>模擬器</strong>：Python 編輯器也有模擬器，可即時試跑</li>
+  <li><strong>錯誤訊息</strong>：IndentationError = 縮排問題；NameError = 拼字或忘了 import</li>
+</ul>
+
+<h2>🧠 回顧測驗</h2>
+<div class="quiz" id="quiz-p2">
+  <div class="quiz-item" data-answer="0">
+    <div class="q">計步器為什麼要加 <code>sleep(300)</code>？</div>
+    <div class="quiz-options">
+      <label class="quiz-option" data-i="0"><input type="radio" name="qp2a"> 防止一次搖晃被算成多步（防抖動）</label>
+      <label class="quiz-option" data-i="1"><input type="radio" name="qp2a"> 讓 LED 顯示較慢比較省電</label>
+      <label class="quiz-option" data-i="2"><input type="radio" name="qp2a"> Python 語法規定必須加</label>
+    </div>
+    <button class="quiz-submit" data-q="qp2a">檢查答案</button>
+    <div class="quiz-feedback"></div>
+  </div>
+  <div class="quiz-item" data-answer="2">
+    <div class="q">在 Python 中如何讀取 micro:bit 的溫度值？</div>
+    <div class="quiz-options">
+      <label class="quiz-option" data-i="0"><input type="radio" name="qp2b"> <code>accelerometer.temperature()</code></label>
+      <label class="quiz-option" data-i="1"><input type="radio" name="qp2b"> <code>sensor.read("temperature")</code></label>
+      <label class="quiz-option" data-i="2"><input type="radio" name="qp2b"> <code>temperature()</code></label>
+    </div>
+    <button class="quiz-submit" data-q="qp2b">檢查答案</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<h2>🛒 採購建議</h2>
+<div class="callout">
+  <strong>✅ 無需新購</strong>內建感測器＋模擬器即可。本單元的計步器與羅盤不需要額外硬體。
+</div>
+
+<div class="callout info">
+  <strong>📚 延伸資源</strong>
+  <ul>
+    <li><a href="https://microbit-micropython.readthedocs.io/">MicroPython on micro:bit 官方文件</a></li>
+    <li><a href="https://python.microbit.org/">micro:bit Python 線上編輯器</a></li>
+  </ul>
+</div>
+
+</div>
+
+<div class="next-prev">
+  <a href="unit-P1.html"><div class="np-label">← 上一篇</div><div class="np-name">單元 P1 · Python 編程入門</div></a>
+  <a class="np-next" href="unit-07.html"><div class="np-label">下一篇 →</div><div class="np-name">單元 7 · STEAM 教學法一</div></a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · 由 OpenCode 建置<br>
+  <span class="footer-license">本站教學內容（繁體中文解說）為本站原創，採 CC-BY-4.0；Micro:bit 名稱與硬體資訊引用自 <a href="https://microbit.org/" rel="noopener">BBC micro:bit 官方網站</a>與 <a href="https://makecode.microbit.org/" rel="noopener">Microsoft MakeCode</a> 之公開資訊。</span></footer>
+</div>
+
+<script>
+document.querySelectorAll('.quiz-submit').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var item=btn.closest('.quiz-item');
+    var checked=item.querySelector('input:checked');
+    if(!checked)return;
+    var chosen=parseInt(item.dataset.answer);
+    var options=item.querySelectorAll('.quiz-option');
+    var feedback=item.querySelector('.quiz-feedback');
+    var idx=Array.prototype.indexOf.call(options,checked.closest('.quiz-option'));
+    options[idx].classList.add(idx===chosen?'correct':'wrong');
+    options[chosen].classList.add('correct');
+    feedback.textContent=idx===chosen?'✓ 正確！防抖動是實務關鍵。':'✗ 提示：想想搖晃時感測器會連續觸發幾次。';
+    feedback.className='quiz-feedback '+(idx===chosen?'correct':'wrong');
+    btn.disabled=true;
+  });
+});
+</script>
+<link rel="stylesheet" href="../assets/speech.css">
+<script src="../assets/speech.js" defer></script>
+</body></html>
