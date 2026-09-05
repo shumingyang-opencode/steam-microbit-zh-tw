@@ -78,22 +78,53 @@
 
 <h2>1.4 下載與燒錄</h2>
 
-<h3>下載 .hex 檔案</h3>
+<p>編輯完程式後，需要將程式下載並燒錄到 Micro:bit 板子上才能實際運行。以下是完整步驟：</p>
+
+<h3>步驟 1：點擊下載按鈕</h3>
+<div class="makecode-block-img">
+  <img src="assets/screenshots/unit01/editor-overview.png" alt="MakeCode 編輯器下載按鈕位置">
+  <p class="caption">MakeCode 編輯器右下角的紫色「下載」按鈕（紅色框標示處）</p>
+</div>
 <ol class="step-list">
-  <li>點擊紫色「<strong>下載</strong>」按鈕</li>
-  <li>瀏覽器會下載一個 <code>.hex</code> 檔案</li>
+  <li>在 MakeCode 編輯器中完成程式編輯</li>
+  <li>點擊右下角紫色的「<strong>下載</strong>」按鈕</li>
+  <li>瀏覽器會自動下載一個 <code>.hex</code> 檔案</li>
 </ol>
 
-<h3>燒錄到 Micro:bit</h3>
+<h3>步驟 2：連接 Micro:bit</h3>
+<div class="makecode-block-img">
+  <img src="assets/screenshots/unit01/usb-connection.png" alt="Micro:bit USB 連接">
+  <p class="caption">用 USB 線將 Micro:bit 連接到電腦</p>
+</div>
 <ol class="step-list">
-  <li>用 USB 線連接 Micro:bit 到電腦</li>
-  <li>電腦會出現一個名為 <code>MICROBIT</code> 的磁碟</li>
-  <li>將 .hex 檔案拖曳到 <code>MICROBIT</code> 磁碟</li>
-  <li>等待 Micro:bit 上的 LED 閃爍，表示燒錄完成</li>
+  <li>準備一條 Micro USB 線（與手機充電線相同）</li>
+  <li>將 Micro USB 端插入 Micro:bit 的 USB 接口</li>
+  <li>將標準 USB 端插入電腦的 USB 接口</li>
 </ol>
+
+<h3>步驟 3：燒錄程式</h3>
+<div class="makecode-block-img">
+  <img src="assets/screenshots/unit01/microbit-board.png" alt="Micro:bit 板子外觀">
+  <p class="caption">Micro:bit v2 板子外觀（正面）</p>
+</div>
+<ol class="step-list">
+  <li>連接後，電腦會自動出現一個名為 <code>MICROBIT</code> 的可卸除式磁碟</li>
+  <li>將下載的 <code>.hex</code> 檔案拖曳到 <code>MICROBIT</code> 磁碟中</li>
+  <li>等待 Micro:bit 背面的 LED 閃爍，表示燒錄中</li>
+  <li>LED 停止閃爍後，燒錄完成！程式會自動開始運行</li>
+</ol>
+
+<div class="makecode-block-img">
+  <img src="assets/screenshots/unit01/flash-process.gif" alt="燒錄過程示意">
+  <p class="caption">燒錄過程：將 .hex 檔案拖曳到 MICROBIT 磁碟</p>
+</div>
 
 <div class="callout warn">
-  <strong>注意：</strong>燒錄過程中請勿拔除 USB 線，否則可能導致韌體損壞。
+  <strong>注意：</strong>燒錄過程中請勿拔除 USB 線，否則可能導致韌體損壞。如果 Micro:bit 無法正常工作，可以嘗試重新燒錄。
+</div>
+
+<div class="callout info">
+  <strong>小提示：</strong>你也可以使用 MakeCode 的「下載」按鈕直接透過 WebUSB 連接 Micro:bit（需使用 Chrome 瀏覽器），這樣就不需要手動拖曳檔案。
 </div>
 
 <h2>1.5 模擬器使用</h2>
