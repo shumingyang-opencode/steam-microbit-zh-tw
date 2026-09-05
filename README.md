@@ -7,6 +7,7 @@
 - 🔤 **自動注音**：所有中文自動帶注音符號（ㄅㄆㄇㄈ），邊看注音邊學
 - 🔊 **語音朗讀**：點擊右下角 🔊 按鈕，支援中英文自動切換朗讀
 - 📚 **40+ 深度單元**：20 單元 STEAM 教學 + 20 單元 MakeCode 完整教學
+- 🖼️ **豐富截圖**：MakeCode 積木參考頁、官方教程 GIF、硬體圖片，看圖上手
 
 - 目標讀者：STEAM 教師、課程設計者、家長、自學者
 - 單元數：20 深度單元（L0 → L5）
@@ -60,7 +61,12 @@ steam-microbit-zh-tw/
 │   ├── projects.json     # MakeCode 專案 URL 對照表
 │   └── assets/
 │       ├── makecode.css  # MakeCode 專區樣式
-│       └── screenshots/  # 積木截圖
+│       └── screenshots/  # 積木截圖 + 硬體圖片
+│           ├── unit01/   # 介面與操作（下載按鈕、USB 連接、Micro:bit 板子）
+│           ├── unit02/   # 積木分類總覽
+│           ├── unit03/   # Basic 積木參考 + 官方教程 GIF
+│           ├── ...       # 各單元截圖
+│           └── unit20/   # 專案實戰
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -74,7 +80,24 @@ steam-microbit-zh-tw/
 
 ## MakeCode 完整教學（20 單元）
 
-獨立的 MakeCode 程式教學系列，從介面操作到積木程式、從基礎到進階。
+獨立的 MakeCode 程式教學系列，從介面操作到積木程式、從基礎到進階。每個單元都附**積木參考截圖**與**官方教程 GIF**，讓你「看圖上手」。
+
+### 截圖內容
+
+| 類型 | 數量 | 來源 |
+|------|------|------|
+| MakeCode 編輯器截圖 | 10 張 | Playwright 自動截圖 |
+| 官方教程 GIF | 16 張 | MakeCode 官方教程 |
+| 積木參考頁截圖 | 7 張 | MakeCode Reference |
+| Micro:bit 硬體圖片 | 3 張 | MakeCode 官方文件 |
+| **總計** | **36 張** | |
+
+### 特別教學：下載燒錄到 Micro:bit
+
+Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
+1. MakeCode 編輯器下載按鈕位置
+2. Micro:bit USB 連接示意圖
+3. Micro:bit v2 板子外觀圖
 
 | Lv | 單元 | 內容 |
 |----|------|------|
