@@ -67,6 +67,12 @@ steam-microbit-zh-tw/
 │           ├── unit03/   # Basic 積木參考 + 官方教程 GIF
 │           ├── ...       # 各單元截圖
 │           └── unit20/   # 專案實戰
+├── makecode-editor/      # 🎮 Self-host MakeCode 編輯器（MIT 授權）
+│   ├── index.html        # 編輯器主頁
+│   ├── sim/              # 模擬器
+│   ├── editor/           # 編輯器 UI
+│   ├── libs/             # 積木函式庫
+│   └── ...               # 其他靜態資源
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -98,6 +104,36 @@ Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
 1. MakeCode 編輯器下載按鈕位置
 2. Micro:bit USB 連接示意圖
 3. Micro:bit v2 板子外觀圖
+
+---
+
+## MakeCode 編輯器（Self-host 版）
+
+本站內嵌 Microsoft MakeCode 編輯器（MIT 授權），使用者可以直接在瀏覽器中：
+- 使用積木撰寫程式
+- 切換到 JavaScript 或 Python 模式
+- 使用模擬器測試
+- 下載 .hex 檔案到 Micro:bit
+
+**入口**：[開啟 MakeCode 編輯器](makecode-editor/index.html)
+
+### 技術規格
+
+| 項目 | 說明 |
+|------|------|
+| 來源 | Microsoft pxt-microbit（MIT 授權） |
+| 版本 | v3.0（2026 年 7 月最新版） |
+| 語言支援 | 繁體中文（zh-TW）、英文等 35+ 語言 |
+| 程式模式 | 積木、JavaScript、Python |
+| 模擬器 | 內建 Micro:bit 模擬器 |
+| 下載格式 | .hex（可直接燒錄到 Micro:bit） |
+
+### 更新方式
+
+MakeCode 每年 6-7 月有重大更新，更新步驟：
+1. 從官方 repo 拉取最新版本
+2. 執行 `pxt staticpkg` 建置靜態版
+3. 將 `built/packaged/` 複製到 `makecode-editor/`
 
 | Lv | 單元 | 內容 |
 |----|------|------|
