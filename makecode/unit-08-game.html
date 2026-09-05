@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 8：Game 遊戲引擎 · MakeCode 完整教學</title>
+<meta name="description" content="sprite、碰撞、得分、生命、倒數計時">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 8：Game 遊戲引擎</h1>
+  <p class="subtitle">sprite、碰撞、得分、生命、倒數計時</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>8.1 Game 積木總覽</h2>
+<p>Game 分類提供完整的 2D 遊戲引擎，包含精靈（Sprite）、碰撞偵測、計分系統等功能。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>create sprite</code></td><td>x (0-4), y (0-4)</td><td>在指定位置建立精靈</td></tr>
+<tr><td><code>sprite move</code></td><td>direction, speed</td><td>讓精靈持續移動</td></tr>
+<tr><td><code>sprite change x</code></td><td>dx (number)</td><td>移動精靈的 x 位置</td></tr>
+<tr><td><code>sprite change y</code></td><td>dy (number)</td><td>移動精靈的 y 位置</td></tr>
+<tr><td><code>sprite set position</code></td><td>x, y</td><td>設定精靈位置</td></tr>
+<tr><td><code>sprite bounce if on edge</code></td><td>—</td><td>碰到邊緣時反彈</td></tr>
+<tr><td><code>on sprite of kind overlaps</code></td><td>kind A, kind B</td><td>兩種精靈重疊時觸發</td></tr>
+<tr><td><code>change score by</code></td><td>value (number)</td><td>增減分數</td></tr>
+<tr><td><code>score</code></td><td>—</td><td>取得目前分數</td></tr>
+<tr><td><code>set life to</code></td><td>value (number)</td><td>設定生命数</td></tr>
+<tr><td><code>change life by</code></td><td>value (number)</td><td>增減生命</td></tr>
+<tr><td><code>on life zero</code></td><td>—</td><td>生命歸零時觸發</td></tr>
+<tr><td><code>start countdown</code></td><td>ms (number)</td><td>開始倒數計時</td></tr>
+<tr><td><code>on countdown end</code></td><td>—</td><td>倒數結束時觸發</td></tr>
+</table>
+
+<h2>8.2 建立精靈</h2>
+
+<pre class="block-code">
+let player = create sprite at 2 4
+</pre>
+<p>在座標 (2,4) 建立一個精靈。精靈預設以小方塊顯示。</p>
+
+<h3>精靈種類（Kind）</h3>
+<table class="makecode-ref">
+<tr><th>種類</th><th>說明</th></tr>
+<tr><td><code>Player</code></td><td>玩家控制的角色（預設）</td></tr>
+<tr><td><code>Projectile</code></td><td>子彈或投射物</td></tr>
+<tr><td><code>Food</code></td><td>食物或道具</td></tr>
+<tr><td><code>Enemy</code></td><td>敵人</td></tr>
+<tr><td><code>Sprite</code></td><td>一般精靈</td></tr>
+</table>
+
+<pre class="block-code">
+let enemy = create sprite of kind Enemy at 0 0
+enemy move left with speed 1
+</pre>
+
+<h2>8.3 移動精靈</h2>
+
+<h3>手動移動</h3>
+<pre class="block-code">
+let player = create sprite at 2 4
+
+on button A pressed
+  player change x by -1
+
+on button B pressed
+  player change x by 1
+</pre>
+
+<h3>自動移動</h3>
+<pre class="block-code">
+let enemy = create sprite of kind Enemy at 4 2
+enemy move left with speed 1
+enemy bounce on edge
+</pre>
+<p><code>move</code> 讓精靈持續移動，<code>bounce on edge</code> 讓精靈碰到邊緣時自動反彈。</p>
+
+<h2>8.4 碰撞偵測</h2>
+
+<h3>精靈重疊事件</h3>
+<pre class="block-code">
+on sprite of kind Player overlaps otherSprite of kind Enemy
+  game.addScore 1
+  otherSprite delete
+</pre>
+<p>當玩家精靈碰到敵人精靈時，加 1 分並刪除敵人。</p>
+
+<h3>重疊檢查積木</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th></tr>
+<tr><td><code>sprite overlaps otherSprite</code></td><td>檢查兩個精靈是否重疊</td></tr>
+<tr><td><code>on sprite of kind A overlaps B</code></td><td>當 A 和 B 重疊時觸發事件</td></tr>
+</table>
+
+<h2>8.5 計分系統</h2>
+
+<pre class="block-code">
+on start
+  game.setScore 0
+
+on sprite of kind Player overlaps otherSprite of kind Food
+  game.addScore 1
+  otherSprite delete
+  music play sound insert coin
+</pre>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th></tr>
+<tr><td><code>game.setScore 0</code></td><td>重設分數為 0</td></tr>
+<tr><td><code>game.addScore 1</code></td><td>分數加 1</td></tr>
+<tr><td><code>game.score</code></td><td>取得目前分數</td></tr>
+</table>
+
+<h2>8.6 生命系統</h2>
+
+<pre class="block-code">
+on start
+  game.setLife 3
+
+on sprite of kind Player overlaps otherSprite of kind Enemy
+  game.changeLife by -1
+  otherSprite delete
+  player set position to 2 4
+
+on life zero
+  game.gameOver false
+</pre>
+<p>設定 3 條命，每次碰到敵人減 1 條命，生命歸零時遊戲結束。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th></tr>
+<tr><td><code>game.setLife 3</code></td><td>設定初始生命数</td></tr>
+<tr><td><code>game.changeLife by -1</code></td><td>增減生命</td></tr>
+<tr><td><code>game.life</code></td><td>取得目前生命值</td></tr>
+<tr><td><code>game.gameOver win</code></td><td>遊戲結束（true=勝利, false=失敗）</td></tr>
+</table>
+
+<h2>8.7 倒數計時</h2>
+
+<pre class="block-code">
+on start
+  game.startCountdown 30000
+  game.setScore 0
+
+on countdown end
+  game.gameOver false
+</pre>
+<p>開始 30 秒倒數，時間到則遊戲結束。</p>
+
+<h2>8.8 範例：接球遊戲</h2>
+
+<pre class="block-code">
+let player = create sprite at 2 4
+let ball = create sprite of kind Food at 2 0
+
+on start
+  ball move down with speed 1
+  ball bounce on edge
+  game.setLife 3
+
+on button A pressed
+  player change x by -1
+
+on button B pressed
+  player change x by 1
+
+on sprite of kind Player overlaps otherSprite of kind Food
+  game.addScore 1
+  otherSprite set position to randint 0 to 4 0
+  music play sound magic wand
+
+on sprite of kind Food overlaps otherSprite of kind Player
+  game.changeLife by -1
+  otherSprite set position to randint 0 to 4 0
+</pre>
+
+<p><strong>JavaScript 對應程式碼：</strong></p>
+<pre class="code-block">
+let player = sprites.create(img`
+  . . . . .
+  . . . . .
+  . . # . .
+  . # # # .
+  . . . . .
+`, SpriteKind.Player)
+player.setPosition(2, 4)
+
+let ball = sprites.create(img`
+  . . . . .
+  . . . . .
+  . . # . .
+  . . . . .
+  . . . . .
+`, SpriteKind.Food)
+ball.setPosition(2, 0)
+ball.setVelocity(0, 30)
+ball.setFlag(SpriteFlag.BounceOnWall, true)
+
+game.setLife(3)
+
+input.onButtonPressed(Button.A, () =&gt; {
+  player.x -= 1
+})
+input.onButtonPressed(Button.B, () =&gt; {
+  player.x += 1
+})
+
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, (sprite, otherSprite) =&gt; {
+  game.addScore(1)
+  otherSprite.setPosition(randint(0, 4), 0)
+  music.play(music.melodyPlayable(music.builtInPlayableMelody.DING), music.PlaybackMode.InBackground)
+})
+</pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org" target="_blank" class="link-text">在 MakeCode 中建立遊戲專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>建立並控制精靈移動</li>
+    <li>使用不同精靈種類分類</li>
+    <li>偵測精靈之間的碰撞</li>
+    <li>使用計分和生命系統</li>
+    <li>設定倒數計時</li>
+    <li>製作簡單的遊戲專案</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-07-radio.html">← 單元 7：Radio 無線電</a>
+  <span class="nav-current">單元 8</span>
+  <a href="unit-09-images.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

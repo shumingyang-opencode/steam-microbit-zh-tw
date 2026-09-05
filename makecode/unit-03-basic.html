@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 3：Basic 積木 · MakeCode 完整教學</title>
+<meta name="description" content="show number/string/icon/LED、forever、pause">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 3：Basic 積木</h1>
+  <p class="subtitle">show number/string/icon/LED、forever、pause</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>3.1 Basic 積木總覽</h2>
+<p>Basic 分類包含最基礎的顯示與控制積木，是所有 MakeCode 程式的起點。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>show number</code></td><td>value, duration (ms)</td><td>在 5×5 LED 上顯示數字，多位數自動滾動</td></tr>
+<tr><td><code>show string</code></td><td>value, duration (ms)</td><td>滾動顯示英文字母或數字</td></tr>
+<tr><td><code>show icon</code></td><td>icon (IconNames)</td><td>顯示 24 種內建圖案（心形、笑臉等）</td></tr>
+<tr><td><code>show leds</code></td><td>leds (LED 圖案)</td><td>自訂 5×5 LED 亮滅組合</td></tr>
+<tr><td><code>clear screen</code></td><td>—</td><td>清除所有 LED 顯示</td></tr>
+<tr><td><code>forever</code></td><td>—</td><td>重複執行區塊內的積木（無限迴圈）</td></tr>
+<tr><td><code>pause</code></td><td>ms (number)</td><td>暫停指定毫秒數（1000ms = 1秒）</td></tr>
+<tr><td><code>on start</code></td><td>—</td><td>程式啟動時執行一次</td></tr>
+</table>
+
+<h2>3.2 顯示數字與文字</h2>
+
+<h3>show number</h3>
+<pre class="block-code">
+show number 42
+</pre>
+<p>在 5×5 LED 矩陣上顯示數字。若數字為多位數（如 <code>123</code>），會從右到左滾動顯示。</p>
+
+<h3>show string</h3>
+<pre class="block-code">
+show string "Hello"
+</pre>
+<p>滾動顯示英文字母。每個字母佔用一定的時間，可透過 duration 參數調整速度。</p>
+
+<div class="callout info">
+  <strong>注意：</strong>Micro:bit 的 LED 只有 5×5 個像素，所以大寫英文字母和數字是最清晰的選擇。小寫字母如 <code>i</code>、<code>l</code> 可能較難辨識。
+</div>
+
+<h2>3.3 顯示圖案</h2>
+
+<h3>show icon</h3>
+<p>內建 24 種圖案，可直接選用：</p>
+
+<table class="makecode-ref">
+<tr><th>圖案名稱</th><th>圖案名稱</th><th>圖案名稱</th></tr>
+<tr><td>Heart ❤️</td><td>Small Heart</td><td>Yes ✓</td></tr>
+<tr><td>No ✗</td><td>Happy 😊</td><td>Sad 😢</td></tr>
+<tr><td>Laugh</td><td>Surprised</td><td>Silly</td></tr>
+<tr><td>Peace ✌️</td><td>T-shirt 👕</td><td>Roller Skates</td></tr>
+<tr><td>House 🏠</td><td>Tree 🌲</td><td>Planet 🪐</td></tr>
+<tr><td>Space Invader</td><td>Stick Figure</td><td>Duck 🦆</td></tr>
+<tr><td>Giraffe</td><td>Ghost 👻</td><td>Skull 💀</td></tr>
+<tr><td>Slider ⚖️</td><td>Umbrella ☂️</td><td>Diamond 💎</td></tr>
+</table>
+
+<h3>show leds（自訂圖案）</h3>
+<p>點擊 LED 網格可自訂亮滅：</p>
+<pre class="block-code">
+show leds
+  . # . # .
+  # # # # #
+  # # # # #
+  # . . . #
+  . # # # .
+</pre>
+<p>上面的圖案是一個圓圈。在 MakeCode 中，你只需點擊 LED 格子即可切換亮/滅。</p>
+
+<h2>3.4 程式執行流程</h2>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>執行方式</th><th>說明</th></tr>
+<tr><td><code>on start</code></td><td>執行一次</td><td>程式啟動時立即執行，適合初始化變數</td></tr>
+<tr><td><code>forever</code></td><td>無限重複</td><td>執行完區塊後立即重頭開始</td></tr>
+</table>
+
+<div class="callout warn">
+  <strong>重要：</strong>若 <code>forever</code> 內沒有 <code>pause</code>，程式會佔用所有處理時間，可能導致按鈕事件無法被偵測。建議在迴圈中加入至少一個 <code>pause</code>。
+</div>
+
+<h2>3.5 範例：呼吸燈效果</h2>
+
+<pre class="block-code">
+forever
+  show icon Heart
+  pause 500
+  clear screen
+  pause 500
+</pre>
+
+<p><strong>JavaScript 對應程式碼：</strong></p>
+<pre class="code-block">
+forever(() =&gt; {
+  basic.showIcon(IconNames.Heart)
+  basic.pause(500)
+  basic.clearScreen()
+  basic.pause(500)
+})
+</pre>
+
+<h2>3.6 範例：倒數計時器</h2>
+
+<pre class="block-code">
+on start
+  show number 3
+  pause 1000
+  show number 2
+  pause 1000
+  show number 1
+  pause 1000
+  show icon Yes
+</pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_agCd0gPjUc5f" target="_blank" class="link-text">在 MakeCode 中開啟倒數計時器範例</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用 show number、show string、show icon 顯示內容</li>
+    <li>使用 show leds 自訂 LED 圖案</li>
+    <li>理解 on start 與 forever 的執行差異</li>
+    <li>在 forever 中使用 pause 控制節奏</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-02-blocks.html">← 單元 2：積木完全指南</a>
+  <span class="nav-current">單元 3</span>
+  <a href="unit-04-input.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

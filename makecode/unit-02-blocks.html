@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 2：積木完全指南 · MakeCode 完整教學</title>
+<meta name="description" content="積木分類、拖曳連接、展開收合、搜尋功能">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 2：積木完全指南</h1>
+  <p class="subtitle">積木分類、拖曳連接、展開收合、搜尋功能</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>2.1 積木分類總覽</h2>
+<p>MakeCode 的積木依照功能分為多個類別，每個類別以不同顏色區分：</p>
+
+<table class="makecode-ref">
+<tr><th>顏色</th><th>分類</th><th>主要功能</th></tr>
+<tr><td style="background:#4C95E8;color:#fff;padding:4px 8px;">🔵 藍色</td><td><strong>Basic</strong></td><td>顯示數字/文字、LED 控制、暫停、重複執行</td></tr>
+<tr><td style="background:#84459A;color:#fff;padding:4px 8px;">🟣 紫色</td><td><strong>Input</strong></td><td>按鈕、晃動、感測器輸入</td></tr>
+<tr><td style="background:#A0522D;color:#fff;padding:4px 8px;">🟤 棕色</td><td><strong>Music</strong></td><td>音符、節奏、旋律播放</td></tr>
+<tr><td style="background:#84459A;color:#fff;padding:4px 8px;">🟣 深紫</td><td><strong>LED</strong></td><td>個別 LED 點亮、亮度控制</td></tr>
+<tr><td style="background:#0F9D58;color:#fff;padding:4px 8px;">🟢 綠色</td><td><strong>Radio</strong></td><td>無線電收發訊息</td></tr>
+<tr><td style="background:#E8453C;color:#fff;padding:4px 8px;">🔴 紅色</td><td><strong>Game</strong></td><td>遊戲精靈、碰撞偵測、計分</td></tr>
+<tr><td style="background:#E8453C;color:#fff;padding:4px 8px;">🔴 橘紅</td><td><strong>Images</strong></td><td>建立與顯示自訂圖案</td></tr>
+<tr><td style="background:#4C95E8;color:#fff;padding:4px 8px;">🔵 深藍</td><td><strong>Pins</strong></td><td>硬體腳位、類比/數位訊號</td></tr>
+<tr><td style="background:#CF8A00;color:#fff;padding:4px 8px;">🟠 橘色</td><td><strong>Variables</strong></td><td>變數、運算式</td></tr>
+<tr><td style="background:#5C68A6;color:#fff;padding:4px 8px;">🔵 灰藍</td><td><strong>Loops</strong></td><td>重複、迴圈控制</td></tr>
+<tr><td style="background:#5C68A6;color:#fff;padding:4px 8px;">🔵 灰藍</td><td><strong>Logic</strong></td><td>條件判斷、布林運算</td></tr>
+<tr><td style="background:#CF8A00;color:#fff;padding:4px 8px;">🟠 深橘</td><td><strong>Functions</strong></td><td>自訂函式</td></tr>
+<tr><td style="background:#97C640;color:#fff;padding:4px 8px;">🟢 淺綠</td><td><strong>Arrays</strong></td><td>陣列操作</td></tr>
+</table>
+
+<h2>2.2 積木的結構</h2>
+<p>每個積木都有特定的形狀，代表它的用途：</p>
+
+<table class="makecode-ref">
+<tr><th>形狀</th><th>名稱</th><th>說明</th><th>範例</th></tr>
+<tr><td>方塊狀</td><td><strong>語句積木</strong></td><td>執行一個動作，可上下堆疊</td><td><code>show number</code>、<code>show icon</code></td></tr>
+<tr><td>圓角凹槽</td><td><strong>數值積木</strong></td><td>代表一個數值，放入語句積木的凹槽中</td><td><code>0</code>、<code>100</code></td></tr>
+<tr><td>六角形</td><td><strong>布林積木</strong></td><td>回傳 true 或 false，放入條件判斷中</td><td><code>button A is pressed</code></td></tr>
+<tr><td>有缺口的方塊</td><td><strong>容器積木</strong></td><td>可包裹其他積木（如迴圈、條件）</td><td><code>forever</code>、<code>if</code></td></tr>
+<tr><td>帶箭頭的方塊</td><td><strong>頂部積木</strong></td><td>放在最頂部，不會連接上方積木</td><td><code>on start</code>、<code>forever</code></td></tr>
+</table>
+
+<h2>2.3 拖曳與連接</h2>
+
+<h3>基本操作</h3>
+<ol class="step-list">
+  <li><strong>拖曳</strong>：從左側積木區按住積木，拖曳到工作區</li>
+  <li><strong>連接</strong>：將積木靠近另一個積木底部，出現高亮線條時放開</li>
+  <li><strong>斷開</strong>：拖曳已連接的積木離開，可將整串積木一起移動</li>
+  <li><strong>放入凹槽</strong>：將數值積木拖入語句積木的圓角凹槽</li>
+</ol>
+
+<h3>展開與收合</h3>
+<ul>
+  <li>點擊積木右下角的<strong>小三角形</strong>可展開或收合進階選項</li>
+  <li>例如 <code>show string</code> 展開後可設定滾動速度</li>
+</ul>
+
+<h2>2.4 搜尋積木</h2>
+<p>點擊積木區上方的<strong>🔍 搜尋列</strong>，輸入關鍵字即可快速找到積木：</p>
+
+<table class="makecode-ref">
+<tr><th>搜尋技巧</th><th>範例</th></tr>
+<tr><td>輸入積木名稱</td><td><code>show number</code>、<code>temperature</code></td></tr>
+<tr><td>輸入中文名稱</td><td><code>溫度</code>、<code>顯示數字</code></td></tr>
+<tr><td>輸入功能描述</td><td><code>button</code>、<code>LED</code></td></tr>
+</table>
+
+<h2>2.5 常用積木速查表</h2>
+
+<table class="makecode-ref">
+<tr><th>分類</th><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td>Basic</td><td><code>show number</code></td><td>value (number), duration (ms)</td><td>在 LED 上顯示數字</td></tr>
+<tr><td>Basic</td><td><code>show string</code></td><td>value (string), duration (ms)</td><td>滾動顯示文字</td></tr>
+<tr><td>Basic</td><td><code>show icon</code></td><td>icon (IconNames)</td><td>顯示內建圖案</td></tr>
+<tr><td>Basic</td><td><code>show leds</code></td><td>x (0-4), y (0-4), on (boolean)</td><td>自訂 5×5 LED 圖案</td></tr>
+<tr><td>Basic</td><td><code>forever</code></td><td>—</td><td>重複執行區塊內的積木</td></tr>
+<tr><td>Basic</td><td><code>pause</code></td><td>ms (number)</td><td>暫停指定毫秒數</td></tr>
+<tr><td>Input</td><td><code>on button pressed</code></td><td>button (A/B/Any)</td><td>按鈕事件處理</td></tr>
+<tr><td>Input</td><td><code>on shake</code></td><td>—</td><td>晃動事件處理</td></tr>
+<tr><td>Input</td><td><code>temperature</code></td><td>—</td><td>讀取溫度 (°C)</td></tr>
+<tr><td>Input</td><td><code>light level</code></td><td>—</td><td>讀取光線強度 (0-255)</td></tr>
+<tr><td>Music</td><td><code>play tone</code></td><td>frequency (Hz), duration (ms)</td><td>播放單一音符</td></tr>
+<tr><td>Music</td><td><code>music ring</code></td><td>—</td><td>播放音樂鈴聲</td></tr>
+</table>
+
+<div class="callout info">
+  <strong>小技巧：</strong>在積木上按<strong>右鍵</strong>可以選擇「刪除積木」、「展開全部」或「help」查看說明文件。
+</div>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org" target="_blank" class="link-text">在 MakeCode 中實際操作積木</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>辨識所有積木分類及其顏色</li>
+    <li>了解不同積木形狀的意義</li>
+    <li>熟練拖曳、連接、斷開積木</li>
+    <li>使用搜尋功能快速找到積木</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-01-interface.html">← 單元 1：介面與操作</a>
+  <span class="nav-current">單元 2</span>
+  <a href="unit-03-basic.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 14：自訂函式 · MakeCode 完整教學</title>
+<meta name="description" content="建立自訂函式、參數與回傳值、函式模組化、程式重用">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 14：自訂函式</h1>
+  <p class="subtitle">建立自訂函式、參數與回傳值、函式模組化、程式重用</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>14.1 為什麼需要函式</h2>
+<p><strong>函式（Function）</strong>是一段可以重複使用的程式碼區塊。當你發現自己在不同地方寫了相同的程式碼，就該把它提取成函式。</p>
+
+<table class="makecode-ref">
+<tr><th>好處</th><th>說明</th></tr>
+<tr><td><strong>重複使用</strong></td><td>同一段程式碼可以在不同地方呼叫</td></tr>
+<tr><td><strong>可讀性</strong></td><td>用有意義的函式名稱取代一大段程式碼</td></tr>
+<tr><td><strong>易於維護</strong></td><td>修改一次函式，所有呼叫處都會更新</td></tr>
+<tr><td><strong>除錯方便</strong></td><td>可以單獨測試每個函式</td></tr>
+</table>
+
+<h2>14.2 建立無參數函式</h2>
+<p>在 MakeCode 中，使用<strong>函式</strong>分類建立自訂函式：</p>
+
+<ol class="step-list">
+  <li>點擊<strong>函式</strong>分類</li>
+  <li>點擊「<strong>建立一個函式…</strong>」</li>
+  <li>輸入函式名稱（例如：<code>showHeart</code>）</li>
+  <li>點擊「確定」</li>
+</ol>
+
+<pre><code>// 自訂函式：顯示愛心
+function showHeart() {
+    basic.showIcon(IconNames.Heart)
+    basic.pause(500)
+    basic.clearScreen()
+}
+
+// 呼叫函式
+showHeart()
+showHeart()</code></pre>
+
+<h2>14.3 帶參數的函式</h2>
+<p><strong>參數</strong>讓函式可以接受不同的輸入值，增加靈活性：</p>
+
+<table class="makecode-ref">
+<tr><th>函式定義</th><th>說明</th><th>JavaScript</th></tr>
+<tr><td><code>function flash(count)</code></td><td>一個數字參數</td><td><code>function flash(count: number) { ... }</code></td></tr>
+<tr><td><code>function greet(name)</code></td><td>一個字串參數</td><td><code>function greet(name: string) { ... }</code></td></tr>
+</table>
+
+<pre><code>// 自訂函式：閃爍 N 次
+function flash(count: number) {
+    for (let i = 0; i &lt; count; i++) {
+        basic.showIcon(IconNames.Yes)
+        basic.pause(200)
+        basic.clearScreen()
+        basic.pause(200)
+    }
+}
+
+// 呼叫函式，傳入不同參數
+flash(3)
+flash(5)</code></pre>
+
+<h2>14.4 有回傳值的函式</h2>
+<p>函式可以用 <code>回傳</code> 把結果傳回來：</p>
+
+<pre><code>// 自訂函式：計算兩數相加
+function add(a: number, b: number) {
+    return a + b
+}
+
+// 使用回傳值
+let result = add(3, 5)
+basic.showNumber(result)  // 顯示 8</code></pre>
+
+<h3>進階範例：溫度等級判斷</h3>
+<pre><code>// 回傳溫度等級字串
+function tempLevel(t: number) {
+    if (t &lt; 20) {
+        return "COLD"
+    } else if (t &lt;= 30) {
+        return "OK"
+    } else {
+        return "HOT"
+    }
+}
+
+basic.forever(function () {
+    let level = tempLevel(input.temperature())
+    basic.showString(level)
+})</code></pre>
+
+<h2>14.5 函式模組化實戰</h2>
+<p>將程式拆分成多個函式，讓結構更清晰：</p>
+
+<pre><code>// 遊戲函式模組
+function initGame() {
+    score = 0
+    lives = 3
+    basic.showString("GO!")
+}
+
+function loseLife() {
+    lives -= 1
+    basic.showIcon(IconNames.No)
+    basic.pause(500)
+    if (lives &lt;= 0) {
+        gameOver()
+    }
+}
+
+function gameOver() {
+    basic.showString("GAME OVER")
+    basic.showNumber(score)
+}
+
+let score = 0
+let lives = 3
+
+input.onButtonPressed(Button.A, function () {
+    score += 10
+    basic.showNumber(score)
+})
+
+input.onButtonPressed(Button.B, function () {
+    loseLife()
+})
+
+initGame()</code></pre>
+
+<div class="callout info">
+  <strong>重點：</strong>好的函式名稱應該清楚描述它做什麼。例如 <code>showHeart</code> 比 <code>func1</code> 好得多。
+</div>
+
+<h2>14.6 實作練習：自訂顯示函式</h2>
+<ol class="step-list">
+  <li>建立函式 <code>showEmoji(type)</code>，根據參數顯示不同表情</li>
+  <li>建立函式 <code>blink(times, speed)</code>，閃爍指定次數和速度</li>
+  <li>建立函式 <code>scrollMessage(msg)</code>，滾動顯示訊息</li>
+  <li>組合這些函式製作一個互動小程式</li>
+</ol>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_7Aa0E8bKfMa2" target="_blank" class="link-text">在 MakeCode 中開啟範例專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>建立與呼叫自訂函式</li>
+    <li>為函式添加參數增加靈活性</li>
+    <li>使用回傳值取得函式執行結果</li>
+    <li>利用函式模組化讓程式結構更清晰</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-13-logic.html">← 單元 13：條件判斷</a>
+  <span class="nav-current">單元 14</span>
+  <a href="unit-15-strings-arrays.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

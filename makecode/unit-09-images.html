@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 9：Images 圖片 · MakeCode 完整教學</title>
+<meta name="description" content="create image、show image、scroll image">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 9：Images 圖片</h1>
+  <p class="subtitle">create image、show image、scroll image</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>9.1 Images 積木總覽</h2>
+<p>Images 分類提供對 5×5 LED 圖案的進階控制，可建立、操作和動態顯示自訂圖案。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>create image</code></td><td>leds (5×5 圖案)</td><td>建立一個 Image 物件</td></tr>
+<tr><td><code>create big image</code></td><td>leds (10×5 圖案)</td><td>建立一個 10×5 的大圖案</td></tr>
+<tr><td><code>show image</code></td><td>image, offset (x)</td><td>顯示圖案，可偏移 x 軸</td></tr>
+<tr><td><code>scroll image</code></td><td>image, offset, delay (ms)</td><td>滾動顯示大圖案</td></tr>
+<tr><td><code>image plot x y</code></td><td>x, y</td><td>點亮圖案中的指定像素</td></tr>
+<tr><td><code>image unplot x y</code></td><td>x, y</td><td>熄滅圖案中的指定像素</td></tr>
+<tr><td><code>image toggle x y</code></td><td>x, y</td><td>切換圖案中的指定像素</td></tr>
+<tr><td><code>image point x y</code></td><td>x, y</td><td>檢查圖案中的指定像素是否亮著</td></tr>
+<tr><td><code>image width</code></td><td>—</td><td>取得圖案寬度</td></tr>
+<tr><td><code>image height</code></td><td>—</td><td>取得圖案高度</td></tr>
+<tr><td><code>image invert</code></td><td>—</td><td>反轉圖案（亮→滅, 滅→亮）</td></tr>
+<tr><td><code>image copy from</code></td><td>otherImage</td><td>從另一個圖案複製像素</td></tr>
+</table>
+
+<h2>9.2 建立與顯示圖案</h2>
+
+<h3>create image</h3>
+<p>在 MakeCode 中，點擊圖案編輯器的 LED 格子即可建立圖案：</p>
+
+<pre class="block-code">
+let heart = create image
+  . # . # .
+  # # # # #
+  # # # # #
+  . # # # .
+  . . # . .
+
+show image heart
+</pre>
+
+<h3>JavaScript 對應</h3>
+<pre class="code-block">
+let heart = img`
+  . # . # .
+  # # # # #
+  # # # # #
+  . # # # .
+  . . # . .
+`
+basic.showImage(heart)
+</pre>
+
+<div class="callout info">
+  <strong>提示：</strong>在 JavaScript 中，<code>img</code> 後面的反引號（`）區域就是圖案編輯器，可以點擊修改。
+</div>
+
+<h2>9.3 偏移顯示</h2>
+<pre class="block-code">
+let pattern = create image
+  # . # . #
+  . # . # .
+  # . # . #
+  . # . # .
+  # . # . #
+
+show image pattern at x 0
+</pre>
+<p>透過 <code>at x</code> 參數可以水平偏移圖案，負數向左，正數向右。</p>
+
+<h2>9.4 滾動大圖案</h2>
+
+<h3>create big image（10×5）</h3>
+<pre class="block-code">
+let msg = create big image
+  # . . . # . # # # #
+  # # . # # . # . . #
+  # . # . # . # . . #
+  # . . . # . # # # #
+  # . . . # . # . . #
+
+scroll image msg with delay 200
+</pre>
+<p>10×5 的大圖案會從右到左自動滾動顯示，讓你可以在 5×5 的 LED 上顯示更寬的內容。</p>
+
+<h2>9.5 圖案像素操作</h2>
+
+<h3>plot 與 unplot</h3>
+<pre class="block-code">
+let face = create image
+  . . . . .
+  . # . # .
+  . . . . .
+  . . . . .
+  . . . . .
+
+face plot 0 2
+face plot 4 2
+</pre>
+<p>在圖案物件上操作像素，不會立即顯示到 LED 上，需搭配 <code>show image</code> 才會顯示。</p>
+
+<h3>反轉圖案</h3>
+<pre class="block-code">
+let heart = create image
+  . # . # .
+  # # # # #
+  # # # # #
+  . # # # .
+  . . # . .
+
+show image heart
+pause 500
+show image heart invert
+</pre>
+<p>反轉後，原本亮的像素熄滅，原本滅的像素亮起。</p>
+
+<h2>9.6 圖案動畫</h2>
+
+<h3>逐幀動畫</h3>
+<pre class="block-code">
+let frame1 = create image
+  . . . . .
+  . . # . .
+  . . . . .
+  . . . . .
+  . . . . .
+
+let frame2 = create image
+  . . . . .
+  . # # # .
+  . . . . .
+  . . . . .
+  . . . . .
+
+let frame3 = create image
+  # # # # #
+  # . # . #
+  # . . . #
+  # . # . #
+  # # # # #
+
+forever
+  show image frame1
+  pause 200
+  show image frame2
+  pause 200
+  show image frame3
+  pause 200
+</pre>
+
+<h3>旋轉動畫</h3>
+<pre class="block-code">
+let arrow = create image
+  . . # . .
+  . # # # .
+  . . # . .
+  . . # . .
+  . . # . .
+
+forever
+  show image arrow
+  pause 300
+  show image arrow rotate right by 90
+  pause 300
+  show image arrow rotate right by 180
+  pause 300
+  show image arrow rotate right by 270
+  pause 300
+</pre>
+
+<h2>9.7 圖案與 Game 結合</h2>
+
+<pre class="block-code">
+let playerSprite = create sprite at 2 4
+let playerImage = create image
+  . . # . .
+  . # # # .
+  . . # . .
+  . # # # .
+  # . . . #
+
+playerSprite set image to playerImage
+</pre>
+<p>為遊戲精靈設定自訂圖案，讓角色更具特色。</p>
+
+<h2>9.8 範例：跑馬燈文字</h2>
+
+<pre class="block-code">
+let hi = create big image
+  # . # . # . # . # .
+  . # . # . . # . # .
+  . # . # . . # . # .
+  . # . # . . # . # .
+  # . # . # . # # # #
+
+scroll image hi with delay 150
+</pre>
+
+<p>在 10×5 的大圖案中編寫「HI」，然後滾動顯示。</p>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org" target="_blank" class="link-text">在 MakeCode 中建立圖案專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用 create image 建立自訂圖案</li>
+    <li>使用 show image 顯示圖案</li>
+    <li>使用 create big image 建立大圖案</li>
+    <li>滾動顯示大圖案內容</li>
+    <li>操作圖案的個別像素</li>
+    <li>製作圖案動畫效果</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-08-game.html">← 單元 8：Game 遊戲引擎</a>
+  <span class="nav-current">單元 9</span>
+  <a href="unit-10-pins.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

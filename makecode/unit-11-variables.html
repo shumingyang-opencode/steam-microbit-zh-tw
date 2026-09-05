@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 11：變數與運算 · MakeCode 完整教學</title>
+<meta name="description" content="變數的建立與使用、數學運算、比較運算、邏輯運算">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 11：變數與運算</h1>
+  <p class="subtitle">變數的建立與使用、數學運算、比較運算、邏輯運算</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>11.1 什麼是變數</h2>
+<p><strong>變數</strong>就像一個「容器」，用來儲存程式執行過程中的資料。你可以把變數想像成一個貼了標籤的盒子，標籤是變數名稱，盒子裡裝的東西就是變數的值。</p>
+
+<table class="makecode-ref">
+<tr><th>概念</th><th>說明</th><th>範例</th></tr>
+<tr><td><strong>變數名稱</strong></td><td>用來識別變數的標籤</td><td><code>score</code>、<code>level</code>、<code>userName</code></td></tr>
+<tr><td><strong>變數值</strong></td><td>變數中儲存的資料</td><td><code>0</code>、<code>"hello"</code>、<code>true</code></td></tr>
+<tr><td><strong>變數類型</strong></td><td>資料的型別</td><td>數字、字串、布林值</td></tr>
+</table>
+
+<h2>11.2 建立與使用變數</h2>
+<p>在 MakeCode 中，使用<strong>變數</strong>分類中的積木來管理變數：</p>
+
+<h3>建立變數</h3>
+<ol class="step-list">
+  <li>點擊<strong>變數</strong>分類</li>
+  <li>點擊「<strong>建立一個變數…</strong>」</li>
+  <li>輸入變數名稱（例如：<code>score</code>）</li>
+  <li>點擊「確定」</li>
+</ol>
+
+<h3>變數積木一覽</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>積木/JavaScript</th></tr>
+<tr><td><code>設定 [變數] 為 [0]</code></td><td>建立或重設變數</td><td><code>let score = 0</code></td></tr>
+<tr><td><code>將 [變數] 改變 [1]</code></td><td>在原值上加減</td><td><code>score += 1</code></td></tr>
+<tr><td><code>[變數]</code></td><td>讀取變數的值</td><td><code>score</code></td></tr>
+</table>
+
+<div class="callout info">
+  <strong>重點：</strong>「設定」是把值放進盒子，「改變」是在原值上加減。例如先設定 score 為 0，再改變 10，score 就變成 10。
+</div>
+
+<h2>11.3 數學運算</h2>
+<p>MakeCode 提供完整的數學運算積木：</p>
+
+<table class="makecode-ref">
+<tr><th>運算</th><th>積木</th><th>JavaScript</th><th>範例結果</th></tr>
+<tr><td>加法</td><td><code>[0] + [0]</code></td><td><code>3 + 5</code></td><td>8</td></tr>
+<tr><td>減法</td><td><code>[0] - [0]</code></td><td><code>10 - 4</code></td><td>6</td></tr>
+<tr><td>乘法</td><td><code>[0] × [0]</code></td><td><code>6 * 7</code></td><td>42</td></tr>
+<tr><td>除法</td><td><code>[0] ÷ [0]</code></td><td><code>20 / 4</code></td><td>5</td></tr>
+<tr><td>餘數</td><td><code>[0] 餘數 [0]</code></td><td><code>10 % 3</code></td><td>1</td></tr>
+<tr><td>隨機數</td><td><code>隨機取 [0] 到 [10]</code></td><td><code>randint(0, 10)</code></td><td>0~10</td></tr>
+</table>
+
+<h3>程式範例：計分遊戲</h3>
+<pre><code>// 顯示隨機數字，按下 A 後判斷
+let answer = 0
+let guess = 0
+answer = randint(1, 9)
+basic.showString("" + answer)
+input.onButtonPressed(Button.A, function () {
+    guess = randint(1, 9)
+    basic.showString("" + guess)
+    if (guess === answer) {
+        basic.showIcon(IconNames.Yes)
+    } else {
+        basic.showIcon(IconNames.No)
+    }
+})</code></pre>
+
+<h2>11.4 比較運算</h2>
+<p>比較運算會回傳布林值（<code>true</code> 或 <code>false</code>）：</p>
+
+<table class="makecode-ref">
+<tr><th>運算</th><th>積木</th><th>JavaScript</th><th>範例</th></tr>
+<tr><td>等於</td><td><code>[0] = [0]</code></td><td><code>5 === 5</code></td><td>true</td></tr>
+<tr><td>不等於</td><td><code>[0] ≠ [0]</code></td><td><code>5 !== 3</code></td><td>true</td></tr>
+<tr><td>大於</td><td><code>[0] &gt; [0]</code></td><td><code>7 &gt; 3</code></td><td>true</td></tr>
+<tr><td>小於</td><td><code>[0] &lt; [0]</code></td><td><code>2 &lt; 8</code></td><td>true</td></tr>
+<tr><td>大於等於</td><td><code>[0] ≥ [0]</code></td><td><code>5 &gt;= 5</code></td><td>true</td></tr>
+<tr><td>小於等於</td><td><code>[0] ≤ [0]</code></td><td><code>3 &lt;= 7</code></td><td>true</td></tr>
+</table>
+
+<h2>11.5 實作練習：成績計算器</h2>
+<ol class="step-list">
+  <li>建立變數 <code>total</code>（總分）和 <code>count</code>（計數）</li>
+  <li>每按下 A，將隨機分數加入 total，count 加 1</li>
+  <li>按下 B，顯示平均分數（total ÷ count）</li>
+  <li>同時按下 A+B，重設所有變數</li>
+</ol>
+
+<pre><code>let total = 0
+let count = 0
+let avg = 0
+input.onButtonPressed(Button.A, function () {
+    let grade = randint(60, 100)
+    total += grade
+    count += 1
+    basic.showString("A")
+})
+input.onButtonPressed(Button.B, function () {
+    avg = total / count
+    basic.showNumber(avg)
+})
+input.onButtonPressed(Button.AB, function () {
+    total = 0
+    count = 0
+    basic.clearScreen()
+})</code></pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_5gfP7aehYdk2" target="_blank" class="link-text">在 MakeCode 中開啟範例專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>建立與使用變數儲存資料</li>
+    <li>使用數學運算積木進行加減乘除</li>
+    <li>使用比較運算判斷條件</li>
+    <li>結合變數與運算製作互動程式</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-10-sensors.html">← 單元 10：感測器入門</a>
+  <span class="nav-current">單元 11</span>
+  <a href="unit-12-loops.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

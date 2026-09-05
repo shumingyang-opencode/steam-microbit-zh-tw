@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 12：迴圈 · MakeCode 完整教學</title>
+<meta name="description" content="重複執行、for 迴圈、while 迴圈、無限迴圈、跳出迴圈">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 12：迴圈</h1>
+  <p class="subtitle">重複執行、for 迴圈、while 迴圈、無限迴圈、跳出迴圈</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>12.1 為什麼需要迴圈</h2>
+<p><strong>迴圈</strong>讓你可以重複執行同一段程式碼，避免不斷複製貼上相同的積木。例如要讓 LED 閃爍 10 次，不需要放 10 組「亮→暗→等待」積木，一個迴圈就能搞定。</p>
+
+<table class="makecode-ref">
+<tr><th>迴圈類型</th><th>適用場景</th><th>積木位置</th></tr>
+<tr><td><strong>重複無限次</strong></td><td>程式永遠執行的主迴圈</td><td>基本</td></tr>
+<tr><td><strong>重複 N 次</strong></td><td>已知要重複幾次</td><td>迴圈</td></tr>
+<tr><td><strong>重複 while</strong></td><td>滿足條件時持續執行</td><td>迴圈</td></tr>
+</table>
+
+<h2>12.2 無限迴圈</h2>
+<p><code>重複無限次</code>積木會讓裡面的程式永遠反覆執行：</p>
+
+<pre><code>// LED 左右來回掃描
+basic.forever(function () {
+    basic.showLeds(`
+        # . . . #
+        . # . # .
+        . . # . .
+        . # . # .
+        # . . . #
+    `)
+    basic.pause(500)
+    basic.showLeds(`
+        # . . . #
+        . # . # .
+        . . # . .
+        . # . # .
+        # . . . #
+    `)
+    basic.pause(500)
+})</code></pre>
+
+<div class="callout warn">
+  <strong>注意：</strong>MakeCode 中的「基本」分類裡已經有一個「重複無限次」積木，這是所有 MakeCode 專案的預設主迴圈。如果你把積木放在「重複無限次」外面，它只會執行一次。
+</div>
+
+<h2>12.3 固定次數迴圈</h2>
+<p>使用<strong>迴圈</strong>分類中的 <code>重複 4 次</code> 積木，指定確切的重複次數：</p>
+
+<pre><code>// 閃爍愛心 5 次
+for (let i = 0; i &lt; 5; i++) {
+    basic.showIcon(IconNames.Heart)
+    basic.pause(500)
+    basic.clearScreen()
+    basic.pause(500)
+}</code></pre>
+
+<h3>for 迴圈進階用法</h3>
+<pre><code>// 倒數計時器
+for (let i = 10; i &gt; 0; i--) {
+    basic.showNumber(i)
+    basic.pause(1000)
+}
+basic.showString("GO!")</code></pre>
+
+<table class="makecode-ref">
+<tr><th>迴圈變數</th><th>說明</th><th>範例</th></tr>
+<tr><td><code>i</code></td><td>從起始值跑到結束值</td><td><code>for (let i = 0; i &lt; 10; i++)</code></td></tr>
+<tr><td><code>i = 0</code></td><td>起始值</td><td>從 0 開始</td></tr>
+<tr><td><code>i &lt; 10</code></td><td>結束條件</td><td>到 9 為止（不包含 10）</td></tr>
+<tr><td><code>i++</code></td><td>每次加 1</td><td>0, 1, 2, ..., 9</td></tr>
+</table>
+
+<h2>12.4 while 迴圈</h2>
+<p><strong>while 迴圈</strong>會在條件為 true 時持續執行：</p>
+
+<pre><code>// 按 A 加分，按 B 顯示
+let score = 0
+input.onButtonPressed(Button.A, function () {
+    score += 1
+    basic.showNumber(score)
+})
+input.onButtonPressed(Button.B, function () {
+    while (score &gt; 0) {
+        basic.showIcon(IconNames.Yes)
+        basic.pause(300)
+        basic.showIcon(IconNames.No)
+        basic.pause(300)
+        score -= 1
+    }
+    basic.showString("DONE")
+})</code></pre>
+
+<div class="callout info">
+  <strong>重點：</strong>while 迴圈要注意避免「無限迴圈」——如果條件永遠為 true，程式會永遠跑下去。記得在迴圈內修改條件變數。
+</div>
+
+<h2>12.5 跳出迴圈與暫停</h2>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>JavaScript</th></tr>
+<tr><td><code>跳出迴圈</code></td><td>立即離開目前的迴圈</td><td><code>break</code></td></tr>
+<tr><td><code>繼續</code></td><td>跳過本次，直接進入下一次迴圈</td><td><code>continue</code></td></tr>
+<tr><td><code>暫停 (ms) [200]</code></td><td>暫停指定毫秒數</td><td><code>basic.pause(200)</code></td></tr>
+</table>
+
+<pre><code>// 找出第一個能被 7 整除的數
+for (let i = 1; i &lt; 100; i++) {
+    if (i % 7 === 0) {
+        basic.showNumber(i)
+        break  // 找到後跳出迴圈
+    }
+}</code></pre>
+
+<h2>12.6 實作練習：LED 動畫播放器</h2>
+<ol class="step-list">
+  <li>建立 3 個 5×5 的 LED 圖案</li>
+  <li>用 for 迴圈依序播放，形成動畫效果</li>
+  <li>按 A 重播，按 B 暫停</li>
+</ol>
+
+<pre><code>let frames = [
+    `
+        . # . # .
+        # . # . #
+        . # . # .
+        # . . . #
+        . # . # .
+    `,
+    `
+        # . # . #
+        . # . # .
+        # . # . #
+        . # . # .
+        # . . . #
+    `,
+    `
+        . # . # .
+        # . # . #
+        . # . # .
+        # . . . #
+        . # . # .
+    `
+]
+let playing = true
+basic.forever(function () {
+    if (playing) {
+        for (let i = 0; i &lt; frames.length; i++) {
+            basic.showLeds(frames[i])
+            basic.pause(300)
+        }
+    }
+})</code></pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_eJcLfJg7d5hJ" target="_blank" class="link-text">在 MakeCode 中開啟範例專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用無限迴圈讓程式持續執行</li>
+    <li>使用 for 迴圈執行固定次數的重複</li>
+    <li>使用 while 迴圈根據條件重複</li>
+    <li>使用 break 和 continue 控制迴圈流程</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-11-variables.html">← 單元 11：變數與運算</a>
+  <span class="nav-current">單元 12</span>
+  <a href="unit-13-logic.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

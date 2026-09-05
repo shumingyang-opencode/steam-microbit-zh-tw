@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 13：條件判斷 · MakeCode 完整教學</title>
+<meta name="description" content="if/else 判斷、巢狀判斷、邏輯運算、多條件組合">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 13：條件判斷</h1>
+  <p class="subtitle">if/else 判斷、巢狀判斷、邏輯運算、多條件組合</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>13.1 條件判斷的概念</h2>
+<p><strong>條件判斷</strong>讓程式根據不同情況執行不同的程式碼。就像日常生活中的「如果...就...否則...」邏輯：</p>
+<ul>
+  <li>如果下雨 → 帶傘</li>
+  <li>如果沒下雨 → 不帶傘</li>
+  <li>如果溫度超過 35 度 → 開冷氣</li>
+</ul>
+
+<h2>13.2 if 判斷</h2>
+<p>最基本的條件判斷：<code>如果...那麼</code></p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>JavaScript</th></tr>
+<tr><td><code>如果 &lt;條件&gt; 那麼</code></td><td>條件為 true 時執行</td><td><code>if (condition) { ... }</code></td></tr>
+</table>
+
+<pre><code>// 按 A 顯示愛心
+input.onButtonPressed(Button.A, function () {
+    basic.showIcon(IconNames.Heart)
+})
+
+// 如果按住 A+B，顯示笑臉
+input.onButtonPressed(Button.AB, function () {
+    basic.showIcon(IconNames.Happy)
+})</code></pre>
+
+<h2>13.3 if/else 判斷</h2>
+<p>增加<strong>否則</strong>分支，處理條件不成立的情況：</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>JavaScript</th></tr>
+<tr><td><code>如果 &lt;條件&gt; 那麼 ... 否則</code></td><td>二選一執行</td><td><code>if (cond) { ... } else { ... }</code></td></tr>
+</table>
+
+<pre><code>// 偶數顯示 O，奇數顯示 X
+input.onButtonPressed(Button.A, function () {
+    let num = randint(1, 100)
+    basic.showNumber(num)
+    basic.pause(1000)
+    if (num % 2 === 0) {
+        basic.showString("E")  // Even 偶數
+    } else {
+        basic.showString("O")  // Odd 奇數
+    }
+})</code></pre>
+
+<h2>13.4 巢狀判斷</h2>
+<p>在一個 if 裡面再放另一個 if，形成多層判斷：</p>
+
+<pre><code>// 成績評等
+input.onButtonPressed(Button.A, function () {
+    let score = randint(0, 100)
+    basic.showNumber(score)
+    basic.pause(2000)
+    if (score &gt;= 90) {
+        basic.showString("A")
+    } else {
+        if (score &gt;= 80) {
+            basic.showString("B")
+        } else {
+            if (score &gt;= 60) {
+                basic.showString("C")
+            } else {
+                basic.showString("F")
+            }
+        }
+    }
+})</code></pre>
+
+<div class="callout info">
+  <strong>重點：</strong>巢狀判斷不要嵌套太深（建議不超過 3 層），否則程式會難以閱讀和維護。
+</div>
+
+<h2>13.5 邏輯運算</h2>
+<p>使用邏輯運算符組合多個條件：</p>
+
+<table class="makecode-ref">
+<tr><th>運算</th><th>積木</th><th>JavaScript</th><th>說明</th></tr>
+<tr><td>且（AND）</td><td><code>&lt;條件A&gt; 且 &lt;條件B&gt;</code></td><td><code>&&</code></td><td>兩者都為 true 才是 true</td></tr>
+<tr><td>或（OR）</td><td><code>&lt;條件A&gt; 或 &lt;條件B&gt;</code></td><td><code>||</code></td><td>任一為 true 就是 true</td></tr>
+<tr><td>非（NOT）</td><td><code>非 &lt;條件&gt;</code></td><td><code>!</code></td><td>true 變 false，false 變 true</td></tr>
+</table>
+
+<pre><code>// 同時按下 A+B 時顯示星星
+input.onButtonPressed(Button.AB, function () {
+    basic.showIcon(IconNames.Star)
+})
+
+// 按 A 或 B 都顯示箭頭
+input.onButtonPressed(Button.A, function () {
+    basic.showArrow(ArrowNames.West)
+})
+input.onButtonPressed(Button.B, function () {
+    basic.showArrow(ArrowNames.East)
+})</code></pre>
+
+<h2>13.6 實作練習：智慧溫度計</h2>
+<ol class="step-list">
+  <li>使用溫度感測器讀取目前溫度</li>
+  <li>根據溫度顯示不同圖示：
+    <ul>
+      <li>低於 20°C：顯示雪花 ❄️</li>
+      <li>20~30°C：顯示笑臉 😊</li>
+      <li>超過 30°C：顯示火焰 🔥</li>
+    </ul>
+  </li>
+  <li>使用巢狀判斷完成三種溫度範圍</li>
+</ol>
+
+<pre><code>basic.forever(function () {
+    let temp = input.temperature()
+    if (temp &lt; 20) {
+        basic.showString("C")
+    } else {
+        if (temp &lt;= 30) {
+            basic.showIcon(IconNames.Happy)
+        } else {
+            basic.showString("H")
+        }
+    }
+})</code></pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_6gKfkhLhLgRa" target="_blank" class="link-text">在 MakeCode 中開啟範例專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用 if 判斷執行條件式程式碼</li>
+    <li>使用 if/else 處理兩種情況</li>
+    <li>使用巢狀判斷處理多種情況</li>
+    <li>使用 AND、OR、NOT 組合多個條件</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-12-loops.html">← 單元 12：迴圈</a>
+  <span class="nav-current">單元 13</span>
+  <a href="unit-14-functions.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

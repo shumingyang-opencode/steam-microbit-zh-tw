@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 10：Pins 硬體介面 · MakeCode 完整教學</title>
+<meta name="description" content="digital/analog read/write、servo、I2C">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 10：Pins 硬體介面</h1>
+  <p class="subtitle">digital/analog read/write、servo、I2C</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>10.1 Micro:bit 腳位概覽</h2>
+<p>Micro:bit 底部有三個大型接腳（0、1、2）和兩個小型接腳（3V、GND），可用來連接外部電子元件。</p>
+
+<table class="makecode-ref">
+<tr><th>接腳</th><th>功能</th><th>說明</th></tr>
+<tr><td><strong>P0</strong></td><td>通用 I/O</td><td>支援數位/類比讀寫、PWM</td></tr>
+<tr><td><strong>P1</strong></td><td>通用 I/O</td><td>支援數位/類比讀寫、PWM</td></tr>
+<tr><td><strong>P2</strong></td><td>通用 I/O</td><td>支援數位/類比讀寫、PWM</td></tr>
+<tr><td><strong>P3-P28</strong></td><td>擴充接腳</td><td>需透過 edge connector 存取</td></tr>
+<tr><td><strong>3V</strong></td><td>電源輸出</td><td>提供 3V 電源給外部元件</td></tr>
+<tr><td><strong>GND</strong></td><td>接地</td><td>共用接地線</td></tr>
+</table>
+
+<h2>10.2 數位讀寫</h2>
+
+<h3>數位寫入（Digital Write）</h3>
+<pre class="block-code">
+on start
+  pins digital write pin P0 to 1
+  pause 1000
+  pins digital write pin P0 to 0
+</pre>
+<p>將接腳設為 HIGH（1）或 LOW（0），用來控制 LED、繼電器等數位元件。</p>
+
+<h3>數位讀取（Digital Read）</h3>
+<pre class="block-code">
+forever
+  if pins digital read pin P0 == 1 then
+    show icon Yes
+  else
+    show icon No
+  pause 100
+</pre>
+<p>讀取接腳的狀態：1（HIGH）或 0（LOW），常用於讀取按鈕或開關。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>回傳</th><th>說明</th></tr>
+<tr><td><code>digital write pin</code></td><td>pin, value (0/1)</td><td>—</td><td>設定接腳為 HIGH 或 LOW</td></tr>
+<tr><td><code>digital read pin</code></td><td>pin</td><td>0 或 1</td><td>讀取接腳的數位狀態</td></tr>
+<tr><td><code>digital read pin (buffer)</code></td><td>pin</td><td>Buffer</td><td>讀取多個接腳的數位狀態</td></tr>
+</table>
+
+<h2>10.3 類比讀寫</h2>
+
+<h3>類比寫入（Analog Write / PWM）</h3>
+<pre class="block-code">
+on start
+  pins analog write pin P0 to 512
+  pause 1000
+  pins analog write pin P0 to 0
+</pre>
+<p>輸出 0~1023 的 PWM 訊號，用來控制 LED 亮度、馬達轉速等。</p>
+
+<h3>類比讀取（Analog Read）</h3>
+<pre class="block-code">
+forever
+  let value = pins analog read pin P0
+  show number value
+  pause 500
+</pre>
+<p>讀取接腳的類比電壓值，範圍 0~1023（對應 0~3.3V）。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>回傳</th><th>說明</th></tr>
+<tr><td><code>analog write pin</code></td><td>pin, value (0-1023)</td><td>—</td><td>輸出 PWM 訊號</td></tr>
+<tr><td><code>analog read pin</code></td><td>pin</td><td>0-1023</td><td>讀取類比電壓值</td></tr>
+<tr><td><code>analog set period pin</code></td><td>pin, microseconds</td><td>—</td><td>設定 PWM 週期</td></tr>
+</table>
+
+<h2>10.4 Servo 馬達控制</h2>
+
+<pre class="block-code">
+on button A pressed
+  pins servo write pin P0 to angle 0
+  pause 500
+  pins servo write pin P0 to angle 90
+  pause 500
+  pins servo write pin P0 to angle 180
+  pause 500
+  pins servo write pin P0 to angle 90
+</pre>
+<p>Servo（伺服馬達）可精確旋轉到指定角度（0~180°）。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>servo write pin</code></td><td>pin, angle (0-180)</td><td>設定 Servo 旋轉角度</td></tr>
+<tr><td><code>servo set pulse pin</code></td><td>pin, pulse (µs)</td><td>設定 Servo 脈衝寬度</td></tr>
+<tr><td><code>servo write pin (range)</code></td><td>pin, range</td><td>設定 Servo 角度範圍</td></tr>
+</table>
+
+<div class="callout info">
+  <strong>接線提醒：</strong>Servo 馬達有三條線：紅色接 5V（或 3V）、棕色接 GND、橘色接訊號腳（如 P0）。
+</div>
+
+<h2>10.5 I2C 通訊</h2>
+<p>I2C 是一種常用的序列通訊協定，可用來連接 OLED 螢幕、感測器模組等。</p>
+
+<h3>I2C 讀取</h3>
+<pre class="block-code">
+on start
+  let value = pins i2c read number 0x48 command 0 temperature format Int8LE
+  show number value
+</pre>
+
+<h3>I2C 寫入</h3>
+<pre class="block-code">
+on start
+  pins i2c write number 0x48 command 0 value 255
+</pre>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>i2c read number</code></td><td>address, command, format</td><td>從 I2C 裝置讀取數值</td></tr>
+<tr><td><code>i2c write number</code></td><td>address, command, value</td><td>向 I2C 裝置寫入數值</td></tr>
+<tr><td><code>i2c read buffer</code></td><td>address, size</td><td>從 I2C 裝置讀取緩衝區</td></tr>
+<tr><td><code>i2c write buffer</code></td><td>address, buffer</td><td>向 I2C 裝置寫入緩衝區</td></tr>
+</table>
+
+<h2>10.6 SPI 通訊</h2>
+<pre class="block-code">
+on start
+  pins.spi write 0
+  let value = pins.spi read
+</pre>
+<p>SPI 是另一種常用的高速序列通訊協定，適合需要較高資料傳輸率的應用。</p>
+
+<h2>10.7 電源管理</h2>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th></tr>
+<tr><td><code>pins set audio pin</code></td><td>設定音訊輸出接腳</td></tr>
+<tr><td><code>pins set power mode</code></td><td>設定省電模式</td></tr>
+<tr><td><code>pins voltage</code></td><td>讀取供電電壓</td></tr>
+</table>
+
+<h2>10.8 範例：外部 LED 控制</h2>
+
+<pre class="block-code">
+let brightness = 0
+on start
+  brightness = 0
+
+forever
+  pins analog write pin P0 to brightness * 10
+  brightness = (brightness + 1) % 101
+  pause 20
+</pre>
+<p>透過 PWM 控制外部 LED 亮度，實現呼吸燈效果。</p>
+
+<h2>10.9 範例：按鈕開關讀取</h2>
+
+<pre class="block-code">
+on start
+  pins set pull pin P0 to PullUp
+
+forever
+  if pins digital read pin P0 == 0 then
+    show icon Heart
+  else
+    clear screen
+  pause 100
+</pre>
+<p>使用內部 Pull-up 電阻，當外部按鈕按下時接腳變為 LOW。</p>
+
+<div class="callout warn">
+  <strong>安全提醒：</strong>
+  <ul>
+    <li>不要將超過 3V 的電壓接到 Micro:bit 接腳</li>
+    <li>連接馬達等高電流元件時，建議使用外部電源</li>
+    <li>接線前務必斷開電源</li>
+  </ul>
+</div>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org" target="_blank" class="link-text">在 MakeCode 中實驗硬體積木</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>辨識 Micro:bit 的各個接腳</li>
+    <li>使用數位讀寫控制開關元件</li>
+    <li>使用類比讀寫控制亮度和讀取感測器</li>
+    <li>控制 Servo 馬達旋轉角度</li>
+    <li>了解 I2C 和 SPI 通訊協定</li>
+    <li>安全地連接外部電子元件</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-09-images.html">← 單元 9：Images 圖片</a>
+  <span class="nav-current">單元 10</span>
+  <a href="unit-11-variables.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

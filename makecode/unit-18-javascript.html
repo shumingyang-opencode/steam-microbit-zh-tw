@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 18：積木→JavaScript · MakeCode 完整教學</title>
+<meta name="description" content="從積木到 JavaScript 的轉換、TypeScript 語法、文字編輯器功能">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 18：積木→JavaScript</h1>
+  <p class="subtitle">從積木到 JavaScript 的轉換、TypeScript 語法、文字編輯器功能</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>18.1 為什麼要學 JavaScript</h2>
+<p>MakeCode 使用 <strong>Static TypeScript</strong>（JavaScript 的超集）作為文字模式的語言。從積木轉到 JavaScript 可以：</p>
+
+<table class="makecode-ref">
+<tr><th>好處</th><th>說明</th></tr>
+<tr><td><strong>更靈活</strong></td><td>某些功能只有文字模式才能實現</td></tr>
+<tr><td><strong>更簡潔</strong></td><td>複雜邏輯用文字表達更清楚</td></tr>
+<tr><td><strong>更容易</strong></td><td>大量程式碼可以快速複製貼上</td></tr>
+<tr><td><strong>學習橋樑</strong></td><td>銜接到真正的 JavaScript/TypeScript 開發</td></tr>
+</table>
+
+<h2>18.2 切換到 JavaScript 模式</h2>
+<ol class="step-list">
+  <li>在 MakeCode 編輯器上方，找到「<strong>JavaScript</strong>」按鈕</li>
+  <li>點擊切換到 JavaScript 模式</li>
+  <li>你會看到目前的積木程式自動轉換為 JavaScript 程式碼</li>
+  <li>可以直接在文字編輯器中修改程式碼</li>
+</ol>
+
+<div class="callout info">
+  <strong>重點：</strong>MakeCode 支援<strong>雙向即時轉換</strong>——在積木模式下修改會立即反映在 JavaScript 中，反之亦然。但某些 JavaScript 寫法可能無法轉回積木。
+</div>
+
+<h2>18.3 積木↔JavaScript 對照表</h2>
+
+<h3>基本指令</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>JavaScript</th></tr>
+<tr><td><code>顯示圖示 [愛心]</code></td><td><code>basic.showIcon(IconNames.Heart)</code></td></tr>
+<tr><td><code>顯示字串 "Hello"</code></td><td><code>basic.showString("Hello")</code></td></tr>
+<tr><td><code>暫停 (ms) [1000]</code></td><td><code>basic.pause(1000)</code></td></tr>
+<tr><td><code>清除畫面</code></td><td><code>basic.clearScreen()</code></td></tr>
+</table>
+
+<h3>變數與運算</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>JavaScript</th></tr>
+<tr><td><code>設定 [x] 為 [0]</code></td><td><code>let x = 0</code></td></tr>
+<tr><td><code>將 [x] 改變 [1]</code></td><td><code>x += 1</code></td></tr>
+<tr><td><code>[x] = [5]</code></td><td><code>x === 5</code>（比較）</td></tr>
+<tr><td><code>[x] + [y]</code></td><td><code>x + y</code></td></tr>
+</table>
+
+<h3>控制結構</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>JavaScript</th></tr>
+<tr><td><code>重複 4 次</code></td><td><code>for (let i = 0; i &lt; 4; i++) { ... }</code></td></tr>
+<tr><td><code>重複無限次</code></td><td><code>basic.forever(function () { ... })</code></td></tr>
+<tr><td><code>如果 &lt;&gt; 那麼</code></td><td><code>if (condition) { ... }</code></td></tr>
+<tr><td><code>當 &lt;&gt; 時重複</code></td><td><code>while (condition) { ... }</code></td></tr>
+</table>
+
+<h3>函式</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>JavaScript</th></tr>
+<tr><td><code>function doSomething()</code></td><td><code>function doSomething() { ... }</code></td></tr>
+<tr><td><code>function add(a, b)</code></td><td><code>function add(a: number, b: number) { ... }</code></td></tr>
+<tr><td><code>回傳 [value]</code></td><td><code>return value</code></td></tr>
+</table>
+
+<h2>18.4 JavaScript 進階語法</h2>
+
+<h3>陣列操作</h3>
+<pre><code>// 陣列的 JavaScript 寫法
+let colors = ["red", "green", "blue"]
+
+// 迴圈遍歷
+for (let color of colors) {
+    basic.showString(color)
+}
+
+// 陣列方法
+colors.push("yellow")
+colors.pop()
+let index = colors.indexOf("green")</code></pre>
+
+<h3>物件</h3>
+<pre><code>// 簡單物件
+let player = {
+    name: "Player1",
+    score: 0,
+    level: 1
+}
+
+basic.showString(player.name)
+player.score += 10</code></pre>
+
+<h3>箭頭函式</h3>
+<pre><code>// 傳統寫法
+input.onButtonPressed(Button.A, function () {
+    basic.showIcon(IconNames.Heart)
+})
+
+// 箭頭函式（更簡潔）
+input.onButtonPressed(Button.A, () =&gt; {
+    basic.showIcon(IconNames.Heart)
+})</code></pre>
+
+<h2>18.5 常見 JavaScript 模式</h2>
+
+<h3>狀態機</h3>
+<pre><code>// 使用物件管理遊戲狀態
+let game = {
+    state: "menu",
+    score: 0,
+    lives: 3
+}
+
+input.onButtonPressed(Button.A, function () {
+    if (game.state === "menu") {
+        game.state = "playing"
+        basic.showString("GO!")
+    } else if (game.state === "playing") {
+        game.score += 10
+        basic.showNumber(game.score)
+    }
+})</code></pre>
+
+<h3>計時器</h3>
+<pre><code>// 簡易計時器
+let startTime = 0
+let elapsed = 0
+
+input.onButtonPressed(Button.A, function () {
+    startTime = input.runningTime()
+    basic.showString("START")
+})
+
+input.onButtonPressed(Button.B, function () {
+    elapsed = input.runningTime() - startTime
+    basic.showString("" + elapsed + "ms")
+})</code></pre>
+
+<h2>18.6 實作練習：積木轉 JavaScript</h2>
+<ol class="step-list">
+  <li>在積木模式下建立一個計分遊戲</li>
+  <li>切換到 JavaScript 模式觀察轉換結果</li>
+  <li>在 JavaScript 模式下修改程式碼</li>
+  <li>切換回積木模式，看看哪些修改可以轉回積木</li>
+</ol>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/blocks" target="_blank" class="link-text">MakeCode JavaScript 參考文件</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>在積木與 JavaScript 模式間切換</li>
+    <li>理解積木到 JavaScript 的對應關係</li>
+    <li>使用 JavaScript 語法撰寫更進階的程式</li>
+    <li>使用狀態機、計時器等常見模式</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-17-simulator.html">← 單元 17：模擬器進階</a>
+  <span class="nav-current">單元 18</span>
+  <a href="unit-19-python.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

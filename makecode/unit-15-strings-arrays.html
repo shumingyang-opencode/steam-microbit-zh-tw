@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 15：字串與陣列 · MakeCode 完整教學</title>
+<meta name="description" content="字串操作、字串串接、陣列建立與存取、陣列方法">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 15：字串與陣列</h1>
+  <p class="subtitle">字串操作、字串串接、陣列建立與存取、陣列方法</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>15.1 字串基礎</h2>
+<p><strong>字串（String）</strong>就是文字資料，用引號包起來。MakeCode 中的字串主要用於在 LED 顯示文字、組合訊息等。</p>
+
+<table class="makecode-ref">
+<tr><th>操作</th><th>積木</th><th>JavaScript</th><th>範例</th></tr>
+<tr><td>建立字串</td><td><code>"hello"</code></td><td><code>"hello"</code></td><td>固定文字</td></tr>
+<tr><td>串接字串</td><td><code>"[A]" + "[B]"</code></td><td><code>"Hello " + "World"</code></td><td>"Hello World"</td></tr>
+<tr><td>字串長度</td><td><code>"".length</code></td><td><code>"hello".length</code></td><td>5</td></tr>
+<tr><td>取子字串</td><td><code>"".slice(0, 3)</code></td><td><code>"hello".slice(0, 3)</code></td><td>"hel"</td></tr>
+</table>
+
+<h2>15.2 字串串接與顯示</h2>
+<p>使用 <code>+</code> 運算符組合字串與變數：</p>
+
+<pre><code>// 顯示倒數訊息
+let count = 10
+basic.forever(function () {
+    basic.showString("T-" + count)
+    count -= 1
+    if (count &lt; 0) {
+        basic.showString("GO!")
+        count = 10
+    }
+    basic.pause(1000)
+})</code></pre>
+
+<h3>格式化數字</h3>
+<pre><code>// 顯示溫度訊息
+basic.forever(function () {
+    let temp = input.temperature()
+    basic.showString("Temp:" + temp + "C")
+    basic.pause(2000)
+})</code></pre>
+
+<div class="callout info">
+  <strong>重點：</strong>在 MakeCode 的積木模式中，使用「顯示字串」積木搭配 <code>[A] + [B]</code> 積木來串接文字。自動轉換的 JavaScript 程式碼會使用 <code>+</code> 運算符。
+</div>
+
+<h2>15.3 陣列基礎</h2>
+<p><strong>陣列（Array）</strong>是一個有序的資料集合，可以儲存多個值。就像一排有編號的盒子。</p>
+
+<table class="makecode-ref">
+<tr><th>操作</th><th>積木</th><th>JavaScript</th></tr>
+<tr><td>建立陣列</td><td><code>陣列 [1, 2, 3]</code></td><td><code>let arr = [1, 2, 3]</code></td></tr>
+<tr><td>存取元素</td><td><code>[陣列] 的第 [0] 個</code></td><td><code>arr[0]</code></td></tr>
+<tr><td>陣列長度</td><td><code>[陣列] 的長度</code></td><td><code>arr.length</code></td></tr>
+<tr><td>加入元素</td><td><code>[陣列] 加入 [值]</code></td><td><code>arr.push(value)</code></td></tr>
+</table>
+
+<h2>15.4 陣列操作</h2>
+
+<h3>遍歷陣列</h3>
+<pre><code>// 顯示陣列中的每個元素
+let fruits = ["Apple", "Banana", "Cherry"]
+for (let i = 0; i &lt; fruits.length; i++) {
+    basic.showString(fruits[i])
+    basic.pause(1000)
+}</code></pre>
+
+<h3>搜尋陣列</h3>
+<pre><code>// 在陣列中搜尋特定值
+let numbers = [3, 7, 2, 9, 5]
+let target = 7
+let found = false
+for (let i = 0; i &lt; numbers.length; i++) {
+    if (numbers[i] === target) {
+        basic.showString("Found at " + i)
+        found = true
+        break
+    }
+}
+if (!found) {
+    basic.showString("Not found")
+}</code></pre>
+
+<h2>15.5 陣列進階方法</h2>
+
+<table class="makecode-ref">
+<tr><th>方法</th><th>說明</th><th>JavaScript</th></tr>
+<tr><td><code>push</code></td><td>在末尾加入元素</td><td><code>arr.push(4)</code></td></tr>
+<tr><td><code>pop</code></td><td>移除並回傳最後一個</td><td><code>arr.pop()</code></td></tr>
+<tr><td><code>shift</code></td><td>移除並回傳第一個</td><td><code>arr.shift()</code></td></tr>
+<tr><td><code>indexOf</code></td><td>搜尋元素位置</td><td><code>arr.indexOf(3)</code></td></tr>
+<tr><td><code>includes</code></td><td>檢查是否包含</td><td><code>arr.includes(5)</code></td></tr>
+</table>
+
+<h2>15.6 實作練習：隨機問答遊戲</h2>
+<ol class="step-list">
+  <li>建立題目陣列和答案陣列</li>
+  <li>隨機選一題顯示</li>
+  <li>按 A 表示「是」，按 B 表示「否」</li>
+  <li>判斷對錯並計分</li>
+</ol>
+
+<pre><code>let questions = [
+    "地球是圓的?",
+    "太陽從東方升起?",
+    "1+1=3?",
+    "水的沸點是100度?"
+]
+let answers = [true, true, false, true]
+let score = 0
+let qIndex = 0
+
+basic.showString(questions[qIndex])
+
+input.onButtonPressed(Button.A, function () {
+    if (answers[qIndex] === true) {
+        score += 1
+        basic.showIcon(IconNames.Yes)
+    } else {
+        basic.showIcon(IconNames.No)
+    }
+    nextQuestion()
+})
+
+input.onButtonPressed(Button.B, function () {
+    if (answers[qIndex] === false) {
+        score += 1
+        basic.showIcon(IconNames.Yes)
+    } else {
+        basic.showIcon(IconNames.No)
+    }
+    nextQuestion()
+})
+
+function nextQuestion() {
+    basic.pause(1000)
+    qIndex = (qIndex + 1) % questions.length
+    basic.showString(questions[qIndex])
+}</code></pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_Y5Bf5A3aVf0c" target="_blank" class="link-text">在 MakeCode 中開啟範例專案</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>建立與操作字串</li>
+    <li>使用字串串接組合訊息</li>
+    <li>建立與存取陣列元素</li>
+    <li>使用迴圈遍歷陣列</li>
+    <li>使用陣列方法管理資料</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-14-functions.html">← 單元 14：自訂函式</a>
+  <span class="nav-current">單元 15</span>
+  <a href="unit-16-extensions.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+/* makecode.css — MakeCode 完整教學專用樣式 */
+
+/* ---------- 積木參考表格 ---------- */
+.makecode-ref {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8rem 0;
+  font-size: 0.9rem;
+}
+.makecode-ref th {
+  background: #3b82f6;
+  color: #fff;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+  font-weight: 600;
+}
+.makecode-ref td {
+  border: 1px solid var(--line-strong);
+  padding: 0.5rem 0.7rem;
+  vertical-align: top;
+}
+.makecode-ref tr:nth-child(even) {
+  background: rgba(59, 130, 246, 0.04);
+}
+.makecode-ref code {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+/* ---------- 積木圖片容器 ---------- */
+.makecode-block-img {
+  margin: 1rem 0;
+  text-align: center;
+}
+.makecode-block-img img {
+  max-width: 100%;
+  border: 2px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.makecode-block-img .caption {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* ---------- MakeCode 積木描述 ---------- */
+.block-desc {
+  background: var(--surface);
+  border: 2px solid var(--line-strong);
+  border-left: 4px solid #3b82f6;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+}
+.block-desc .block-name {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 0.4rem;
+}
+.block-desc .block-category {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.block-desc .block-params {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  margin-bottom: 0.4rem;
+}
+.block-desc .block-params code {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.block-desc .block-desc-text {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+/* ---------- MakeCode 專案連結 ---------- */
+.makecode-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(59, 130, 246, 0.08);
+  border: 2px solid #3b82f6;
+  border-radius: 12px;
+  padding: 0.7rem 1.2rem;
+  margin: 0.6rem 0;
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 600;
+  transition: all 0.18s;
+}
+.makecode-link:hover {
+  background: #3b82f6;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+.makecode-link .link-icon {
+  font-size: 1.2rem;
+}
+.makecode-link .link-text {
+  font-size: 0.9rem;
+}
+
+/* ---------- 程式碼對照區塊 ---------- */
+.code-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 0.8rem 0;
+}
+.code-compare .code-block {
+  border: 2px solid var(--line-strong);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.code-compare .code-block .code-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  padding: 0.35rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  letter-spacing: 0.06em;
+}
+.code-compare .code-block pre {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #334155;
+}
+.code-compare .code-block .code-block-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e293b;
+  padding: 0.5rem 0.9rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+@media (max-width: 720px) {
+  .code-compare { grid-template-columns: 1fr; }
+}
+
+/* ---------- 步驟清單 ---------- */
+.step-list {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0;
+}
+.step-list li {
+  counter-increment: step;
+  position: relative;
+  padding: 0.6rem 0 0.6rem 2.8rem;
+  margin: 0.5rem 0;
+  border-left: 3px solid var(--blue);
+}
+.step-list li::before {
+  content: counter(step);
+  position: absolute;
+  left: -14px;
+  top: 0.5rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- 單元導覽（MakeCode 專區） ---------- */
+.makecode-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0 1rem;
+  padding: 0.8rem 0;
+  border-top: 2px dashed var(--line-strong);
+  border-bottom: 2px dashed var(--line-strong);
+}
+.makecode-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text-soft);
+  border: 2px solid var(--line-strong);
+  transition: all 0.18s;
+}
+.makecode-nav a:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: rgba(59, 130, 246, 0.06);
+}
+.makecode-nav .nav-current {
+  font-weight: 600;
+  color: #1e293b;
+}

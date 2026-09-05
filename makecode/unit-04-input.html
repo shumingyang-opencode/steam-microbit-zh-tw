@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 4：Input 積木 · MakeCode 完整教學</title>
+<meta name="description" content="按鈕、晃動、溫度、光線、加速度、陀螺儀">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 4：Input 積木</h1>
+  <p class="subtitle">按鈕、晃動、溫度、光線、加速度、陀螺儀</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>4.1 Input 積木總覽</h2>
+<p>Input 分類處理來自 Micro:bit 硬體的各種輸入訊號，包括按鈕、感測器和無線電。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>類型</th><th>回傳值</th><th>說明</th></tr>
+<tr><td><code>on button pressed</code></td><td>事件</td><td>—</td><td>按鈕 A/B/任意 被按下時觸發</td></tr>
+<tr><td><code>on shake</code></td><td>事件</td><td>—</td><td>晃動 Micro:bit 時觸發</td></tr>
+<tr><td><code>button A is pressed</code></td><td>布林</td><td>true/false</td><td>檢查按鈕是否被按住</td></tr>
+<tr><td><code>temperature (°C)</code></td><td>數值</td><td>0~50</td><td>讀取溫度感測器 (°C)</td></tr>
+<tr><td><code>light level</code></td><td>數值</td><td>0~255</td><td>讀取光線感測器強度</td></tr>
+<tr><td><code>acceleration (mg)</code></td><td>數值</td><td>-2048~2047</td><td>讀取加速度（各軸或總量）</td></tr>
+<tr><td><code>rotation (pitch/roll)</code></td><td>數值</td><td>-180~180</td><td>讀取旋轉角度</td></tr>
+<tr><td><code>compass heading</code></td><td>數值</td><td>0~359</td><td>讀取指南針方向 (度)</td></tr>
+<tr><td><code>sound level</code></td><td>數值</td><td>0~255</td><td>讀取環境音量</td></tr>
+<tr><td><code>pin A0 pressed</code></td><td>布林</td><td>true/false</td><td>檢查外部按鈕是否被按下</td></tr>
+</table>
+
+<h2>4.2 按鈕事件</h2>
+
+<h3>事件型：on button pressed</h3>
+<pre class="block-code">
+on button A pressed
+  show icon Happy
+</pre>
+<p>當按下按鈕 A 時，顯示笑臉。這是<strong>事件驅動</strong>的寫法——程式會在背景等待事件發生。</p>
+
+<h3>狀態型：button A is pressed</h3>
+<pre class="block-code">
+forever
+  if button A is pressed then
+    show icon Heart
+  else
+    clear screen
+</pre>
+<p>持續檢查按鈕 A 是否被按住（注意：是<strong>按住</strong>，不是<strong>點擊</strong>）。</p>
+
+<table class="makecode-ref">
+<tr><th>比較</th><th>on button pressed</th><th>button A is pressed</th></tr>
+<tr><td>觸發方式</td><td>按下瞬間觸發一次</td><td>按住期間持續回傳 true</td></tr>
+<tr><td>使用場景</td><td>按一下執行某個動作</td><td>按住期間持續某個行為</td></tr>
+<tr><td>放在哪裡</td><td>頂部，不需放在 forever 內</td><td>需放在 if 或 forever 內</td></tr>
+</table>
+
+<h2>4.3 晃動偵測</h2>
+
+<pre class="block-code">
+on shake
+  show icon Diamond
+  music ring
+</pre>
+<p>可偵測的晃動類型：</p>
+
+<table class="makecode-ref">
+<tr><th>晃動類型</th><th>說明</th></tr>
+<tr><td><code>shake</code></td><td>一般晃動</td></tr>
+<tr><td><code>logo up</code></td><td>Micro:bit 的 Logo 朝上</td></tr>
+<tr><td><code>logo down</code></td><td>Micro:bit 的 Logo 朝下</td></tr>
+<tr><td><code>screen up</code></td><td>LED 面朝上</td></tr>
+<tr><td><code>screen down</code></td><td>LED 面朝下</td></tr>
+<tr><td><code>tilt left</code></td><td>向左傾斜</td></tr>
+<tr><td><code>tilt right</code></td><td>向右傾斜</td></tr>
+<tr><td><code>freefall</code></td><td>自由落體</td></tr>
+<tr><td><code>3G</code>、<code>6G</code>、<code>8G</code></td><td>承受特定 G 力</td></tr>
+</table>
+
+<h2>4.4 環境感測器</h2>
+
+<h3>溫度感測器</h3>
+<pre class="block-code">
+forever
+  show number temperature (°C)
+  pause 2000
+</pre>
+<p>Micro:bit 內建溫度感測器，可讀取 0~50°C 的環境溫度。測量精度約 ±2°C。</p>
+
+<h3>光線感測器</h3>
+<pre class="block-code">
+forever
+  if light level > 128 then
+    show icon Sun
+  else
+    show icon Moon
+</pre>
+<p>利用 LED 反向作為光線感測器，數值範圍 0（暗）~ 255（亮）。</p>
+
+<h3>聲音感測器</h3>
+<pre class="block-code">
+forever
+  show bar graph of sound level
+  pause 100
+</pre>
+<p>利用內建麥克風測量環境音量（Micro:bit V2 支援）。</p>
+
+<h2>4.5 動作感測器</h2>
+
+<h3>加速度計</h3>
+<table class="makecode-ref">
+<tr><th>參數</th><th>說明</th><th>範例值</th></tr>
+<tr><td><code>x</code></td><td>左右方向加速度</td><td>左右晃動時變化</td></tr>
+<tr><td><code>y</code></td><td>前後方向加速度</td><td>前後傾斜時變化</td></tr>
+<tr><td><code>z</code></td><td>上下方向加速度</td><td>拿起/放下時變化</td></tr>
+<tr><td><code>strength</code></td><td>三軸合力</td><td>靜止時約 1023 mg</td></tr>
+</table>
+
+<pre class="block-code">
+forever
+  show number acceleration strength
+  pause 100
+</pre>
+
+<h3>陀螺儀（旋轉感測）</h3>
+<table class="makecode-ref">
+<tr><th>參數</th><th>說明</th></tr>
+<tr><td><code>pitch</code></td><td>前後傾斜角度（-180°~180°）</td></tr>
+<tr><td><code>roll</code></td><td>左右傾斜角度（-180°~180°）</td></tr>
+</table>
+
+<h2>4.6 範例：計步器</h2>
+
+<pre class="block-code">
+let steps = 0
+on start
+  steps = 0
+
+on shake
+  steps = steps + 1
+  show number steps
+</pre>
+
+<p><strong>JavaScript 對應程式碼：</strong></p>
+<pre class="code-block">
+let steps = 0
+steps = 0
+
+input.onGesture(Gesture.Shake, () =&gt; {
+  steps += 1
+  basic.showNumber(steps)
+})
+</pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_U5a7c0h3e488b" target="_blank" class="link-text">在 MakeCode 中開啟計步器範例</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用事件型與狀態型按鈕積木</li>
+    <li>偵測晃動與方向變化</li>
+    <li>讀取溫度、光線、聲音等環境感測器</li>
+    <li>使用加速度計與陀螺儀偵測動作</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-03-basic.html">← 單元 3：Basic 積木</a>
+  <span class="nav-current">單元 4</span>
+  <a href="unit-05-led.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 16：擴充套件 · MakeCode 完整教學</title>
+<meta name="description" content="擴充套件的安裝與使用、NeoPixel LED、 Servo、藍牙等常用套件">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 16：擴充套件</h1>
+  <p class="subtitle">擴充套件的安裝與使用、NeoPixel LED、Servo、藍牙等常用套件</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>16.1 什麼是擴充套件</h2>
+<p><strong>擴充套件（Extension）</strong>為 MakeCode 增加新的積木功能。除了內建的積木分類，你可以安裝第三方擴充來控制更多硬體設備或使用進階功能。</p>
+
+<table class="makecode-ref">
+<tr><th>套件類型</th><th>功能</th><th>適用場景</th></tr>
+<tr><td><strong>LED 燈帶</strong></td><td>控制 NeoPixel / WS2812 燈條</td><td>炫彩燈光專案</td></tr>
+<tr><td><strong>伺服馬達</strong></td><td>控制舵機角度</td><td>機器人、自動門</td></tr>
+<tr><td><strong>感測器</strong></td><td>超音波、紅外線等</td><td>避障小車、距離偵測</td></tr>
+<tr><td><strong>無線通訊</strong></td><td>藍牙、Radio</td><td>遙控器、多機通訊</td></tr>
+<tr><td><strong>顯示器</strong></td><td>OLED、LCD</td><td>顯示更多資訊</td></tr>
+</table>
+
+<h2>16.2 安裝擴充套件</h2>
+<ol class="step-list">
+  <li>在 MakeCode 編輯器中，點擊左側<strong>積木分類</strong>最下方的「<strong>+ 擴充</strong>」</li>
+  <li>在搜尋框中輸入套件名稱（例如：<code>neopixel</code>）</li>
+  <li>找到對應的擴充套件，點擊「<strong>安裝</strong>」</li>
+  <li>新分類會出現在積木列表中</li>
+</ol>
+
+<div class="callout warn">
+  <strong>注意：</strong>安裝擴充套件後，MakeCode 會自動將專案轉換為 TypeScript 模式。積木模式仍可使用，但某些進階功能可能需要切換到文字模式。
+</div>
+
+<h2>16.3 NeoPixel LED 燈帶</h2>
+<p>NeoPixel 是最流行的可程式控制 RGB LED：</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>使用方式</th></tr>
+<tr><td><code>neopixel.create()</code></td><td>建立燈帶物件</td><td>指定腳位和 LED 數量</td></tr>
+<tr><td><code>show color</code></td><td>顯示指定顏色</td><td>所有 LED 同色</td></tr>
+<tr><td><code>show rainbow</code></td><td>顯示彩虹效果</td><td>自動漸變</td></tr>
+<tr><td><code>set pixel color</code></td><td>設定單顆 LED</td><td>指定編號和顏色</td></tr>
+<tr><td><code>show</code></td><td>更新燈帶顯示</td><td>實際亮燈</td></tr>
+</table>
+
+<pre><code>// NeoPixel 燈帶控制
+let strip = neopixel.create(DigitalPin.P0, 12, NeoPixelMode.RGB)
+
+// 全部亮紅色
+strip.showColor(neopixel.colors(NeoPixelColors.Red))
+basic.pause(1000)
+
+// 彩虹效果
+strip.showRainbow(1, 360)
+basic.pause(1000)
+
+// 逐顆亮燈
+for (let i = 0; i &lt; 12; i++) {
+    strip.setPixelColor(i, neopixel.colors(NeoPixelColors.Blue))
+    strip.show()
+    basic.pause(100)
+}</code></pre>
+
+<h2>16.4 伺服馬達（Servo）</h2>
+<p>伺服馬達可以精確控制旋轉角度，常用於機器人關節：</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>說明</th><th>範圍</th></tr>
+<tr><td><code>servo write pin</code></td><td>設定角度</td><td>0~180 度</td></tr>
+<tr><td><code>servo set pulse</code></td><td>設定脈波寬度</td><td>500~2500 μs</td></tr>
+</table>
+
+<pre><code>// 掃描式伺服馬達
+let angle = 0
+let direction = 1
+basic.forever(function () {
+    pins.servoWritePin(AnalogPin.P1, angle)
+    angle += 5 * direction
+    if (angle &gt;= 180 || angle &lt;= 0) {
+        direction *= -1
+    }
+    basic.pause(100)
+})</code></pre>
+
+<h2>16.5 Radio 無線通訊</h2>
+<p>多個 Micro:bit 之間可以使用 Radio 進行通訊：</p>
+
+<pre><code>// 發送端
+radio.setGroup(1)
+input.onButtonPressed(Button.A, function () {
+    radio.sendString("Hello!")
+})
+
+// 接收端
+radio.onReceivedString(function (receivedString) {
+    basic.showString(receivedString)
+})</code></pre>
+
+<h2>16.6 實作練習：LED 跑馬燈</h2>
+<ol class="step-list">
+  <li>安裝 NeoPixel 擴充套件</li>
+  <li>建立 8 顆 LED 的燈帶</li>
+  <li>製作顏色循環動畫</li>
+  <li>按 A 切換不同動畫模式</li>
+</ol>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_extensions/neopixel" target="_blank" class="link-text">NeoPixel 擴充套件文件</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>了解擴充套件的概念與用途</li>
+    <li>安裝並使用第三方擴充套件</li>
+    <li>控制 NeoPixel LED 燈帶</li>
+    <li>使用伺服馬達控制角度</li>
+    <li>使用 Radio 進行多機通訊</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-15-strings-arrays.html">← 單元 15：字串與陣列</a>
+  <span class="nav-current">單元 16</span>
+  <a href="unit-17-simulator.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

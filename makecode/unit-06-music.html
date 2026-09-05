@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 6：Music 積木 · MakeCode 完整教學</title>
+<meta name="description" content="play tone、music ring、tempo、自訂旋律">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 6：Music 積木</h1>
+  <p class="subtitle">play tone、music ring、tempo、自訂旋律</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>6.1 Music 積木總覽</h2>
+<p>Music 分類讓 Micro:bit 透過內建蜂鳴器播放音樂和音效。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>play tone</code></td><td>frequency (Hz), duration (ms)</td><td>播放單一音符</td></tr>
+<tr><td><code>play melody</code></td><td>melody (string), tempo (bpm)</td><td>播放旋律字串</td></tr>
+<tr><td><code>music ring</code></td><td>—</td><td>播放內建鈴聲</td></tr>
+<tr><td><code>music play</code></td><td>—</td><td>播放已編排的音樂</td></tr>
+<tr><td><code>rest</code></td><td>duration (ms)</td><td>播放休止符（靜音）</td></tr>
+<tr><td><code>set tempo</code></td><td>tempo (bpm)</td><td>設定播放速度（每分鐘拍數）</td></tr>
+<tr><td><code>tempo</code></td><td>—</td><td>取得目前 tempo</td></tr>
+<tr><td><code>volume</code></td><td>value (0-255)</td><td>設定音量</td></tr>
+<tr><td><code>set volume</code></td><td>value (0-255)</td><td>設定音量（別名）</td></tr>
+<tr><td><code>on loud sound</code></td><td>—</td><td>偵測到大聲時觸發</td></tr>
+<tr><td><code>sound level</code></td><td>—</td><td>讀取目前音量</td></tr>
+</table>
+
+<h2>6.2 播放單一音符</h2>
+
+<h3>play tone</h3>
+<pre class="block-code">
+play tone Middle C for 1 beat
+</pre>
+<p>播放中央 C 音符。MakeCode 提供完整的音階選擇：</p>
+
+<table class="makecode-ref">
+<tr><th>音階</th><th>頻率</th><th>說明</th></tr>
+<tr><td><code>C4 (Middle C)</code></td><td>262 Hz</td><td>中央 C</td></tr>
+<tr><td><code>D4</code></td><td>294 Hz</td><td>Re</td></tr>
+<tr><td><code>E4</code></td><td>330 Hz</td><td>Mi</td></tr>
+<tr><td><code>F4</code></td><td>349 Hz</td><td>Fa</td></tr>
+<tr><td><code>G4</code></td><td>392 Hz</td><td>Sol</td></tr>
+<tr><td><code>A4</code></td><td>440 Hz</td><td>La</td></tr>
+<tr><td><code>B4</code></td><td>494 Hz</td><td>Si</td></tr>
+<tr><td><code>C5</code></td><td>523 Hz</td><td>高音 C</td></tr>
+</table>
+
+<p>可選擇的節拍長度：</p>
+<table class="makecode-ref">
+<tr><th>節拍</th><th>說明</th></tr>
+<tr><td><code>1 beat</code></td><td>一拍（約 0.5 秒）</td></tr>
+<tr><td><code>1/2 beat</code></td><td>半拍（約 0.25 秒）</td></tr>
+<tr><td><code>1/4 beat</code></td><td>四分之一拍（約 0.125 秒）</td></tr>
+<tr><td><code>2 beats</code></td><td>兩拍（約 1 秒）</td></tr>
+</table>
+
+<h3>自訂頻率</h3>
+<pre class="block-code">
+play tone 440 for 1 beat
+</pre>
+<p>你也可以直接輸入任意 Hz 頻率值。</p>
+
+<h2>6.3 播放旋律</h2>
+
+<h3>music ring</h3>
+<pre class="block-code">
+on start
+  music ring
+</pre>
+<p>播放內建的鈴聲旋律。</p>
+
+<h3>play melody（字串旋律）</h3>
+<p>使用字串編寫旋律，每個字元代表一個音符：</p>
+
+<table class="makecode-ref">
+<tr><th>字元</th><th>音符</th><th>字元</th><th>音符</th></tr>
+<tr><td><code>C</code></td><td>Do (C4)</td><td><code>c</code></td><td>高音 Do (C5)</td></tr>
+<tr><td><code>D</code></td><td>Re (D4)</td><td><code>d</code></td><td>高音 Re (D5)</td></tr>
+<tr><td><code>E</code></td><td>Mi (E4)</td><td><code>e</code></td><td>高音 Mi (E5)</td></tr>
+<tr><td><code>F</code></td><td>Fa (F4)</td><td><code>f</code></td><td>高音 Fa (F5)</td></tr>
+<tr><td><code>G</code></td><td>Sol (G4)</td><td><code>g</code></td><td>高音 Sol (G5)</td></tr>
+<tr><td><code>A</code></td><td>La (A4)</td><td><code>a</code></td><td>高音 La (A5)</td></tr>
+<tr><td><code>B</code></td><td>Si (B4)</td><td><code>b</code></td><td>高音 Si (B5)</td></tr>
+<tr><td><code>R</code></td><td>休止符</td><td><code>:</code></td><td>升高八度</td></tr>
+<tr><td><code>.</code></td><td>降低八度</td><td><code>-</code></td><td>延長音符</td></tr>
+</table>
+
+<pre class="block-code">
+play melody "C E G c G E C" for 1/2 beat
+</pre>
+
+<h2>6.4 節奏與速度</h2>
+
+<h3>set tempo</h3>
+<pre class="block-code">
+on start
+  set tempo to 120 bpm
+  play tone Middle C for 1 beat
+  play tone E4 for 1 beat
+  play tone G4 for 1 beat
+</pre>
+<p>BPM（Beats Per Minute）= 每分鐘拍數。120 bpm 表示每分鐘 120 拍，即每拍 0.5 秒。</p>
+
+<table class="makecode-ref">
+<tr><th>BPM</th><th>速度感</th><th>每拍時間</th></tr>
+<tr><td>60</td><td>慢速</td><td>1 秒</td></tr>
+<tr><td>120</td><td>中速</td><td>0.5 秒</td></tr>
+<tr><td>180</td><td>快速</td><td>0.33 秒</td></tr>
+<tr><td>240</td><td>極快</td><td>0.25 秒</td></tr>
+</table>
+
+<h2>6.5 音量控制</h2>
+<pre class="block-code">
+on start
+  volume 128
+  music ring
+</pre>
+<p>音量範圍 0（靜音）到 255（最大）。</p>
+
+<h2>6.6 範例：生日快樂歌</h2>
+
+<pre class="block-code">
+on start
+  play melody "C C D C F E" for 1/2 beat
+  pause 200
+  play melody "C C D C G F" for 1/2 beat
+  pause 200
+  play melody "C C c A F E D" for 1/2 beat
+  pause 200
+  play melody "Bb Bb A F G F" for 1/2 beat
+</pre>
+
+<h2>6.7 範例：按鈕演奏</h2>
+
+<pre class="block-code">
+on button A pressed
+  play tone Middle C for 1 beat
+
+on button B pressed
+  play tone E4 for 1 beat
+
+on button A+B pressed
+  play tone G4 for 1 beat
+</pre>
+
+<p><strong>JavaScript 對應程式碼：</strong></p>
+<pre class="code-block">
+input.onButtonPressed(Button.A, () =&gt; {
+  music.playTone(262, 1)
+})
+input.onButtonPressed(Button.B, () =&gt; {
+  music.playTone(330, 1)
+})
+input.onButtonPressed(Button.AB, () =&gt; {
+  music.playTone(392, 1)
+})
+</pre>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/_agCd0gPjUc5f" target="_blank" class="link-text">在 MakeCode 中試玩音樂積木</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用 play tone 播放單一音符</li>
+    <li>使用 play melody 播放自訂旋律</li>
+    <li>調整 tempo 控制播放速度</li>
+    <li>使用 volume 控制音量大小</li>
+    <li>結合按鈕事件製作互動音樂</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-05-led.html">← 單元 5：LED 積木</a>
+  <span class="nav-current">單元 6</span>
+  <a href="unit-07-radio.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

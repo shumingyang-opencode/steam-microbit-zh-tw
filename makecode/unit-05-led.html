@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 5：LED 積木 · MakeCode 完整教學</title>
+<meta name="description" content="plot/unplot/toggle/brightness、LED 圖案控制">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 5：LED 積木</h1>
+  <p class="subtitle">plot/unplot/toggle/brightness、LED 圖案控制</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>5.1 LED 積木總覽</h2>
+<p>LED 分類提供對 5×5 LED 矩陣的精細控制，可以單獨操控每顆 LED。</p>
+
+<table class="makecode-ref">
+<tr><th>積木</th><th>參數</th><th>說明</th></tr>
+<tr><td><code>plot x y</code></td><td>x (0-4), y (0-4)</td><td>點亮指定位置的 LED</td></tr>
+<tr><td><code>unplot x y</code></td><td>x (0-4), y (0-4)</td><td>熄滅指定位置的 LED</td></tr>
+<tr><td><code>toggle x y</code></td><td>x (0-4), y (0-4)</td><td>切換指定位置 LED 的亮滅狀態</td></tr>
+<tr><td><code>point x y</code></td><td>x (0-4), y (0-4)</td><td>檢查指定位置的 LED 是否亮著（回傳布林）</td></tr>
+<tr><td><code>brightness</code></td><td>value (0-255)</td><td>設定全域 LED 亮度（0=暗, 255=最亮）</td></tr>
+<tr><td><code>stop animation</code></td><td>—</td><td>停止正在進行的 LED 動畫</td></tr>
+<tr><td><code>set display mode</code></td><td>mode</td><td>設定顯示模式（亮度或 Greyscale）</td></tr>
+</table>
+
+<h2>5.2 基本操作：plot 與 unplot</h2>
+
+<h3>座標系統</h3>
+<p>Micro:bit 的 LED 陣列使用 5×5 座標系統：</p>
+<table class="makecode-ref">
+<tr><th></th><th>x=0</th><th>x=1</th><th>x=2</th><th>x=3</th><th>x=4</th></tr>
+<tr><td><strong>y=0</strong></td><td>(0,0)</td><td>(1,0)</td><td>(2,0)</td><td>(3,0)</td><td>(4,0)</td></tr>
+<tr><td><strong>y=1</strong></td><td>(0,1)</td><td>(1,1)</td><td>(2,1)</td><td>(3,1)</td><td>(4,1)</td></tr>
+<tr><td><strong>y=2</strong></td><td>(0,2)</td><td>(1,2)</td><td>(2,2)</td><td>(3,2)</td><td>(4,2)</td></tr>
+<tr><td><strong>y=3</strong></td><td>(0,3)</td><td>(1,3)</td><td>(2,3)</td><td>(3,3)</td><td>(4,3)</td></tr>
+<tr><td><strong>y=4</strong></td><td>(0,4)</td><td>(1,4)</td><td>(2,4)</td><td>(3,4)</td><td>(4,4)</td></tr>
+</table>
+
+<p>原點 <code>(0,0)</code> 在左上角，x 向右增加，y 向下增加。</p>
+
+<h3>plot 與 unplot 範例</h3>
+<pre class="block-code">
+on start
+  plot 0 0
+  plot 4 0
+  plot 2 2
+  plot 0 4
+  plot 4 4
+  pause 1000
+  unplot 0 0
+  unplot 4 0
+  unplot 2 2
+  unplot 0 4
+  unplot 4 4
+</pre>
+<p>這個範例會先點亮五個角落的 LED，1 秒後全部熄滅。</p>
+
+<h2>5.3 toggle 切換</h2>
+<pre class="block-code">
+on button A pressed
+  toggle 2 2
+</pre>
+<p>每次按下按鈕 A，中央 LED 會在亮/滅之間切換。這是一個非常好的互動範例。</p>
+
+<h2>5.4 檢查 LED 狀態</h2>
+<pre class="block-code">
+forever
+  if point 2 2 then
+    show icon Yes
+  else
+    show icon No
+  pause 500
+</pre>
+<p>使用 <code>point x y</code> 可以檢查特定位置的 LED 是否亮著，回傳 true 或 false。</p>
+
+<h2>5.5 亮度控制</h2>
+
+<h3>全域亮度設定</h3>
+<pre class="block-code">
+on start
+  brightness 128
+  show icon Heart
+</pre>
+<p>設定亮度為 128（約 50%），讓 LED 不會太刺眼。</p>
+
+<h3>呼吸燈效果</h3>
+<pre class="block-code">
+forever
+  for brightness from 0 to 255 by 10
+    brightness brightness
+    show icon Heart
+  for brightness from 255 to 0 by 10
+    brightness brightness
+    show icon Heart
+</pre>
+
+<p><strong>JavaScript 對應程式碼：</strong></p>
+<pre class="code-block">
+forever(() =&gt; {
+  for (let b = 0; b &lt;= 255; b += 10) {
+    led.setBrightness(b)
+    basic.showIcon(IconNames.Heart)
+  }
+  for (let b = 255; b &gt;= 0; b -= 10) {
+    led.setBrightness(b)
+    basic.showIcon(IconNames.Heart)
+  }
+})
+</pre>
+
+<h2>5.6 Greyscale 模式</h2>
+<p>預設模式只有亮/滅兩種狀態，但啟用 Greyscale 模式後，每顆 LED 可以有 256 級亮度：</p>
+
+<pre class="block-code">
+on start
+  set display mode Greyscale
+  brightness 255
+  show icon Heart
+</pre>
+
+<div class="callout info">
+  <strong>提示：</strong>Greyscale 模式需要更精細的 LED 控制，可能影響其他顯示積木的效果。建議在需要灰階效果時才啟用。
+</div>
+
+<h2>5.7 範例：LED 遊標移動</h2>
+
+<pre class="block-code">
+let cursorX = 2
+let cursorY = 2
+on start
+  plot cursorX cursorY
+
+on button A pressed
+  unplot cursorX cursorY
+  cursorX = (cursorX + 1) % 5
+  plot cursorX cursorY
+
+on button B pressed
+  unplot cursorX cursorY
+  cursorY = (cursorY + 1) % 5
+  plot cursorX cursorY
+</pre>
+
+<p>按 A 鍵向右移動游標，按 B 鍵向下移動游標，到邊界時自動繞回。</p>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org" target="_blank" class="link-text">在 MakeCode 中實驗 LED 控制積木</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>使用 plot/unplot/toggle 控制個別 LED</li>
+    <li>理解 5×5 座標系統</li>
+    <li>調整 LED 亮度</li>
+    <li>使用 point 檢查 LED 狀態</li>
+    <li>利用 LED 積木製作互動效果</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-04-input.html">← 單元 4：Input 積木</a>
+  <span class="nav-current">單元 5</span>
+  <a href="unit-06-music.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

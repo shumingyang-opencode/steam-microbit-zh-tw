@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 19：積木→Python · MakeCode 完整教學</title>
+<meta name="description" content="從積木到 Python 的轉換、MakeCode Python 語法、Python 模式功能">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 19：積木→Python</h1>
+  <p class="subtitle">從積木到 Python 的轉換、MakeCode Python 語法、Python 模式功能</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>19.1 為什麼要學 Python</h2>
+<p>Python 是全球最受歡迎的程式語言之一，MakeCode 支援直接在 Micro:bit 上使用 Python：</p>
+
+<table class="makecode-ref">
+<tr><th>Python 優勢</th><th>說明</th></tr>
+<tr><td><strong>語法簡潔</strong></td><td>縮排代替大括號，程式碼更易讀</td></tr>
+<tr><td><strong>學習資源多</strong></td><td>全世界最多的 Python 教學資源</td></tr>
+<tr><td><strong>廣泛應用</strong></td><td>從 Web 開發到 AI 都能使用</td></tr>
+<tr><td><strong>社群龐大</strong></td><td>遇到問題容易找到解答</td></tr>
+</table>
+
+<h2>19.2 切換到 Python 模式</h2>
+<ol class="step-list">
+  <li>在 MakeCode 編輯器上方，找到「<strong>Python</strong>」按鈕</li>
+  <li>點擊切換到 Python 模式</li>
+  <li>積木程式會自動轉換為 Python 程式碼</li>
+  <li>可以直接在文字編輯器中修改</li>
+</ol>
+
+<div class="callout info">
+  <strong>重點：</strong>MakeCode Python 是 Micro:bit Python 的子集。部分 Python 標準庫功能可能不支援，但所有 MakeCode 積木功能都能對應。
+</div>
+
+<h2>19.3 積木↔Python 對照表</h2>
+
+<h3>基本指令</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>Python</th></tr>
+<tr><td><code>顯示圖示 [愛心]</code></td><td><code>basic.show_icon(IconNames.HEART)</code></td></tr>
+<tr><td><code>顯示字串 "Hello"</code></td><td><code>basic.show_string("Hello")</code></td></tr>
+<tr><td><code>暫停 (ms) [1000]</code></td><td><code>basic.pause(1000)</code></td></tr>
+<tr><td><code>清除畫面</code></td><td><code>basic.clear_screen()</code></td></tr>
+</table>
+
+<h3>變數與運算</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>Python</th></tr>
+<tr><td><code>設定 [x] 為 [0]</code></td><td><code>x = 0</code></td></tr>
+<tr><td><code>將 [x] 改變 [1]</code></td><td><code>x += 1</code></td></tr>
+<tr><td><code>[x] + [y]</code></td><td><code>x + y</code></td></tr>
+<tr><td><code>[x] % [y]</code></td><td><code>x % y</code></td></tr>
+</table>
+
+<h3>控制結構</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>Python</th></tr>
+<tr><td><code>重複 4 次</code></td><td><code>for i in range(4):</code></td></tr>
+<tr><td><code>重複無限次</code></td><td><code>while True:</code></td></tr>
+<tr><td><code>如果 &lt;&gt; 那麼</code></td><td><code>if condition:</code></td></tr>
+<tr><td><code>否則如果</code></td><td><code>elif condition:</code></td></tr>
+<tr><td><code>否則</code></td><td><code>else:</code></td></tr>
+<tr><td><code>當 &lt;&gt; 時重複</code></td><td><code>while condition:</code></td></tr>
+</table>
+
+<h3>函式</h3>
+<table class="makecode-ref">
+<tr><th>積木</th><th>Python</th></tr>
+<tr><td><code>function greet()</code></td><td><code>def greet():</code></td></tr>
+<tr><td><code>function add(a, b)</code></td><td><code>def add(a, b):</code></td></tr>
+<tr><td><code>回傳 [value]</code></td><td><code>return value</code></td></tr>
+</table>
+
+<h2>19.4 Python 範例程式</h2>
+
+<h3>倒數計時器</h3>
+<pre><code># 倒數計時器
+for i in range(10, 0, -1):
+    basic.show_number(i)
+    basic.pause(1000)
+basic.show_string("GO!")</code></pre>
+
+<h3>溫度顯示器</h3>
+<pre><code># 即時顯示溫度
+while True:
+    temp = input.temperature()
+    if temp > 30:
+        basic.show_string("HOT")
+    elif temp < 10:
+        basic.show_string("COLD")
+    else:
+        basic.show_icon(IconNames.HAPPY)
+    basic.pause(2000)</code></pre>
+
+<h3>計分遊戲</h3>
+<pre><code># 簡單計分遊戲
+score = 0
+target = randint(1, 9)
+
+def check_answer(guess):
+    global score, target
+    if guess == target:
+        score += 10
+        basic.show_icon(IconNames.YES)
+    else:
+        basic.show_icon(IconNames.NO)
+    basic.pause(500)
+
+def on_button_a():
+    check_answer(randint(1, 9))
+
+input.on_button_pressed(Button.A, on_button_a)
+
+def on_button_b():
+    basic.show_number(score)
+
+input.on_button_pressed(Button.B, on_button_b)
+
+basic.show_string("A=Play B=Score")</code></pre>
+
+<h2>19.5 Python 進階功能</h2>
+
+<h3>列表操作</h3>
+<pre><code># 陣列（列表）操作
+fruits = ["apple", "banana", "cherry"]
+
+# 迴圈遍歷
+for fruit in fruits:
+    basic.show_string(fruit)
+
+# 加入元素
+fruits.append("date")
+
+# 搜尋
+if "banana" in fruits:
+    basic.show_string("Found!")</code></pre>
+
+<h3>字典</h3>
+<pre><code># 使用字典管理資料
+scores = {
+    "Alice": 95,
+    "Bob": 87,
+    "Charlie": 92
+}
+
+basic.show_string(scores["Alice"])</code></pre>
+
+<h2>19.6 MakeCode Python vs 純 Python</h2>
+
+<table class="makecode-ref">
+<tr><th>特性</th><th>MakeCode Python</th><th>純 Python</th></tr>
+<tr><td>執行環境</td><td>MakeCode 編輯器 / Micro:bit</td><td>電腦 / 伺服器</td></tr>
+<tr><td>標準庫</td><td>僅 MakeCode API</td><td>完整標準庫</td></tr>
+<tr><td>套件管理</td><td>不支援 pip</td><td>支援 pip</td></tr>
+<tr><td>檔案操作</td><td>不支援</td><td>完整支援</td></tr>
+<tr><td>網路功能</td><td>僅 Bluetooth/Radio</td><td>完整 HTTP/TCP</td></tr>
+</table>
+
+<div class="callout warn">
+  <strong>注意：</strong>MakeCode Python 程式碼不完全等於標準 Python。例如 <code>basic.show_icon()</code> 是 MakeCode 專有 API，無法在一般 Python 環境中執行。
+</div>
+
+<h2>19.7 實作練習：積木轉 Python</h2>
+<ol class="step-list">
+  <li>在積木模式下建立一個感測器讀取程式</li>
+  <li>切換到 Python 模式觀察轉換結果</li>
+  <li>在 Python 模式下使用 <code>while True:</code> 改寫</li>
+  <li>嘗試使用列表儲存感測器歷史數據</li>
+</ol>
+
+<div class="makecode-link">
+  <span class="link-icon">🔗</span>
+  <a href="https://makecode.microbit.org/python" target="_blank" class="link-text">MakeCode Python 參考文件</a>
+</div>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>在積木與 Python 模式間切換</li>
+    <li>理解積木到 Python 的對應關係</li>
+    <li>使用 Python 語法撰寫程式</li>
+    <li>了解 MakeCode Python 與純 Python 的差異</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-18-javascript.html">← 單元 18：積木→JavaScript</a>
+  <span class="nav-current">單元 19</span>
+  <a href="unit-20-projects.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>

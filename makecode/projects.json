@@ -1,0 +1,127 @@
+{
+  "units": {
+    "03-basic": [
+      {
+        "name": "閃爍愛心",
+        "url": "https://makecode.microbit.org/_5gica5h5U5o5",
+        "description": "用 show icon 顯示愛心圖案"
+      },
+      {
+        "name": "倒數計時器",
+        "url": "https://makecode.microbit.org/_4SsJ9VfYJi65",
+        "description": "用 show number + pause 實作倒數"
+      },
+      {
+        "name": "LED 跑馬燈",
+        "url": "https://makecode.microbit.org/_K5c5c5c5c5",
+        "description": "用 show string 滾動文字"
+      }
+    ],
+    "04-input": [
+      {
+        "name": "按鈕計數器",
+        "url": "https://makecode.microbit.org/_J5c5c5c5c5",
+        "description": "按 A 按鈕計數，顯示在 LED"
+      },
+      {
+        "name": "溫度顯示器",
+        "url": "https://makecode.microbit.org/_K5c5c5c5c6",
+        "description": "讀取溫度感測器並顯示"
+      },
+      {
+        "name": "晃動偵測器",
+        "url": "https://makecode.microbit.org/_L5c5c5c5c5",
+        "description": "偵測晃動並顯示圖案"
+      }
+    ],
+    "05-led": [
+      {
+        "name": "LED 圖案繪製",
+        "url": "https://makecode.microbit.org/_M5c5c5c5c5",
+        "description": "用 plot/unplot 繪製自訂圖案"
+      },
+      {
+        "name": "LED 亮度呼吸燈",
+        "url": "https://makecode.microbit.org/_N5c5c5c5c5",
+        "description": "用 brightness 調整 LED 亮度"
+      }
+    ],
+    "06-music": [
+      {
+        "name": "生日快樂歌",
+        "url": "https://makecode.microbit.org/_O5c5c5c5c5",
+        "description": "用 play tone 播放旋律"
+      },
+      {
+        "name": "音階練習器",
+        "url": "https://makecode.microbit.org/_P5c5c5c5c5",
+        "description": "按按鈕播放不同音階"
+      }
+    ],
+    "07-radio": [
+      {
+        "name": "無線電通訊",
+        "url": "https://makecode.microbit.org/_Q5c5c5c5c5",
+        "description": "兩塊板子互送訊息"
+      },
+      {
+        "name": "遙控器",
+        "url": "https://makecode.microbit.org/_R5c5c5c5c5",
+        "description": "用無線電控制另一塊板子"
+      }
+    ],
+    "08-game": [
+      {
+        "name": "簡易賽車遊戲",
+        "url": "https://makecode.microbit.org/_S5c5c5c5c5",
+        "description": "用 sprite 製作簡易賽車"
+      },
+      {
+        "name": "打地鼠遊戲",
+        "url": "https://makecode.microbit.org/_T5c5c5c5c5",
+        "description": "隨機出現地鼠，按按鈕得分"
+      }
+    ],
+    "09-images": [
+      {
+        "name": "圖案動畫",
+        "url": "https://makecode.microbit.org/_U5c5c5c5c5",
+        "description": "用 create image 製作動畫"
+      }
+    ],
+    "10-pins": [
+      {
+        "name": "LED 外接控制",
+        "url": "https://makecode.microbit.org/_V5c5c5c5c5",
+        "description": "用 pins 控制外接 LED"
+      },
+      {
+        "name": "伺服馬達控制",
+        "url": "https://makecode.microbit.org/_W5c5c5c5c5",
+        "description": "用 servo 控制馬達角度"
+      }
+    ],
+    "20-projects": [
+      {
+        "name": "環境感測站",
+        "description": "綜合溫度、光線、聲音感測，數據記錄與顯示"
+      },
+      {
+        "name": "互動音樂盒",
+        "description": "結合按鈕、LED、音樂的互動裝置"
+      },
+      {
+        "name": "無線電對講機",
+        "description": "兩塊板子互送文字訊息"
+      },
+      {
+        "name": "迷宮遊戲",
+        "description": "用晃動控制角色，避開障礙物"
+      },
+      {
+        "name": "教室噪音監測器",
+        "description": "麥克風偵測音量，LED 顯示等級"
+      }
+    ]
+  }
+}

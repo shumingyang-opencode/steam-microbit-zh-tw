@@ -6,7 +6,7 @@
 - 🎨 **兒童友善設計**：淺色明亮色調，適合 6-9 歲閱讀
 - 🔤 **自動注音**：所有中文自動帶注音符號（ㄅㄆㄇㄈ），邊看注音邊學
 - 🔊 **語音朗讀**：點擊右下角 🔊 按鈕，支援中英文自動切換朗讀
-- 📚 **20 深度單元**：從基礎到進階，每單元含 Worked Example 與練習
+- 📚 **40+ 深度單元**：20 單元 STEAM 教學 + 20 單元 MakeCode 完整教學
 
 - 目標讀者：STEAM 教師、課程設計者、家長、自學者
 - 單元數：20 深度單元（L0 → L5）
@@ -51,9 +51,16 @@ steam-microbit-zh-tw/
 ├── hardware.html         # 🔌 硬體速查（感測器/擴充/接腳/周邊）
 ├── projects.html         # 🛠️ 專案速查（20+ 動手專案一覽）
 ├── about.html            # 關於本站
-├── docs/                 # 單元教學頁
+├── docs/                 # STEAM 單元教學頁
 │   ├── index.html        # 單元一覽
 │   └── unit-01.html … unit-20.html
+├── makecode/             # 🧩 MakeCode 完整教學
+│   ├── index.html        # MakeCode 教學總覽
+│   ├── unit-01.html … unit-20.html  # 20 單元
+│   ├── projects.json     # MakeCode 專案 URL 對照表
+│   └── assets/
+│       ├── makecode.css  # MakeCode 專區樣式
+│       └── screenshots/  # 積木截圖
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -65,7 +72,38 @@ steam-microbit-zh-tw/
 
 ---
 
-## 單元列表（20 單元）
+## MakeCode 完整教學（20 單元）
+
+獨立的 MakeCode 程式教學系列，從介面操作到積木程式、從基礎到進階。
+
+| Lv | 單元 | 內容 |
+|----|------|------|
+| L1 | 1 | 介面與操作：編輯器導覽、專案管理、下載燒錄 |
+| L1 | 2 | 積木完全指南：積木分類、拖曳連接、搜尋 |
+| L1 | 3 | Basic 積木：show number/string/icon/LED、forever |
+| L1 | 4 | Input 積木：按鈕、晃動、溫度、光線、加速度 |
+| L1 | 5 | LED 積木：plot/unplot/toggle/brightness |
+| L2 | 6 | Music 積木：play tone、music ring、tempo |
+| L2 | 7 | Radio 無線電：send/receive、群組、多板通訊 |
+| L2 | 8 | Game 遊戲引擎：sprite、碰撞、得分、生命 |
+| L2 | 9 | Images 圖片：create image、show image |
+| L2 | 10 | Pins 硬體介面：digital/analog read/write、servo |
+| L3 | 11 | 變數與運算：let/set、數學運算、比較 |
+| L3 | 12 | 迴圈：repeat、while、for、for-of |
+| L3 | 13 | 條件判斷：if/else、布林邏輯、switch |
+| L3 | 14 | 自訂函式：function、參數、回傳值 |
+| L3 | 15 | 字串與陣列：split/join、indexOf、push/pop |
+| L4 | 16 | 擴充套件：Neopixel、OLED、280+ 擴充 |
+| L4 | 17 | 模擬器進階：除錯、變數監看、虛擬感測器 |
+| L4 | 18 | 積木→JavaScript：雙向轉換、Static TypeScript |
+| L4 | 19 | 積木→Python：MakeCode Python、與 MicroPython 差異 |
+| L4 | 20 | 專案實戰：5 個完整專案（附 MakeCode 專案連結） |
+
+**入口**：[MakeCode 完整教學](https://shumingyang-opencode.github.io/steam-microbit-zh-tw/makecode/index.html)
+
+---
+
+## 單元列表（STEAM 20 單元）
 
 | Lv | 單元 | 內容 | STEAM |
 |----|------|------|-------|

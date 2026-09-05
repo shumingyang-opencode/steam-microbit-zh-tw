@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>單元 17：模擬器進階 · MakeCode 完整教學</title>
+<meta name="description" content="模擬器的進階功能、虛擬感測器、除錯技巧、效能分析">
+<link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="stylesheet" href="assets/makecode.css">
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>單元 17：模擬器進階</h1>
+  <p class="subtitle">模擬器的進階功能、虛擬感測器、除錯技巧、效能分析</p>
+</header>
+<nav class="topnav">
+  <a href="../index.html">回首頁</a>
+  <a href="index.html">MakeCode 總覽</a>
+  <a href="../docs/index.html">STEAM 教學</a>
+</nav>
+<div class="back-link"><a href="index.html">← MakeCode 總覽</a></div>
+
+<div class="guide">
+
+<h2>17.1 模擬器基本操作回顧</h2>
+<p>在單元 1 中我們已經認識了模擬器的基本功能。這個單元我們要深入探討進階用法：</p>
+
+<table class="makecode-ref">
+<tr><th>功能</th><th>操作方式</th><th>說明</th></tr>
+<tr><td>自動執行</td><td>積木改動後自動重跑</td><td>即時看到結果</td></tr>
+<tr><td>暫停/繼續</td><td>點擊暫停按鈕</td><td>觀察程式狀態</td></tr>
+<tr><td>重啟</td><td>點擊重啟按鈕</td><td>從頭執行</td></tr>
+<tr><td>按鈕互動</td><td>點擊模擬器上的 A/B 按鈕</td><td>測試按鈕事件</td></tr>
+<tr><td>晃動模擬</td><td>點擊晃動圖示</td><td>觸發晃動事件</td></tr>
+</table>
+
+<h2>17.2 虛擬感測器</h2>
+<p>模擬器提供多種虛擬感測器，即使沒有實體硬體也能測試：</p>
+
+<table class="makecode-ref">
+<tr><th>感測器</th><th>模擬方式</th><th>對應積木</th></tr>
+<tr><td><strong>溫度</strong></td><td>拖曳溫度計</td><td><code>input.temperature()</code></td></tr>
+<tr><td><strong>光線</strong></td><td>拖曳光線計</td><td><code>input.lightLevel()</code></td></tr>
+<tr><td><strong>聲音</strong></td><td>調整音量滑桿</td><td><code>input.soundLevel()</code></td></tr>
+<tr><td><strong>磁力</strong></td><td>拖曳磁力計</td><td><code>input.magneticField()</code></td></tr>
+<tr><td><strong>加速度</strong></td><td>點擊晃動按鈕</td><td><code>input.acceleration()</code></td></tr>
+<tr><td><strong>指南針</strong></td><td>拖曳指南針</td><td><code>input.compassHeading()</code></td></tr>
+</table>
+
+<pre><code>// 模擬溫度警報
+basic.forever(function () {
+    let temp = input.temperature()
+    if (temp &gt; 30) {
+        basic.showString("HOT!")
+        music.playTone(262, 200)
+    } else if (temp &lt; 10) {
+        basic.showString("COLD!")
+        music.playTone(523, 200)
+    } else {
+        basic.showIcon(IconNames.Happy)
+    }
+    basic.pause(1000)
+})</code></pre>
+
+<h2>17.3 使用 Console 除錯</h2>
+<p>MakeCode 的 <strong>Console（控制台）</strong>是重要的除錯工具：</p>
+
+<ol class="step-list">
+  <li>點擊模擬器下方的「<strong>Show Console</strong>」按鈕</li>
+  <li>在程式中使用 <code>console.log()</code> 輸出資訊</li>
+  <li>在 Console 中觀察變數值和執行流程</li>
+</ol>
+
+<pre><code>// 使用 Console 追蹤變數
+let counter = 0
+basic.forever(function () {
+    counter += 1
+    console.log("Counter: " + counter)
+    if (counter &gt; 10) {
+        console.log("Reset!")
+        counter = 0
+    }
+    basic.pause(500)
+})</code></pre>
+
+<div class="callout info">
+  <strong>重點：</strong>Console 除了文字輸出，還支援圖表顯示。使用 <code>console.plot()</code> 可以即時繪製數值變化圖。
+</div>
+
+<h2>17.4 模擬器上的图表</h2>
+<p>使用 <code>console.plot()</code> 即時繪製感測器數據：</p>
+
+<pre><code>// 即時繪製溫度變化圖
+basic.forever(function () {
+    let temp = input.temperature()
+    console.plot(temp)
+    basic.pause(1000)
+})</code></pre>
+
+<h2>17.5 模擬器限制與注意事項</h2>
+
+<table class="makecode-ref">
+<tr><th>功能</th><th>模擬器支援</th><th>說明</th></tr>
+<tr><td>LED 顯示</td><td>✅ 完整支援</td><td>5×5 矩陣完整模擬</td></tr>
+<tr><td>按鈕事件</td><td>✅ 完整支援</td><td>A、B、A+B 按鈕</td></tr>
+<tr><td>感測器</td><td>⚠️ 部分支援</td><td>可模擬，但值為虛擬</td></tr>
+<tr><td>音樂</td><td>⚠️ 部分支援</td><td>瀏覽器音效</td></tr>
+<tr><td>Radio</td><td>❌ 不支援</td><td>需要實體硬體</td></tr>
+<tr><td>Bluetooth</td><td>❌ 不支援</td><td>需要實體硬體</td></tr>
+<tr><td>GPIO 腳位</td><td>❌ 不支援</td><td>需要實體硬體</td></tr>
+</table>
+
+<div class="callout warn">
+  <strong>注意：</strong>模擬器無法完全取代實體硬體。建議先用模擬器測試邏輯，再燒錄到實體 Micro:bit 測試完整功能。
+</div>
+
+<h2>17.6 實作練習：感測器數據記錄器</h2>
+<ol class="step-list">
+  <li>使用模擬器的溫度和光線感測器</li>
+  <li>每秒讀取一次數據</li>
+  <li>使用 Console.plot() 繪製即時圖表</li>
+  <li>按下 A 暫停記錄，按 B 繼續</li>
+</ol>
+
+<pre><code>let logging = true
+
+input.onButtonPressed(Button.A, function () {
+    logging = false
+    basic.showString("PAUSE")
+})
+input.onButtonPressed(Button.B, function () {
+    logging = true
+    basic.showString("GO")
+})
+
+basic.forever(function () {
+    if (logging) {
+        let temp = input.temperature()
+        let light = input.lightLevel()
+        console.log("T:" + temp + " L:" + light)
+        console.plot(temp, light)
+    }
+    basic.pause(1000)
+})</code></pre>
+
+<div class="outcome">
+  <strong>看完這單元你應該能：</strong>
+  <ul>
+    <li>充分利用模擬器的進階功能</li>
+    <li>使用虛擬感測器測試程式</li>
+    <li>使用 Console 進行除錯</li>
+    <li>了解模擬器的限制與注意事項</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="makecode-nav">
+  <a href="unit-16-extensions.html">← 單元 16：擴充套件</a>
+  <span class="nav-current">單元 17</span>
+  <a href="unit-18-javascript.html">下一單元 →</a>
+</div>
+
+<footer>這是 STEAM × Micro:bit 繁中教學站 · MakeCode 完整教學<br>
+  <span class="footer-license">MakeCode 名稱與介面引用自 Microsoft MakeCode 之公開資訊。</span></footer>
+</div>
+
+<script src="../../assets/speech.js" defer></script>
+</body>
+</html>
