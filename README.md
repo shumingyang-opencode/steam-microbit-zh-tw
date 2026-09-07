@@ -67,8 +67,8 @@ steam-microbit-zh-tw/
 │           ├── unit03/   # Basic 積木參考 + 官方教程 GIF
 │           ├── ...       # 各單元截圖
 │           └── unit20/   # 專案實戰
-├── makecode-editor/      # 🎮 MakeCode 編輯器入口（全螢幕嵌入）
-│   └── index.html        # full-bleed iframe → https://shumingyang-opencode.github.io/
+├── makecode-editor/      # 🎮 MakeCode 編輯器備援入口（full-bleed iframe）
+│   └── index.html        # iframe → https://shumingyang-opencode.github.io/
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -103,12 +103,13 @@ Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
 
 ---
 
-## MakeCode 編輯器（Self-host 版，全螢幕嵌入）
+## MakeCode 編輯器（Self-host 版，直連根網域）
 
 本站的 MakeCode 編輯器是**自行部署**的 Microsoft MakeCode（MIT 授權），完整編輯器部署在帳號根網域：
 
 - **編輯器本體**：https://shumingyang-opencode.github.io/ （自架靜態版：積木 / JavaScript / Python、模擬器、離線編譯 .hex）
-- **教學站入口**：[`makecode-editor/index.html`](makecode-editor/index.html) 以全螢幕 iframe 嵌入上述編輯器，左上角有半透明「← 回教學站」連結
+- **教學站入口**：首頁「開啟 MakeCode 編輯器」卡片與 MakeCode 教學總覽直接連結至上述網址（新分頁開啟）
+- `makecode-editor/index.html` 保留為 full-bleed iframe 備援入口（左上角半透明「← 回教學站」）
 
 ### 技術規格
 
