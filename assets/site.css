@@ -27,7 +27,7 @@
   --grad-main: linear-gradient(90deg, #60a5fa, #f472b6);
   --font-zh: 'BpmfIansui', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
   --font-display: 'BpmfIansui', 'Noto Sans TC', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, 'BpmfIansui', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }

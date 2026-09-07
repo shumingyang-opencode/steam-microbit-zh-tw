@@ -67,12 +67,8 @@ steam-microbit-zh-tw/
 │           ├── unit03/   # Basic 積木參考 + 官方教程 GIF
 │           ├── ...       # 各單元截圖
 │           └── unit20/   # 專案實戰
-├── makecode-editor/      # 🎮 Self-host MakeCode 編輯器（MIT 授權）
-│   ├── index.html        # 編輯器主頁
-│   ├── sim/              # 模擬器
-│   ├── editor/           # 編輯器 UI
-│   ├── libs/             # 積木函式庫
-│   └── ...               # 其他靜態資源
+├── makecode-editor/      # 🎮 MakeCode 編輯器入口（全螢幕嵌入）
+│   └── index.html        # full-bleed iframe → https://shumingyang-opencode.github.io/
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -107,33 +103,37 @@ Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
 
 ---
 
-## MakeCode 編輯器（Self-host 版）
+## MakeCode 編輯器（Self-host 版，全螢幕嵌入）
 
-本站內嵌 Microsoft MakeCode 編輯器（MIT 授權），使用者可以直接在瀏覽器中：
-- 使用積木撰寫程式
-- 切換到 JavaScript 或 Python 模式
-- 使用模擬器測試
-- 下載 .hex 檔案到 Micro:bit
+本站的 MakeCode 編輯器是**自行部署**的 Microsoft MakeCode（MIT 授權），完整編輯器部署在帳號根網域：
 
-**入口**：[開啟 MakeCode 編輯器](makecode-editor/index.html)
+- **編輯器本體**：https://shumingyang-opencode.github.io/ （自架靜態版：積木 / JavaScript / Python、模擬器、離線編譯 .hex）
+- **教學站入口**：[`makecode-editor/index.html`](makecode-editor/index.html) 以全螢幕 iframe 嵌入上述編輯器，左上角有半透明「← 回教學站」連結
 
 ### 技術規格
 
 | 項目 | 說明 |
 |------|------|
-| 來源 | Microsoft pxt-microbit（MIT 授權） |
+| 原始碼 | Microsoft pxt-microbit（MIT 授權） |
+| 部署位置 | [shumingyang-opencode/shumingyang-opencode.github.io](https://github.com/shumingyang-opencode/shumingyang-opencode.github.io) |
 | 版本 | v3.0（2026 年 7 月最新版） |
-| 語言支援 | 繁體中文（zh-TW）、英文等 35+ 語言 |
+| 語言 | 強制繁體中文 zh-TW（`PXT_LANG` cookie）+ 35+ 語言 |
+| 中文字型 | BpmfIansui 注音芫荽字型（本站與編輯器全域統一） |
 | 程式模式 | 積木、JavaScript、Python |
 | 模擬器 | 內建 Micro:bit 模擬器 |
 | 下載格式 | .hex（可直接燒錄到 Micro:bit） |
+| 遙測 | 已移除 usabilla / AppInsights |
 
 ### 更新方式
 
 MakeCode 每年 6-7 月有重大更新，更新步驟：
 1. 從官方 repo 拉取最新版本
 2. 執行 `pxt staticpkg` 建置靜態版
-3. 將 `built/packaged/` 複製到 `makecode-editor/`
+3. 複製到根網域 repo（`shumingyang-opencode.github.io`）並套用客製：
+   - `index.html`：強制 zh-TW cookie、BpmfIansui 字型注入（`bpmf-font-late` 於 `load` 時 append，確保不被 pxt/Blockly 動態樣式覆蓋）
+   - 其餘子畫面 html：注入 `bpmf-font-static` 字型 style
+   - 移除 usabilla / AppInsights 遙測、修正 favicon 路徑、`font-display: swap`
+4. push 後 GitHub Pages 自動重新部署
 
 | Lv | 單元 | 內容 |
 |----|------|------|
