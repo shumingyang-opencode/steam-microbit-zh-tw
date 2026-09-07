@@ -67,8 +67,10 @@ steam-microbit-zh-tw/
 │           ├── unit03/   # Basic 積木參考 + 官方教程 GIF
 │           ├── ...       # 各單元截圖
 │           └── unit20/   # 專案實戰
-├── makecode-editor/      # 🎮 MakeCode 編輯器備援入口（full-bleed iframe）
-│   └── index.html        # iframe → https://shumingyang-opencode.github.io/
+├── makecode-editor-zh-tw/ # 🎮 Self-host MakeCode 編輯器（完整 staticpkg 部署於本站子路徑）
+│   ├── index.html        # 編輯器首頁（強制繁中 + BpmfIansui 字型）
+│   ├── worker.js / pxtworker.js …   # 離線編譯 worker
+│   └── serviceworker.js …           # 離線快取（pre-cache 已加前綴）
 ├── assets/
 │   ├── site.css          # 兒童版樣式（淺色 × 注音）
 │   ├── speech.js         # 語音朗讀核心（中英切換）
@@ -103,20 +105,19 @@ Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
 
 ---
 
-## MakeCode 編輯器（Self-host 版，直連根網域）
+## MakeCode 編輯器（Self-host 版，本站子路徑）
 
-本站的 MakeCode 編輯器是**自行部署**的 Microsoft MakeCode（MIT 授權），完整編輯器部署在帳號根網域：
+本站的 MakeCode 編輯器是**自行部署**的 Microsoft MakeCode（MIT 授權），完整編輯器與教學站在同一 repo，部署於**本站子路徑**：
 
-- **編輯器本體**：https://shumingyang-opencode.github.io/ （自架靜態版：積木 / JavaScript / Python、模擬器、離線編譯 .hex）
-- **教學站入口**：首頁「開啟 MakeCode 編輯器」卡片與 MakeCode 教學總覽直接連結至上述網址（新分頁開啟）
-- `makecode-editor/index.html` 保留為 full-bleed iframe 備援入口（左上角半透明「← 回教學站」）
+- **編輯器網址**：https://shumingyang-opencode.github.io/steam-microbit-zh-tw/makecode-editor-zh-tw/ （自架靜態版：積木 / JavaScript / Python、模擬器、離線編譯 .hex）
+- **教學站入口**：首頁「開啟 MakeCode 編輯器」卡片與 MakeCode 教學總覽直接站內連結至上述網址
 
 ### 技術規格
 
 | 項目 | 說明 |
 |------|------|
 | 原始碼 | Microsoft pxt-microbit（MIT 授權） |
-| 部署位置 | [shumingyang-opencode/shumingyang-opencode.github.io](https://github.com/shumingyang-opencode/shumingyang-opencode.github.io) |
+| 部署位置 | 本站 repo 子資料夾 `makecode-editor-zh-tw/`（內部路徑全加 `/steam-microbit-zh-tw/makecode-editor-zh-tw/` 前綴） |
 | 版本 | v3.0（2026 年 7 月最新版） |
 | 語言 | 強制繁體中文 zh-TW（`PXT_LANG` cookie）+ 35+ 語言 |
 | 中文字型 | BpmfIansui 注音芫荽字型（本站與編輯器全域統一） |
@@ -130,11 +131,14 @@ Unit 01 包含完整的下載燒錄教學，附三張步驟截圖：
 MakeCode 每年 6-7 月有重大更新，更新步驟：
 1. 從官方 repo 拉取最新版本
 2. 執行 `pxt staticpkg` 建置靜態版
-3. 複製到根網域 repo（`shumingyang-opencode.github.io`）並套用客製：
+3. 複製到本站 `makecode-editor-zh-tw/` 並套用客製與子路徑前綴：
+   - 所有 HTML 屬性 `="/(?!/)` 與內嵌物件值改為 `="/steam-microbit-zh-tw/makecode-editor-zh-tw/`（排除 `//` 開頭之協定相對網址與 `/api/…`）
+   - JS 白名單 token 前綴：`/monacoworker.js`、`/tsworker.js`、`/serviceworker.js`、`/simulatorserviceworker.js`、`/worker.js`、`/static/`、`/sim.webmanifest`
+   - worker / SW 檔（`worker.js`、`monacoworker.js`、`serviceworker.js`、`simulatorserviceworker.js`）全部 `"/(?!/)` 前綴：`/pxtworker.js`、`/vs/…`、SW pre-cache 清單、`/sim.js`、`/pxtsim.js`
+   - `index.html` / `simulator.html` 內 `url('/fonts/…')`（BpmfIansui）前綴
    - `index.html`：強制 zh-TW cookie、BpmfIansui 字型注入（`bpmf-font-late` 於 `load` 時 append，確保不被 pxt/Blockly 動態樣式覆蓋）
-   - 其餘子畫面 html：注入 `bpmf-font-static` 字型 style
    - 移除 usabilla / AppInsights 遙測、修正 favicon 路徑、`font-display: swap`
-4. push 後 GitHub Pages 自動重新部署
+4. commit + push 後 GitHub Pages 自動重新部署
 
 | Lv | 單元 | 內容 |
 |----|------|------|

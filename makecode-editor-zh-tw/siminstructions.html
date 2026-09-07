@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <title>Make Instructions</title>
+    <style type="text/css">
+        @import "/semantic.css";
+    </style>
+    <style>
+        html {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;            
+            padding: 0;
+            margin: 0;
+            font-family: "Lucida Console", Monaco, monospace;
+        }
+
+        div {
+            /*undo semantic UI*/
+            box-sizing: content-box;
+            line-height: normal;
+        }
+
+        img {
+            border: 0;
+        }
+
+        .organization {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            height: 4rem;
+        }
+
+        h1 {
+            font-size: 2em;
+            font-weight: normal;
+            color: rgba(0, 0, 0, 0.87);
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            display: block;
+            text-align: center;
+        }
+
+        #front-panel .board-svg {
+            position: absolute;
+            left: 2rem;
+            width: 300px;
+            top: 16rem;
+        }
+
+        #proj-title {
+            width: 100%;
+            font-size: 55px;
+            margin-top: 20px;
+        }
+
+        #proj-code {
+            width: 300px;
+            height: 400px;
+            position: absolute;
+            right: 2rem;
+            top: 16rem;
+        }
+
+        #proj-code-container {
+            width: 100%;
+            height: 100%;
+            font-size: 4px;
+            overflow: hidden;
+            display: none;
+        }
+
+        #proj-code-spinner {
+            width: 100%;
+        }
+
+        .back-panel svg {
+            position: relative;
+            margin: 0 auto;
+            left: inherit;
+            bottom: -7px;
+        }
+    </style>
+    <style id="bpmf-font-static">
+        @font-face {
+            font-family: 'BpmfIansui';
+            src: url('/fonts/BpmfIansui-Regular.ttf') format('truetype');
+            font-display: swap;
+        }
+        html, body, .ui { font-family: 'BpmfIansui','PingFang TC','Microsoft JhengHei',sans-serif !important; }
+        .blocklySvg text, .blocklyText, .blocklyTreeLabel, .blocklyFlyoutLabelText,
+        .ui.button, .ui.menu .item, .ui.label, .ui.header, .ui.segment, .ui.message,
+        .menuitem, .goog-menuitem { font-family: 'BpmfIansui','PingFang TC','Microsoft JhengHei',sans-serif !important; }
+    </style>
+</head>
+
+<body>
+    <script>
+        // This line gets patched up by the cloud
+        var pxtConfig = {
+    "relprefix": "/steam-microbit-zh-tw/makecode-editor-zh-tw/",
+    "verprefix": "",
+    "workerjs": "/steam-microbit-zh-tw/makecode-editor-zh-tw/worker.js",
+    "monacoworkerjs": "/steam-microbit-zh-tw/makecode-editor-zh-tw/monacoworker.js",
+    "gifworkerjs": "/steam-microbit-zh-tw/makecode-editor-zh-tw/gifjs/gif.worker.js",
+    "serviceworkerjs": "/steam-microbit-zh-tw/makecode-editor-zh-tw/serviceworker.js",
+    "typeScriptWorkerJs": "/steam-microbit-zh-tw/makecode-editor-zh-tw/tsworker.js",
+    "pxtVersion": "13.0.1",
+    "pxtRelId": "localDirRelId",
+    "pxtCdnUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/",
+    "commitCdnUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/",
+    "blobCdnUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/",
+    "cdnUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/",
+    "targetVersion": "0.0.0",
+    "targetRelId": "",
+    "targetUrl": "",
+    "targetId": "microbit",
+    "simUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/simulator.html",
+    "simserviceworkerUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/simulatorserviceworker.js",
+    "simworkerconfigUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/workerConfig.js",
+    "partsUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/siminstructions.html",
+    "runUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/run.html",
+    "docsUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/docs.html",
+    "multiUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/multi.html",
+    "asseteditorUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/asseteditor.html",
+    "isStatic": true,
+    "kioskUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/kiosk.html",
+    "teachertoolUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/teachertool.html",
+    "tutorialtoolUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/tutorialtool.html",
+    "skillmapUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/skillmap.html",
+    "multiplayerUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/multiplayer.html",
+    "authcodeUrl": "/steam-microbit-zh-tw/makecode-editor-zh-tw/authcode.html"
+};
+    </script>
+    <script src="/steam-microbit-zh-tw/makecode-editor-zh-tw/pxtsim.js"></script>
+    <script src="/steam-microbit-zh-tw/makecode-editor-zh-tw/common-sim.js"></script>
+    <script src="/steam-microbit-zh-tw/makecode-editor-zh-tw/sim.js"></script>
+
+    <div id="front-panel" class="instr-panel">
+        <h1 id="proj-title"></h1>
+    </div>
+</body>
+
+</html>
