@@ -174,53 +174,41 @@ window.__pxtZhTW = {"strings.json":{"  -> Line {2} ('{1}'), error: {0}\n{3}":"  
 })();
 
 ;(function(){
-  function relPrefix() {
+  var needle = '/docs/static/';
+  var good = '';
+  function start() {
+    if (good) return true;
     var wc = window.pxt && window.pxt.webConfig;
-    if (!wc) return '';
-    var rel = wc.relprefix || '';
+    var rel = wc && wc.relprefix ? String(wc.relprefix) : '';
+    if (!rel) return false;
     if (rel.charAt(0) !== '/') rel = '/' + rel;
     if (rel.charAt(rel.length - 1) !== '/') rel += '/';
-    return rel;
+    good = rel + 'docs/static/';
+    if (needle === good) good = '';
+    return true;
   }
   function sweep() {
-    var rel = relPrefix();
-    if (!rel) return false;
-    var needle = '/docs/static/';
-    var good = rel + 'docs/static/';
-    if (needle === good) good = '';
-    var els = document.querySelectorAll('.ui.card .image, .cardimage, .card .image');
+    if (!good || needle === good) return;
+    var els = document.querySelectorAll('.cardimage, .ui.card .image, .card .image');
     for (var i = 0; i < els.length; i++) {
       var el = els[i];
       var cur = '';
-      try { cur = el.style.getPropertyValue('background-image') || el.style.backgroundImage || ''; } catch (e1) {}
-      if (!cur || cur.indexOf(needle) < 0) { el.__zhFix = true; continue; }
-      var build = good ? cur.split(needle).join(good) : cur;
-      if (build === cur) { el.__zhFix = true; continue; }
-      try { el.style.setProperty('background-image', build); } catch (e2) { el.style.backgroundImage = build; }
-      el.__zhFix = true;
+      try { cur = el.style.getPropertyValue('background-image') || el.style.backgroundImage || ''; } catch (e) {}
+      if (!cur || cur.indexOf(needle) < 0) continue;
+      if (cur.indexOf(good) >= 0) continue;
+      try { el.style.setProperty('background-image', cur.split(needle).join(good)); } catch (e2) { try { el.style.backgroundImage = cur.split(needle).join(good); } catch (e3) {} }
     }
-    return true;
-  }
-  var done = false;
-  function start() {
-    if (done) return true;
-    if (!relPrefix()) return false;
-    try {
-      var obs = new MutationObserver(function(){ try { sweep(); } catch (e) {} });
-      obs.observe(document.body || document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-    } catch (e) {}
-    done = true;
-    sweep();
-    return true;
   }
   if (!start()) {
-    var t4 = 0, iv4 = null;
-    iv4 = setInterval(function(){ t4++; if (start() || t4 > 600) clearInterval(iv4); }, 100);
+    var n = 0, iv0 = null;
+    iv0 = setInterval(function(){ n++; if (start() || n > 200) clearInterval(iv0); }, 100);
   }
-  var sweepIv = setInterval(function(){ try { sweep(); } catch (e) {} }, 500);
-  setTimeout(function(){ clearInterval(sweepIv); }, 60000);
-  window.__zhBgSweep = true;
-  window.__zhEmbedOk = true;
+  var count = 0;
+  var iv = setInterval(function(){
+    try { sweep(); } catch (e) {}
+    if (++count > 150) clearInterval(iv);
+  }, 500);
 })();
 
+window.__zhEmbedOk = true;
 
